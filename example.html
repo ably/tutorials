@@ -10,5 +10,11 @@
   <script type="text/javascript">
     alert("You need to add your API key"); /* REMOVE THIS */
     var realtime = new Ably.Realtime("INSERT-YOUR-API-KEY-HERE"); /* ADD YOUR API KEY HERE */
+
+    /* Subscribe to messages on the sport channel */
+    var channel = realtime.channels.get("sport");
+    channel.subscribe(function(msg) {
+      alert("Received: " + JSON.stringify(msg.data));
+    });
   </script>
 </html>
