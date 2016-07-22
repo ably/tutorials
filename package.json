@@ -1,0 +1,16 @@
+{
+    "name": "ably-tutorials",
+    "author": "Ably <hello@ably.io>",
+    "description": "Node.js Reactor Queue and Wolfram Alpha tutorial",
+    "repository": "https://github.com/ably/tutorials",
+    "license": "Apache-2.0",
+    "engines": {
+        "node": ">=0.10"
+    },
+    "scripts": {
+        "start": "node ./server.js"
+    },
+    "dependencies": {
+        "ably": ">=0.9.0-beta"
+    }
+}
