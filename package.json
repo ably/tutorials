@@ -1,0 +1,16 @@
+{
+    "name": "ably-tutorials",
+    "author": "Ably <hello@ably.io>",
+    "description": "Node.js base tutorial",
+    "repository": "https://github.com/ably/tutorials",
+    "license": "Apache-2.0",
+    "engines": {
+        "node": ">=0.10"
+    },
+    "scripts": {
+        "start": "node ./example.js"
+    },
+    "dependencies": {
+        "ably": ">=0.9.0-beta"
+    }
+}
