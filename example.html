@@ -1,6 +1,9 @@
 <html>
   <body>
     <h1>Publish Subscribe example</h1>
+    <p>Open this page in a new browser tab and click "Publish a message".</p>
+    <p>The new tab and this tab will both simultaneously receive the published message as both clients are subscribed to the "sport" channel.</p>
+    <button id="publish">Publish a message</button>
   </body>
 
   <!-- Include the latest Ably Library  -->
@@ -16,5 +19,10 @@
     channel.subscribe(function(msg) {
       alert("Received: " + JSON.stringify(msg.data));
     });
+
+    /* Publish a message when the button is pressed */
+    document.getElementById("publish").addEventListener("click", function() {
+      channel.publish("update", { "team": "Man United" });
+    })
   </script>
 </html>
