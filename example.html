@@ -1,6 +1,7 @@
 <html>
   <body>
     <h1>Publish Subscribe example</h1>
+    <button id="publish">Publish sound messages</button>
   </body>
 
   <!-- Include the latest Ably Library  -->
@@ -10,5 +11,15 @@
   <script type="text/javascript">
     alert("You need to add your API key"); /* REMOVE THIS */
     var realtime = new Ably.Realtime("INSERT-YOUR-API-KEY-HERE"); /* ADD YOUR API KEY HERE */
+
+    /* Get a channel in the "persisted" namespace */
+    var channel = realtime.channels.get("persisted:sounds");
+
+    /* Publish three messages when the publish button is clicked */
+    document.getElementById("publish").addEventListener("click", function() {
+      channel.publish("play", "bark");
+      channel.publish("play", "meow");
+      channel.publish("play", "cluck");
+    });
   </script>
 </html>
