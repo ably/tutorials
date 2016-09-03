@@ -11,3 +11,11 @@ channel = ably.channels.get('persisted:sounds')
 channel.publish 'play', 'bark'
 channel.publish 'play', 'meow'
 channel.publish 'play', 'cluck'
+
+puts "Retrieving history..."
+result_page = channel.history
+
+puts "Message history:"
+result_page.items.each do |message|
+  puts "#{message.data} @ #{message.timestamp}"
+end
