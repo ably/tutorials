@@ -2,6 +2,9 @@
   <body>
     <h1>Publish Subscribe example</h1>
     <button id="publish">Publish sound messages</button>
+    <br><br>
+    <button id="history">Retrieve message history</button><br>
+    <textarea id="history-display" style="width: 100%" rows="15" placeholder="History display..."></textarea>
   </body>
 
   <!-- Include the latest Ably Library  -->
@@ -20,6 +23,19 @@
       channel.publish("play", "bark");
       channel.publish("play", "meow");
       channel.publish("play", "cluck");
+    });
+
+    /* Retrieve messages from history */
+    document.getElementById("history").addEventListener("click", function() {
+      var display = document.getElementById("history-display");
+      display.value = "Retrieving history...";
+      channel.history(function(err, resultPage) {
+        display.value = "Messages:\n";
+        resultPage.items.forEach(function(msg) {
+          console.log(msg);
+          display.value += msg.data + " @ " + new Date(msg.timestamp) + "\n";
+        });
+      });
     });
   </script>
 </html>
