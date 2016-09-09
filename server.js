@@ -14,6 +14,20 @@ app.get('/', function (req, res) {
   res.send('Hello, I am a very simple server');
 });
 
+/* Issue token requests to clients sending a request
+   to the /auth endpoint */
+app.get('/auth', function (req, res) {
+  var tokenParams = {}; /* For now we'll use all token defaults */
+  rest.auth.createTokenRequest(tokenParams, function(err, tokenRequest) {
+    if (err) {
+      res.status(500).send('Error requesting token: ' + JSON.stringify(err));
+    } else {
+      res.setHeader('Content-Type', 'application/json');
+      res.send(JSON.stringify(tokenRequest));
+    }
+  });
+});
+
 app.listen(3000, function () {
   console.log('Web server listening on port 3000');
 });
