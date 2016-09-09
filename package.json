@@ -11,6 +11,7 @@
         "start": "node ./server.js"
     },
     "dependencies": {
-        "ably": ">=0.8"
+        "ably": ">=0.8",
+        "express": "~4.0"
     }
 }
