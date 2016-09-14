@@ -9,7 +9,7 @@ raise "Cannot run without an API key. Add your key to example.rb" if API_KEY.inc
 ably = Ably::Rest.new(key: API_KEY)
 
 get '/' do
-  'Hello, I am a very simple server'
+  File.read('index.html')
 end
 
 # Issue token requests to clients sending a request to the /auth endpoint
