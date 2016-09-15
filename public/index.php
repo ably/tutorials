@@ -12,8 +12,29 @@ $channel = $ably->channels->get("persisted:sounds");
 
 echo "Publishing messages...\n";
 
-$channel->publish("play","bark");
-$channel->publish("play","meow");
-$channel->publish("play","cluck");
+$channel->publish("play", "bark");
+$channel->publish("play", "meow");
+$channel->publish("play", "cluck");
+
+echo "Releasing channel...\n";
+// this part is only for tutorial purposes, in real you can use same instance of $channel
+unset($channel);
+$ably->channels->release("persisted:sounds");
+
+echo "Retrieving channel...\n";
+
+$channel = $ably->channels->get("persisted:sounds");
+
+echo "Retrieving history...\n";
+
+$paginatedResult = $channel->history();
+
+foreach ($paginatedResult->items as $message) {
+    /** @var \Ably\Models\Message $message */
+    echo sprintf(
+        "Latest message published: %s\n",
+        $message->data
+    );
+}
 
 echo "</pre>\n";
