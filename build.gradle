@@ -15,6 +15,8 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        /* add following repo for sub-dependency on all your modules */
+        maven { url "https://raw.github.com/paddybyers/Java-WebSocket/mvn-repo/" }
     }
 }
 
