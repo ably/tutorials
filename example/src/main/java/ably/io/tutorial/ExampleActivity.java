@@ -9,6 +9,7 @@ import android.widget.Toast;
 import io.ably.lib.realtime.AblyRealtime;
 import io.ably.lib.realtime.Channel;
 import io.ably.lib.types.AblyException;
+import io.ably.lib.types.Message;
 
 public class ExampleActivity extends AppCompatActivity {
 
@@ -52,6 +53,25 @@ public class ExampleActivity extends AppCompatActivity {
                 }).start();
             }
         });
+        
+        /* set a button click listener for fetching channel history */
+        findViewById(R.id.btHistory).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getBaseContext(), "Retrieving channel's history...", Toast.LENGTH_SHORT).show();
+                /* Always do network instructions outside the Main Thread */
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            fetchHistory();
+                        } catch (AblyException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+            }
+        });
     }
 
     /* Add AblyException to method signature as AblyRest constructor can throw one */
@@ -74,5 +94,19 @@ public class ExampleActivity extends AppCompatActivity {
                 Toast.makeText(getBaseContext(), "Messages sent", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void fetchHistory() throws AblyException {
+        /* Fetch historical messages from channel, you can customize history query with parameters, when no parameters are needed just pass null */
+        Message[] historicMessages = channel.history(null).items();
+        for (final Message message : historicMessages) {
+            /* Always do UI work inside UI Thread */
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getBaseContext(), "message: " + message.id + " - " + message.data, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 }
