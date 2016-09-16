@@ -16,4 +16,10 @@
         android:layout_height="80dp"
         android:text="Publish" />
 
+    <Button
+        android:id="@+id/btHistory"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:text="Fetch history" />
+
 </LinearLayout>
