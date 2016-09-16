@@ -11,6 +11,7 @@
     tools:context="ably.io.tutorial.ExampleActivity">
 
     <EditText
+        android:id="@+id/etMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enter your message here..." />
