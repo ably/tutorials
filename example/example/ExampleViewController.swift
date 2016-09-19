@@ -14,6 +14,7 @@ class ExampleViewController: UIViewController {
     private let API_KEY = "INSERT-YOU-API-KEY-HERE" /* Add your API key here */
 
     private var client: ARTRealtime!
+    private var channel: ARTRealtimeChannel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +24,12 @@ class ExampleViewController: UIViewController {
     }
 
     @IBAction func subscribeAction(sender: AnyObject) {
+
+        /* Subscribe to messages on the sport channel */
+        channel = client.channels.get("sport")
+        channel.subscribe { message in
+            print("Received \(message.data)")
+        }
     }
 
     @IBAction func publishAction(sender: AnyObject) {
