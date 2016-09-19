@@ -13,3 +13,15 @@ echo "Publishing messages...\n";
 $channel->publish("play", "bark");
 $channel->publish("play", "meow");
 $channel->publish("play", "cluck");
+
+echo "Retrieving history...\n";
+
+$paginatedResult = $channel->history();
+
+foreach ($paginatedResult->items as $message) {
+    /** @var \Ably\Models\Message $message */
+    echo sprintf(
+        "Latest message published: %s\n",
+        $message->data
+    );
+}
