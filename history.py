@@ -14,3 +14,10 @@ print('Publishing messages...')
 channel.publish('play', 'bark')
 channel.publish('play', 'meow')
 channel.publish('play', 'cluck')
+
+print('Retrieving messages...')
+
+paginatedResult = channel.history()
+
+for message in paginatedResult.items:
+    print('Last message published: {}'.format(message.data))
