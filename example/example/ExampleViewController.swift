@@ -24,7 +24,6 @@ class ExampleViewController: UIViewController {
     }
 
     @IBAction func subscribeAction(sender: AnyObject) {
-
         /* Subscribe to messages on the sport channel */
         channel = client.channels.get("sport")
         channel.subscribe { message in
@@ -32,7 +31,16 @@ class ExampleViewController: UIViewController {
         }
     }
 
+    /* Publish a message when the button is pressed */
     @IBAction func publishAction(sender: AnyObject) {
+        channel.publish("update", data: "Man United") { error in
+            guard error == nil else {
+                /* Print an error message when error occurres */
+                print("Message not sent, error occurred: \(error!)")
+                return
+            }
+            /* Print a success message when the message is sent */
+            print("Message successfully sent")
+        }
     }
-
 }
