@@ -10,7 +10,8 @@ client = AblyRest('{{ApiKey}}')
 
 class index:
     def GET(self):
-        return 'Hello, I am a very simple server'
+        html = open('index.html')
+        return html.read()
 
 
 class auth:
