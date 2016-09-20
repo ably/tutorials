@@ -21,10 +21,17 @@ class ExampleViewController: UIViewController {
         client = ARTRealtime(key: API_KEY)
     }
 
+    /* Publish messages when the button is pressed */
     @IBAction func publishAction(sender: AnyObject) {
+        /* Get channel for storing sounds */
+        let channel = client.channels.get("persisted:sounds")
+        /* Publish 3 messages to the channel */
+        channel.publish("play", data: "bark")
+        channel.publish("play", data: "meow")
+        channel.publish("play", data: "cluck")
     }
 
     @IBAction func retriveHistoryAction(sender: AnyObject) {
     }
-
+    
 }
