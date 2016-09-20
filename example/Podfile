@@ -1,0 +1,10 @@
+# Uncomment this line to define a global platform for your project
+# platform :ios, '6.0'
+
+use_frameworks!
+
+# Include the latest Ably Library
+# Change 'example' to fit your target name
+target 'example' do 
+    pod 'AblyRealtime'
+end
