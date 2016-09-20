@@ -11,7 +11,7 @@ import AblyRealtime
 
 class ExampleViewController: UIViewController {
 
-    private let API_KEY = "INSERT-YOU-API-KEY-HERE" /* Add your API key here */
+    private let API_KEY = "INSERT-YOUR-API-KEY-HERE7" /* Add your API key here */
 
     private var client: ARTRealtime!
 
@@ -31,7 +31,21 @@ class ExampleViewController: UIViewController {
         channel.publish("play", data: "cluck")
     }
 
+    /* Retrieve messages from history */
     @IBAction func retriveHistoryAction(sender: AnyObject) {
+        let channel = client.channels.get("persisted:sounds")
+
+        channel.history() { (messages, error) in
+            guard error == nil else {
+                print("Error occured while retriving messages: \(error)")
+                return
+            }
+
+            let historyMessages = messages?.items as? [ARTMessage] ?? [ARTMessage]()
+            historyMessages.forEach { message in
+                print("\(message.id) \(message.data)")
+            }
+        }
     }
     
 }
