@@ -14,6 +14,7 @@ class ExampleViewController: UIViewController {
     private let API_KEY = "INSERT-YOUR-API-KEY-HERE" /* Add your API key here */
 
     private var client: ARTRealtime!
+    private var channel: ARTRealtimeChannel!
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
@@ -37,6 +38,18 @@ class ExampleViewController: UIViewController {
                 }
             }
         }
+    }
+
+    /* Publish messages when the button is pressed */
+    @IBAction func publishAction(sender: AnyObject) {
+        /* Get channel for storing sounds */
+        channel = client.channels.get("persisted:sounds")
+        /* Publish 3 messages to the channel */
+        channel.publish("play", data: "bark")
+        channel.publish("play", data: "meow")
+        channel.publish("play", data: "cluck")
+
+        showAlert("", message: "Messages have been sent.")
     }
 
     private func showAlert(title: String, message: String) {
