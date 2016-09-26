@@ -1,6 +1,12 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
 repositories {
-	jcenter()
+    jcenter()
+    maven { url "https://raw.github.com/paddybyers/Java-WebSocket/mvn-repo/" }
 }
 
 dependencies {
+    compile 'io.ably:ably-java:0.8.+'
 }
