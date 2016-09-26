@@ -1,7 +1,9 @@
 package io.ably.tutorial;
 
 import io.ably.lib.realtime.AblyRealtime;
+import io.ably.lib.realtime.Channel;
 import io.ably.lib.types.AblyException;
+import io.ably.lib.types.Message;
 
 public class Example {
 	
@@ -25,5 +27,14 @@ public class Example {
 	/* Add AblyException to method signature as AblyRest constructor can throw one */
 	private static void initAbly() throws AblyException{
 		AblyRealtime ablyRealtime = new AblyRealtime(API_KEY); 
+		/* Get sport channel you can subscribe to */
+        Channel channel = ablyRealtime.channels.get("sport");
+        channel.subscribe(new Channel.MessageListener() {
+			@Override
+			public void onMessage(Message messages) {
+				 /* show a message it is received */
+                System.out.println("Message received: " + messages.data);
+			}
+        });
 	}
 }
