@@ -2,7 +2,9 @@ package io.ably.tutorial;
 
 import io.ably.lib.realtime.AblyRealtime;
 import io.ably.lib.realtime.Channel;
+import io.ably.lib.realtime.CompletionListener;
 import io.ably.lib.types.AblyException;
+import io.ably.lib.types.ErrorInfo;
 import io.ably.lib.types.Message;
 
 public class Example {
@@ -35,6 +37,20 @@ public class Example {
 				 /* show a message it is received */
                 System.out.println("Message received: " + messages.data);
 			}
+        });
+        
+        channel.publish("update", "new message", new CompletionListener() {
+            @Override
+            public void onSuccess() {
+                /* Show success message when message is sent */
+                System.out.println("Message sent");
+            }
+
+            @Override
+            public void onError(ErrorInfo reason) {
+                /* Show error message when something goes wrong */
+            	System.out.println("Message not sent, error occurred: " + reason.message);
+            }
         });
 	}
 }
