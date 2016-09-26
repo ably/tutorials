@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <scenes>
+        <!--Example View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ExampleViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ayv-Li-HTJ">
+                                <rect key="frame" x="199.5" y="70" width="202" height="35"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <state key="normal" title="Publish initial messages"/>
+                                <connections>
+                                    <action selector="publishAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Llz-G0-9vE"/>
+                                </connections>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Qsv-5p-oTY">
+                                <rect key="frame" x="20" y="225" width="560" height="367"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" textLabel="O4v-cM-p3f" rowHeight="40" style="IBUITableViewCellStyleDefault" id="d3R-pC-gZ2">
+                                        <rect key="frame" x="0.0" y="28" width="560" height="40"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="d3R-pC-gZ2" id="AfQ-qX-7v3">
+                                            <rect key="frame" x="0.0" y="0.0" width="560" height="39.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="O4v-cM-p3f">
+                                                    <rect key="frame" x="15" y="0.0" width="530" height="39.5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uxz-g5-og8">
+                                <rect key="frame" x="238.5" y="160" width="123" height="35"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <state key="normal" title="Retrive history"/>
+                                <connections>
+                                    <action selector="retriveHistoryAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="VmP-3y-76E"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="uxz-g5-og8" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Klv-zi-qaC"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Qsv-5p-oTY" secondAttribute="bottom" constant="8" id="OE9-kZ-1Cu"/>
+                            <constraint firstAttribute="trailing" secondItem="Qsv-5p-oTY" secondAttribute="trailing" constant="20" id="PPW-Xb-hH6"/>
+                            <constraint firstItem="ayv-Li-HTJ" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="50" id="UBw-Y4-GrB"/>
+                            <constraint firstItem="ayv-Li-HTJ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Y2H-K5-eJV"/>
+                            <constraint firstItem="Qsv-5p-oTY" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="dkw-A8-7c5"/>
+                            <constraint firstItem="uxz-g5-og8" firstAttribute="top" secondItem="ayv-Li-HTJ" secondAttribute="bottom" constant="55" id="kUl-Hy-OCI"/>
+                            <constraint firstItem="Qsv-5p-oTY" firstAttribute="top" secondItem="uxz-g5-og8" secondAttribute="bottom" constant="30" id="qOP-qA-wu0"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="Qsv-5p-oTY" id="F9N-wq-nrw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="280" y="138"/>
+        </scene>
+    </scenes>
+</document>
