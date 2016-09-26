@@ -9,5 +9,9 @@ $def with (apiKey)
 <script type="text/javascript">
     /* Set up a Realtime client which will subscribe to 'sport' channel*/
     var realtime = new Ably.Realtime('$apiKey');
+    var channel = realtime.channels.get("sport");
+    channel.subscribe(function (msg) {
+        alert("Received: " + JSON.stringify(msg.data));
+    });
 </script>
 </html>
