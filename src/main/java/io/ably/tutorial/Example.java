@@ -1,6 +1,7 @@
 package io.ably.tutorial;
 
 import io.ably.lib.rest.AblyRest;
+import io.ably.lib.rest.Channel;
 import io.ably.lib.types.AblyException;
 
 public class Example {
@@ -25,5 +26,11 @@ public class Example {
 	/* Add AblyException to method signature as AblyRest constructor can throw one */
 	private static void initAbly() throws AblyException{
 		AblyRest ablyRest = new AblyRest(API_KEY);
+        Channel channel = ablyRest.channels.get("persisted:sounds");
+        
+        /* Publish three messages, specify event name first, then payload */
+        channel.publish("play", "bark");
+        channel.publish("play", "meow");
+        channel.publish("play", "cluck");
 	}
 }
