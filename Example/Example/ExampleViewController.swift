@@ -14,6 +14,7 @@ class ExampleViewController: UIViewController {
     private let API_KEY = "INSERT-YOUR-API-KEY-HERE" /* Add your API key here */
 
     @IBOutlet weak var receivedMessageText: UILabel!
+    @IBOutlet weak var messageText: UITextField!
 
     private var client: ARTRealtime!
     private var channel: ARTRealtimeChannel!
@@ -52,6 +53,16 @@ class ExampleViewController: UIViewController {
         }
     }
 
+    /* Publish a message when the button is pressed */
+    @IBAction func publishAction(sender: AnyObject) {
+        channel.publish("update", data: messageText.text) { error in
+            guard error == nil else {
+                /* Show an error message when error occurres */
+                return self.showAlert("Error", message: "There was an error while sending the message. \(error)")
+            }
+        }
+    }
+    
 
     private func showAlert(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)

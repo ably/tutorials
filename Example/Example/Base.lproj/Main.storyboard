@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Example View Controller-->
@@ -32,23 +33,50 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="messageText" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qxL-T2-GaS">
-                                <rect key="frame" x="224.5" y="155" width="112" height="23.5"/>
+                                <rect key="frame" x="224.5" y="155.5" width="112" height="23"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Message: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x3y-vv-JQV">
+                                <rect key="frame" x="40" y="281" width="92" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="int-zx-NPm">
+                                <rect key="frame" x="152" y="278.5" width="408" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Ln-7y-2Ar">
+                                <rect key="frame" x="237" y="327.5" width="126" height="35"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <state key="normal" title="Send message"/>
+                                <connections>
+                                    <action selector="publishAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6oX-oF-LYk"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="int-zx-NPm" secondAttribute="trailing" constant="20" id="0sI-zF-65u"/>
+                            <constraint firstItem="int-zx-NPm" firstAttribute="leading" secondItem="x3y-vv-JQV" secondAttribute="trailing" constant="20" id="2zQ-MC-Ie1"/>
                             <constraint firstItem="2ZT-R0-5m6" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="5Dn-9k-Nav"/>
                             <constraint firstItem="PpU-UU-bbl" firstAttribute="top" secondItem="2ZT-R0-5m6" secondAttribute="bottom" constant="20" id="Tpk-LP-egc"/>
                             <constraint firstItem="qxL-T2-GaS" firstAttribute="centerY" secondItem="PpU-UU-bbl" secondAttribute="centerY" id="VHZ-9k-p6h"/>
+                            <constraint firstItem="int-zx-NPm" firstAttribute="top" secondItem="qxL-T2-GaS" secondAttribute="bottom" constant="100" id="Vun-GM-pOz"/>
                             <constraint firstItem="PpU-UU-bbl" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="YGX-Eb-vOF"/>
+                            <constraint firstItem="x3y-vv-JQV" firstAttribute="centerY" secondItem="int-zx-NPm" secondAttribute="centerY" id="cXT-o1-pq6"/>
                             <constraint firstItem="qxL-T2-GaS" firstAttribute="leading" secondItem="PpU-UU-bbl" secondAttribute="trailing" constant="30" id="h1k-E1-Yis"/>
                             <constraint firstItem="2ZT-R0-5m6" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="80" id="i1z-sg-TG3"/>
+                            <constraint firstItem="7Ln-7y-2Ar" firstAttribute="top" secondItem="int-zx-NPm" secondAttribute="bottom" constant="19" id="lAO-n0-rIR"/>
+                            <constraint firstItem="x3y-vv-JQV" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="20" id="xGa-2N-9Oe"/>
+                            <constraint firstItem="7Ln-7y-2Ar" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="zKE-Rj-XH6"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="messageText" destination="int-zx-NPm" id="Umh-5D-sXg"/>
                         <outlet property="receivedMessageText" destination="qxL-T2-GaS" id="iVA-W3-CXM"/>
                     </connections>
                 </viewController>
