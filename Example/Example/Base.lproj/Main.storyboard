@@ -16,8 +16,41 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2ZT-R0-5m6">
+                                <rect key="frame" x="176" y="100" width="248" height="35"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <state key="normal" title="Subscribe to 'sports' channel"/>
+                                <connections>
+                                    <action selector="subscribeAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bse-s4-UkW"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Received message:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PpU-UU-bbl">
+                                <rect key="frame" x="20" y="155" width="174.5" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="messageText" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qxL-T2-GaS">
+                                <rect key="frame" x="224.5" y="155" width="112" height="23.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="2ZT-R0-5m6" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="5Dn-9k-Nav"/>
+                            <constraint firstItem="PpU-UU-bbl" firstAttribute="top" secondItem="2ZT-R0-5m6" secondAttribute="bottom" constant="20" id="Tpk-LP-egc"/>
+                            <constraint firstItem="qxL-T2-GaS" firstAttribute="centerY" secondItem="PpU-UU-bbl" secondAttribute="centerY" id="VHZ-9k-p6h"/>
+                            <constraint firstItem="PpU-UU-bbl" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="YGX-Eb-vOF"/>
+                            <constraint firstItem="qxL-T2-GaS" firstAttribute="leading" secondItem="PpU-UU-bbl" secondAttribute="trailing" constant="30" id="h1k-E1-Yis"/>
+                            <constraint firstItem="2ZT-R0-5m6" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="80" id="i1z-sg-TG3"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="receivedMessageText" destination="qxL-T2-GaS" id="iVA-W3-CXM"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

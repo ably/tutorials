@@ -13,7 +13,10 @@ class ExampleViewController: UIViewController {
 
     private let API_KEY = "INSERT-YOUR-API-KEY-HERE" /* Add your API key here */
 
+    @IBOutlet weak var receivedMessageText: UILabel!
+
     private var client: ARTRealtime!
+    private var channel: ARTRealtimeChannel!
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
@@ -39,11 +42,22 @@ class ExampleViewController: UIViewController {
         }
     }
 
+    /* Subscribe to messages on the sport channel */
+    @IBAction func subscribeAction(sender: AnyObject) {
+        channel = client.channels.get("sport")
+        self.receivedMessageText.text = ""
+
+        channel.subscribe { message in
+            self.receivedMessageText.text = "\(message.data)"
+        }
+    }
+
+
     private func showAlert(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
 
         self.presentViewController(alertController, animated: true, completion: nil)
     }
-
+    
 }
