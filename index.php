@@ -11,6 +11,10 @@ require_once 'ably.php';
 <script type="text/javascript">
     /* Set up a Realtime client which will subscribe to 'sport' channel*/
     var realtime = new Ably.Realtime('<?= $apikey?>');
+    var channel = realtime.channels.get("sport");
+    channel.subscribe(function(msg) {
+        alert("Received: " + JSON.stringify(msg.data));
+    });
 </script>
 </html>
 
