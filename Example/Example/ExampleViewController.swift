@@ -9,12 +9,22 @@
 import UIKit
 import AblyRealtime
 
-class ExampleViewController: UIViewController {
+class ExampleViewController: UIViewController, UITableViewDataSource {
 
     private let API_KEY = "INSERT-YOUR-API-KEY-HERE" /* Add your API key here */
 
+    @IBOutlet private  weak var tableView: UITableView!
+    @IBOutlet private  weak var historyTextLabel: UILabel!
+
     private var client: ARTRealtime!
     private var channel: ARTRealtimeChannel!
+    private var historyMessages: [String] = []
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        tableView.dataSource = self
+    }
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
@@ -52,6 +62,25 @@ class ExampleViewController: UIViewController {
         showAlert("", message: "Messages have been sent.")
     }
 
+    /* Retrieve messages from history */
+    @IBAction func retriveHistoryAction(sender: AnyObject) {
+        channel = client.channels.get("persisted:sounds")
+        historyMessages = []
+
+        channel.history() { (messages, error) in
+            guard error == nil else {
+                return self.showAlert("Error", message: "There was a an error retriving messages history.")
+            }
+
+            let historyMessages = messages?.items as? [ARTMessage] ?? [ARTMessage]()
+            historyMessages.forEach { message in
+                self.historyMessages.append("\(message.data)")
+            }
+            /* Reload new messages in tableView */
+            self.tableView.reloadData()
+        }
+    }
+
     private func showAlert(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
@@ -59,4 +88,24 @@ class ExampleViewController: UIViewController {
         self.presentViewController(alertController, animated: true, completion: nil)
     }
 
+
+    // MARK:  UITableViewDataSource Methods
+
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return historyMessages.count
+    }
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
+
+        let row = indexPath.row
+        cell.textLabel?.text = historyMessages[row]
+        
+        return cell
+    }
+    
 }
