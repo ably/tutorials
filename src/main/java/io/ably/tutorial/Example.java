@@ -26,7 +26,7 @@ public class Example {
 		}
 	}
 	
-	/* Add AblyException to method signature as AblyRest constructor can throw one */
+	/* Add AblyException to method signature as AblyRealtime constructor can throw one */
 	private static void initAbly() throws AblyException{
 		AblyRealtime ablyRealtime = new AblyRealtime(API_KEY); 
 		/* Get sport channel you can subscribe to */
