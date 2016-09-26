@@ -1,6 +1,11 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
 repositories {
-	jcenter()
+    jcenter()
 }
 
 dependencies {
+    compile 'io.ably:ably-java:0.8.+'
 }
