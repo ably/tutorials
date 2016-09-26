@@ -1,0 +1,12 @@
+apply plugin: 'application'
+mainClassName = 'io.ably.tutorial.Example'
+
+repositories {
+	jcenter()
+    maven { url "https://raw.github.com/paddybyers/Java-WebSocket/mvn-repo/" }
+}
+
+dependencies {
+    compile 'io.ably:ably-java:0.8.3'
+}
+
