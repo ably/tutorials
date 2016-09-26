@@ -3,6 +3,7 @@ package io.ably.tutorial;
 import io.ably.lib.rest.AblyRest;
 import io.ably.lib.rest.Channel;
 import io.ably.lib.types.AblyException;
+import io.ably.lib.types.Message;
 
 public class Example {
 	
@@ -32,5 +33,11 @@ public class Example {
         channel.publish("play", "bark");
         channel.publish("play", "meow");
         channel.publish("play", "cluck");
+        
+        /* Fetch historical messages from channel, you can customize history query with parameters, when no parameters are needed just pass null */
+        Message[] historicMessages = channel.history(null).items();
+        for (Message message : historicMessages) {       
+            System.out.println("message: " + message.id + " - " + message.data);
+        }
 	}
 }
