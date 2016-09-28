@@ -17,8 +17,21 @@ class index:
         return render.index(apiKey)
 
 
+class publish:
+    def GET(self):
+        return render.publish()
+
+    def POST(self):
+        message = web.input().get('message')
+        if message is not None:
+            channel = client.channels.get('sport')
+            channel.publish('update', message)
+        raise web.seeother('/publish')
+
+
 urls = (
-    '/', index
+    '/', index,
+    '/publish', publish
 )
 
 app = web.application(urls, globals())
