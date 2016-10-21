@@ -50,10 +50,4 @@ public class Example {
             return "Error requesting token: " + e.getMessage();
         }
     }
-
-    /* Add method index with RequestMapping annotation so the web app knows which method to use on our default URL */
-    @RequestMapping(value = "/")
-    public String index() {
-        return "Hello, I am a very simple server";
-    }
 }
