@@ -12,6 +12,7 @@
 		347F29561DBB7C73004E26CC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 347F29551DBB7C73004E26CC /* Assets.xcassets */; };
 		347F29591DBB7C73004E26CC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 347F29571DBB7C73004E26CC /* LaunchScreen.storyboard */; };
 		347F29611DBB7CD3004E26CC /* ExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347F29601DBB7CD3004E26CC /* ExampleViewController.swift */; };
+		347F29631DBBCF71004E26CC /* LogoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347F29621DBBCF71004E26CC /* LogoutViewController.swift */; };
 		A37387B5526F1DBE12D61EE3 /* Pods_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3001113CCDEB07DED7947E2E /* Pods_Example.framework */; };
 /* End PBXBuildFile section */
 
@@ -25,6 +26,7 @@
 		347F29581DBB7C73004E26CC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		347F295A1DBB7C73004E26CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		347F29601DBB7CD3004E26CC /* ExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExampleViewController.swift; sourceTree = "<group>"; };
+		347F29621DBBCF71004E26CC /* LogoutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogoutViewController.swift; sourceTree = "<group>"; };
 		9A32A1D3AAD728A31E46B1D4 /* Pods-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-Example/Pods-Example.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -72,6 +74,7 @@
 			children = (
 				347F294E1DBB7C73004E26CC /* AppDelegate.swift */,
 				347F29601DBB7CD3004E26CC /* ExampleViewController.swift */,
+				347F29621DBBCF71004E26CC /* LogoutViewController.swift */,
 				347F29521DBB7C73004E26CC /* Main.storyboard */,
 				347F29551DBB7C73004E26CC /* Assets.xcassets */,
 				347F29571DBB7C73004E26CC /* LaunchScreen.storyboard */,
@@ -211,6 +214,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				347F294F1DBB7C73004E26CC /* AppDelegate.swift in Sources */,
+				347F29631DBBCF71004E26CC /* LogoutViewController.swift in Sources */,
 				347F29611DBB7CD3004E26CC /* ExampleViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
