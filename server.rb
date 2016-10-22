@@ -15,5 +15,21 @@ end
 # Issue token requests to clients sending a request to the /auth endpoint
 get '/auth' do
   content_type :json
-  ably.auth.create_token_request.to_json
+
+  # Check if the user provided a login
+  token_params = if params[:username]
+    # Issue a token request with pub & sub permissions on all channels +
+    #   configure the token with an indentity
+    {
+      capability: { '*' => ['publish', 'subscribe'] },
+      client_id: params[:username]
+    }
+  else
+    # Issue a token with subscribe privileges restricted to one channel
+    #   and configure the token without an identity (anonymous)
+    {
+      capability: { 'notifications' => ['subscribe'] }
+    }
+  end
+  ably.auth.create_token_request(token_params).to_json
 end

@@ -9,23 +9,36 @@
 import UIKit
 import Ably
 
+var client: ARTRealtime!
+
 class ExampleViewController: UIViewController {
 
-    private var client: ARTRealtime!
+    @IBOutlet weak var usernameText: UITextField!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
 
+    /* Performs the login action */
+    @IBAction func loginAction(sender: AnyObject) {
         connectToAbly()
     }
 
     private func connectToAbly() {
+        var requestURL = NSURL()
+
         /* Set up a Realtime client that authenticates with the local web server auth endpoint */
         let options = ARTClientOptions()
+        /* Check if user provided with a login */
+        if let clientId = usernameText.text where !clientId.isEmpty {
+            requestURL = NSURL(string: "http://localhost:4567/auth?username=\(clientId)")!
+        } else {
+             requestURL = NSURL(string: "http://localhost:4567/auth")!
+        }
 
         /* Create an authentication callback that will obtain a TokenRequest */
         options.authCallback = { params, callback in
-            self.getTokenRequest() { json, error in
+            self.getTokenRequest(requestURL) { json, error in
 
                 do {
                     callback(try ARTTokenRequest.fromJson(json!), nil)
@@ -41,10 +54,10 @@ class ExampleViewController: UIViewController {
             if let state = state {
                 switch state.current {
                 case .Connected:
-                    self.showAlert("Connected", message: "Successfully connected to API.")
+                    self.updateSuccessState()
                 case .Failed:
-                    print( self.client.connection.errorReason)
-                    self.showAlert("Failed", message: "There was a problem connecting to API")
+                    print( client.connection.errorReason)
+                    self.showAlert("Failed", message: "There was a problem connecting to API", success: false)
                 default:
                     break
                 }
@@ -52,12 +65,22 @@ class ExampleViewController: UIViewController {
         }
     }
 
+    /* Create message for successful login depending on whether the user has entered username */
+    private func updateSuccessState() {
+        var alertMessage = ""
+        if let clientId = client.auth.clientId {
+            alertMessage = "You are now connected to Ably \n User: \(clientId) \n Capabilities: {\"*\":[\"publish\",\"subscribe\"]}"
+        } else {
+            alertMessage = "You are now connected to Ably \n User: anonymous \n Capabilities: {\"notifications\":[\"subscribe\"]}"
+        }
+        self.showAlert("Connected", message: alertMessage, success: true)
+    }
 
     /*  issue asynchronous query to obtain token request */
-    func getTokenRequest(completion: (NSDictionary?, ErrorType?) -> ())  {
+    func getTokenRequest(params: NSURL, completion: (NSDictionary?, ErrorType?) -> ())  {
 
         /* If you want to try running this application on your mobile device change "localhost" tou your server IP */
-        let requestURL: NSURL = NSURL(string: "http://localhost:4567/auth")!
+        let requestURL: NSURL = params
         let urlRequest: NSMutableURLRequest = NSMutableURLRequest(URL: requestURL)
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(urlRequest) {
@@ -75,16 +98,29 @@ class ExampleViewController: UIViewController {
                     completion(json, nil)
 
                 } catch {
-                    self.showAlert("Error", message: "There was an error while obtaining JSON")
+                    self.showAlert("Error", message: "There was an error while obtaining JSON", success: false)
                 }
             }
         }
         task.resume()
     }
 
-    private func showAlert(title: String, message: String) {
+
+    /*performs segue to the LogoutViewController */
+    private func performSegue() {
+            self.performSegueWithIdentifier("logoutSegue", sender: self)
+    }
+
+    private func showAlert(title: String, message: String, success: Bool) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+        /* If authentication was successful clicking on OK will perform a segue */
+        alertController.addAction(UIAlertAction(title: "OK", style: .Default, handler: {action in
+            if success {
+                    self.performSegue()
+            } else {
+                return
+            }
+        }))
 
         self.presentViewController(alertController, animated: true, completion: nil)
     }
