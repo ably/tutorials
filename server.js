@@ -10,9 +10,8 @@ var rest = new Ably.Rest({ key: ApiKey });
 const express = require('express'),
       app = express();
 
-app.get('/', function (req, res) {
-  res.send('Hello, I am a very simple server');
-});
+/* Server static content from the root path to keep things simple */
+app.use('/', express.static(__dirname));
 
 /* Issue token requests to clients sending a request
    to the /auth endpoint */
