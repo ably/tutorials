@@ -22,4 +22,8 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:24.2.1'
+    /* add latest version of ably.io client library */
+    compile 'io.ably:ably-java:0.8.+'
+    /* add Volley library for simple network requests */
+    compile 'com.android.volley:volley:1.0.0'
 }
