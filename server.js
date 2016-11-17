@@ -16,7 +16,22 @@ app.use('/', express.static(__dirname));
 /* Issue token requests to clients sending a request
    to the /auth endpoint */
 app.get('/auth', function (req, res) {
-  var tokenParams = {}; /* For now we'll use all token defaults */
+  var tokenParams;
+  /* Check if the user wants to log in */
+  if (req.query['username']) {
+    /* Issue a token request with pub & sub permissions on all channels +
+       configure the token with an identity */
+    tokenParams = {
+      'capability': { '*': ['publish', 'subscribe'] },
+      'clientId': req.cookies.username
+    };
+  } else {
+    /* Issue a token with subscribe privileges restricted to one channel
+       and configure the token without an identity (anonymous) */
+    tokenParams = {
+      'capability': { 'notifications': ['subscribe'] }
+    };
+  }
   rest.auth.createTokenRequest(tokenParams, function(err, tokenRequest) {
     if (err) {
       res.status(500).send('Error requesting token: ' + JSON.stringify(err));

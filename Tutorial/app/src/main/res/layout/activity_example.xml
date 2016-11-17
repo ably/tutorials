@@ -13,4 +13,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Token auth example" />
+
+    <EditText
+        android:id="@+id/etClientId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="ClientId" />
+
+    <Button
+        android:id="@+id/btLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Login" />
+
+    <Button
+        android:id="@+id/btLogout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Logout" />
+
+    <TextView
+        android:id="@+id/tvCapabilities"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Capabilities" />
 </LinearLayout>
