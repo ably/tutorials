@@ -1,0 +1,17 @@
+<html>
+  <body>
+    <h1>Presence example</h1>
+  </body>
+
+  <!-- Include the latest Ably Library  -->
+  <script src="https://cdn.ably.io/lib/ably.min-1.js"></script>
+
+  <!-- Instance the Ably library  -->
+  <script type="text/javascript">
+    alert("You need to add your API key"); /* REMOVE THIS */
+    var realtime = new Ably.Realtime({
+      key: "INSERT-YOUR-API-KEY-HERE", /* ADD YOUR API KEY HERE */
+      clientId: "my-client-id" /* This is who you will appear as in the presence set */
+    });
+  </script>
+</html>
