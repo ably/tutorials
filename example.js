@@ -17,3 +17,22 @@ channel.attach(function(err) {
     console.log('We are now successfully present');
   });
 });
+
+console.log("Press <enter> to get the presence set, or q<enter> to quit.");
+process.stdin.resume();
+process.stdin.on('data', function (chunk) {
+  switch(chunk.toString()) {
+    case "\n":
+      channel.presence.get(function(err, members) {
+        if(err) { return console.log("Error fetching presence data: " + err); }
+        console.log('There are ' + members.length + ' clients present on this channel');
+      });
+      break;
+    case "q\n":
+      /* Close the realtime connection explicitly on quitting to avoid the
+       * presence member sticking around for 15s; see
+       * https://support.ably.io/solution/articles/3000059875-why-don-t-presence-members-leave-as-soon-as-i-close-a-tab- */
+      realtime.close();
+      process.exit();
+  }
+});
