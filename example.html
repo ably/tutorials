@@ -13,5 +13,16 @@
       key: "INSERT-YOUR-API-KEY-HERE", /* ADD YOUR API KEY HERE */
       clientId: "my-client-id" /* This is who you will appear as in the presence set */
     });
+
+    /* Enter the presence set of the 'chatroom' channel */
+    var channel = realtime.channels.get('chatroom');
+    channel.attach(function(err) {
+      if(err) { return console.error("Error attaching to the channel"); }
+      console.log('We are now attached to the channel');
+      channel.presence.enter('hello', function(err) {
+        if(err) { return console.error("Error entering presence"); }
+        console.log('We are now successfully present');
+      });
+    });
   </script>
 </html>
