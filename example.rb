@@ -15,4 +15,23 @@ EventMachine.run do
       puts "We are now in the presence set"
     end
   end
+
+  puts "Press <enter> to get the presence set, or q<enter> to stop."
+
+  # Run in thread as `gets` is blocking
+  Thread.new do
+    while true
+      case gets.chomp
+      when "q"
+        # Close the realtime connection explicitly on quitting to avoid the presence member sticking around for 15s; see
+        # https://support.ably.io/solution/articles/3000059875-why-don-t-presence-members-leave-as-soon-as-i-close-a-tab-
+        ably.close
+        EventMachine.stop
+      else
+        channel.presence.get do |members|
+          puts "There are #{members.length} clients present on this channel"
+        end
+      end
+    end
+  end
 end
