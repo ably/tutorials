@@ -2,7 +2,8 @@
   <body>
     <h1>Presence example</h1>
 
-    <button id="get-presence">Get presence set</button>
+    <h2>Live-updated presence set:</h2>
+    <ul id="presence-set"></ul>
   </body>
 
   <!-- Include the latest Ably Library  -->
@@ -13,7 +14,8 @@
     alert("You need to add your API key"); /* REMOVE THIS */
     var realtime = new Ably.Realtime({
       key: "INSERT-YOUR-API-KEY-HERE", /* ADD YOUR API KEY HERE */
-      clientId: "my-client-id" /* This is who you will appear as in the presence set */
+      clientId: "my-client-id", /* This is who you will appear as in the presence set */
+      closeOnUnload: true // See https://support.ably.io/solution/articles/3000059875-why-don-t-presence-members-leave-as-soon-as-i-close-a-tab-
     });
 
     /* Enter the presence set of the 'chatroom' channel */
@@ -25,14 +27,17 @@
         if(err) { return console.error("Error entering presence"); }
         console.log('We are now successfully present');
       });
-    });
 
-    /* Show presence set size when the button is pressed */
-    document.getElementById("get-presence").addEventListener("click", function() {
-      channel.presence.get(function(err, members) {
-        if(err) { return console.log("Error fetching presence data: " + err); }
-        alert('There are ' + members.length + ' clients present on this channel');
+      /* Every time the presence set changes, show the new set */
+      channel.presence.subscribe(function(presenceMsg) {
+        console.log('Received a ' + presenceMsg.action + ' from ' + presenceMsg.clientId);
+        channel.presence.get(function(err, members) {
+          if(err) { return console.log("Error fetching presence data: " + err); }
+          document.getElementById('presence-set').innerHTML = members.map(function(member) {
+            return '<li>' + member.clientId + '</li>';
+          }).join();
+        });
       });
-    })
+    });
   </script>
 </html>
