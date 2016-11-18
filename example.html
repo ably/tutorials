@@ -1,6 +1,8 @@
 <html>
   <body>
     <h1>Presence example</h1>
+
+    <button id="get-presence">Get presence set</button>
   </body>
 
   <!-- Include the latest Ably Library  -->
@@ -24,5 +26,13 @@
         console.log('We are now successfully present');
       });
     });
+
+    /* Show presence set size when the button is pressed */
+    document.getElementById("get-presence").addEventListener("click", function() {
+      channel.presence.get(function(err, members) {
+        if(err) { return console.log("Error fetching presence data: " + err); }
+        alert('There are ' + members.length + ' clients present on this channel');
+      });
+    })
   </script>
 </html>
