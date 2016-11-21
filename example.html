@@ -1,7 +1,16 @@
 <html>
   <body>
-    <h1>Pubnub Adaptor example</h1>
+    <h1>Pubnub Adaptor interoperability example</h1>
+    <p style="max-width: 600px;">You can publish a message through either the Ably or Pubnub client libraries, and it will be received by both, as both are subscribing to the same channel.</p>
+    <p style="max-width: 600px;">Try opening this window in another tab, and see the message be received in both tabs.</p>
+    <p></p>
+    <button id="publish-ably">Publish a message with the Ably client library</button>
+    <button id="publish-pubnub">Publish a message with the Pubnub client library</button>
+    <ul id="output"></ul>
   </body>
+
+  <!-- Include the latest Ably Library  -->
+  <script src='https://cdn.ably.io/lib/ably.min.js'></script>
 
   <!-- Include the latest v3 Pubnub Library  -->
   <script src='http://cdn.pubnub.com/pubnub-3.16.4.min.js'></script>
@@ -9,7 +18,24 @@
   <script type='text/javascript'>
     alert('You need to add your API key'); // Remove this
     var API_KEY = 'appid.keyid:keysecret'; // Replace this with your API key
+    var channelName = 'some_channel';
 
+    /* ABLY CLIENT LIB */
+    /* Instance the Ably library */
+    var ably = new Ably.Realtime(API_KEY);
+
+    /* Subscribe to the 'some_channel' channel with the Ably client */
+    var ablyChannel = ably.channels.get(channelName);
+    ablyChannel.subscribe(function(message) {
+      log('Ably client received a message: ' + JSON.stringify(message.data));
+    });
+
+    /* Publish a message with the Ably client when the button is pressed */
+    document.getElementById('publish-ably').addEventListener('click', function() {
+      ablyChannel.publish(null, { 'Some': 'JSON data sent by the Ably client library' });
+    })
+
+    /* PUBNUB CLIENT LIB */
     /* Instance the Pubnub library */
     var pubnub = PUBNUB({
       publish_key        : API_KEY,
@@ -18,5 +44,29 @@
       ssl                : true,
       no_wait_for_pending: true
     });
+
+    /* Subscribe to the 'some_channel' channel with the Pubnub client */
+    pubnub.subscribe({
+      channel : channelName,
+      message : function(message) {
+        log('Pubnub client received a message: ' + JSON.stringify(message));
+      }
+    });
+
+    /* Publish a message with the Pubnub client when the button is pressed */
+    document.getElementById('publish-pubnub').addEventListener('click', function() {
+      pubnub.publish({
+        channel : channelName,
+        message : { 'Some': 'JSON data sent by the Pubnub client library' }
+      });
+    });
+
+    function log(text) {
+      var date = new Date();
+      var logLine = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + ':' + date.getMilliseconds() + ': ' + text;
+      var el = document.createElement('li');
+      el.appendChild(document.createTextNode(logLine));
+      document.getElementById('output').appendChild(el);
+    }
   </script>
 </html>
