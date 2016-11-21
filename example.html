@@ -1,14 +1,29 @@
 <html>
   <body>
-    <h1>Pusher Adaptor example</h1>
+    <h1>Pusher Adaptor interoperability example</h1>
+    <p style="max-width: 600px;">Open this page in a new browser tab and click "Publish a message", which will publish a message through the Ably javascript client library, and receive it (in both tabs) by the Pusher client library.</p>
+    <p></p>
+    <button id="publish">Publish a message</button>
   </body>
+
+  <!-- Include the latest Ably Library  -->
+  <script src='https://cdn.ably.io/lib/ably.min.js'></script>
 
   <!-- Include the latest Pusher Library  -->
   <script src='https://js.pusher.com/3.2/pusher.min.js'></script>
 
   <script type='text/javascript'>
     alert('You need to add your API key'); // Remove this
+    var API_KEY = 'appid.keyid:keysecret'; // Replace this with your API key
     var KEY_NAME = 'appid.keyid'; // Replace this with the first part of your API key
+
+    /* Instance the Ably library */
+    var ably = new Ably.Realtime(API_KEY);
+    /* Publish a message when the button is pressed */
+    document.getElementById('publish').addEventListener('click', function() {
+      var channel = ably.channels.get('public:some_channel');
+      channel.publish('message_name', { 'some': ['JSON', 'data'] });
+    })
 
     /* Instance the Pusher library */
     var pusher = new Pusher(KEY_NAME, {
@@ -16,6 +31,13 @@
       httpHost     : 'realtime-pusher.ably.io',
       disableStats : true,
       encrypted    : true
+    });
+
+    /* Subscribe to the 'some_channel' channel. This is actually an
+     * Ably channel called 'public:some_channel' */
+    var channel = pusher.subscribe('some_channel');
+    channel.bind('message_name', function(data) {
+      alert("Received a message: " + JSON.stringify(data));
     });
   </script>
 </html>
