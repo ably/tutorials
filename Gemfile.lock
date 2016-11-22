@@ -1,18 +1,49 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    ably (0.8.14)
+      addressable (>= 2.0.0)
+      em-http-request (~> 1.1)
+      eventmachine (~> 1.0)
+      faraday (~> 0.9)
+      json
+      msgpack (>= 0.6.2)
+      statesman (~> 1.0.0)
+      websocket-driver (~> 0.6)
+    addressable (2.5.0)
+      public_suffix (~> 2.0, >= 2.0.2)
+    cookiejar (0.3.3)
+    em-http-request (1.1.5)
+      addressable (>= 2.3.4)
+      cookiejar (!= 0.3.1)
+      em-socksify (>= 0.3)
+      eventmachine (>= 1.0.3)
+      http_parser.rb (>= 0.6.0)
+    em-socksify (0.3.1)
+      eventmachine (>= 1.0.0.beta.4)
     eventmachine (1.2.1)
+    faraday (0.10.0)
+      multipart-post (>= 1.2, < 3)
+    http_parser.rb (0.6.0)
     json (1.8.3)
+    msgpack (1.0.2)
+    multipart-post (2.0.0)
     net-http-persistent (2.9.4)
+    public_suffix (2.0.4)
     pubnub (3.6.10)
       eventmachine (~> 1.0)
       json (~> 1.8)
       net-http-persistent (~> 2.9)
+    statesman (1.0.0)
+    websocket-driver (0.6.4)
+      websocket-extensions (>= 0.1.0)
+    websocket-extensions (0.1.2)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  ably
   pubnub (~> 3.6.0)
 
 BUNDLED WITH
