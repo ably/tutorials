@@ -11,6 +11,7 @@
         "start": "node ./example.js"
     },
     "dependencies": {
+        "ably": ">=0.8",
         "pubnub": "3.x"
     }
 }
