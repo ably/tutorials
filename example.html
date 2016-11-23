@@ -1,0 +1,22 @@
+<html>
+  <body>
+    <h1>Pubnub Adaptor example</h1>
+  </body>
+
+  <!-- Include the latest v3 Pubnub Library  -->
+  <script src='http://cdn.pubnub.com/pubnub-3.16.4.min.js'></script>
+
+  <script type='text/javascript'>
+    alert('You need to add your API key'); // Remove this
+    var API_KEY = 'appid.keyid:keysecret'; // Replace this with your API key
+
+    /* Instance the Pubnub library */
+    var pubnub = PUBNUB({
+      publish_key        : API_KEY,
+      subscribe_key      : API_KEY,
+      origin             : 'pubnub.ably.io',
+      ssl                : true,
+      no_wait_for_pending: true
+    });
+  </script>
+</html>
