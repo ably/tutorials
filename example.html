@@ -1,0 +1,21 @@
+<html>
+  <body>
+    <h1>Pusher Adaptor example</h1>
+  </body>
+
+  <!-- Include the latest Pusher Library  -->
+  <script src='https://js.pusher.com/3.2/pusher.min.js'></script>
+
+  <script type='text/javascript'>
+    alert('You need to add your API key'); // Remove this
+    var KEY_NAME = 'appid.keyid'; // Replace this with the first part of your API key
+
+    /* Instance the Pusher library */
+    var pusher = new Pusher(KEY_NAME, {
+      wsHost       : 'realtime-pusher.ably.io',
+      httpHost     : 'realtime-pusher.ably.io',
+      disableStats : true,
+      encrypted    : true
+    });
+  </script>
+</html>
