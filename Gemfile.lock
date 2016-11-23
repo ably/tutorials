@@ -1,0 +1,19 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    httpclient (2.8.2.4)
+    multi_json (1.12.1)
+    pusher (1.1.0)
+      httpclient (~> 2.7)
+      multi_json (~> 1.0)
+      pusher-signature (~> 0.1.8)
+    pusher-signature (0.1.8)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  pusher
+
+BUNDLED WITH
+   1.13.6
