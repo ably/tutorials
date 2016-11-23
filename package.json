@@ -1,0 +1,16 @@
+{
+    "name": "ably-tutorials",
+    "author": "Ably <hello@ably.io>",
+    "description": "Node.js pubnub adaptor tutorial",
+    "repository": "https://github.com/ably/tutorials",
+    "license": "Apache-2.0",
+    "engines": {
+        "node": ">=0.10"
+    },
+    "scripts": {
+        "start": "node ./example.js"
+    },
+    "dependencies": {
+        "pubnub": "3.x"
+    }
+}
