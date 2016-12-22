@@ -1,0 +1,10 @@
+apply plugin: 'application'
+mainClassName = 'io.ably.tutorial.Example'
+
+repositories {
+	jcenter()
+}
+
+dependencies {
+    compile 'io.ably:ably-java:0.8.+'
+}
