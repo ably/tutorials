@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <title>Ably Reactor Queue and Neutrino Profanity Filter demo</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="//code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="app.js"></script>
+  </head>
+  <body>
+    <h1>Neutrino Profanity Filter</h1>
+    <div class="col">
+      <h2>Questionable content</h2>
+      <textarea id="text" placeholder="Enter some text with some profanities. No need to suggest any, I'm sure you can think of a few swear words"></textarea>
+      <button id="action-btn">Filter my bad language</button><span id="status"></span>
+      <p>
+        Pressing this button will publish a message to a channel, which will in turn using an <a href="https://www.ably.io/reactor">Ably Reactor Queue</a> rule to republish the message into a queue. The Node.js worker server will then consume this message in real time, send the text to Neutrino using its <a href="https://www.neutrinoapi.com/api/bad-word-filter/">Bad Words REST API</a>, and publish the text without bad words back to the client using an Ably channel.
+      </p>
+    </div>
+    <div class="col">
+      <h2>Child-friendly content</h2>
+      <div id="output"></div>
+    </div>
+  </body>
+</html>
