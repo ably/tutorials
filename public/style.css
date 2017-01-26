@@ -20,9 +20,20 @@ textarea#text {
   margin-bottom: 1em;
 }
 
-#output div {
+#output > div {
   box-shadow: 0 0 0.5em #bbb;
   margin-bottom: 1.5em;
+}
+
+#output > div p {
+  padding: 5px;
+}
+
+#output > div .stat {
+  color: #999;
+  font-size: 0.8em;
+  float: right;
+  padding: 5px;
 }
 
 #status {
