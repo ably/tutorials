@@ -1,0 +1,37 @@
+<html>
+  <head>
+    <title>Ably WebHook and Chuck Norris Joke API demo</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="//code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <h1>Finalizing the setup of this demo</h1>
+
+    <p>Great, the app is now installed! However we need to you to follow few quick steps to get this demo running:</p>
+
+    <ul>
+      <li>Log in to your <a href="https://support.ably.io/support/solutions/articles/3000052373-how-do-i-access-my-app-dashboard-if-i-am-a-heroku-add-on-user-">Ably dashboard</a>: <code>heroku addons:open ably --app <span class="appid">[heroku app name you assigned for this demo]</span></code></li>
+      <li>Set up a WebHook with the following settings:
+        <ul>
+          <li>URL - https://<span class="hostname">[THE HOST NAME FOR THIS APP]</span>/webhook/chuck</li>
+          <li>Source - choose "Message"</li>
+          <li>Channel Filter - enter <code>"^chuck:ask"</code> to ensure that all Chuck Norris joke requests published to the <code>chuck:ask</code> channel are delivered to this app as a WebHook</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p>All done!</p>
+
+    <p>
+      <b><a href="/">View the Ably WebHook and Chuck Norris demo &raquo;</a></b>
+    </p>
+  </body>
+
+  <script type="text/javascript">
+    var domain = window.location.host.split(':')[0];
+    if (domain.match(/\.herokuapp\.com$/)) {
+      $('.appid').text(domain.replace(/\.herokuapp\.com$/, ''));
+      $('.hostname').text(domain);
+    }
+  </script>
+</html>

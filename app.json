@@ -1,0 +1,13 @@
+{
+  "name": "Ably Webhook Chuck demo",
+  "description": "A simple demo to demonstrate using Ably Reactor Event WebHooks with the Chuck Norris Joke API",
+  "repository": "https://github.com/ably/tutorials/tree/webhook-chuck-norris-ruby-rails",
+  "logo": "https://files.ably.io/logo-70x70.png",
+  "keywords": ["Ably", "WebHook", "Chuck Norris", "realtime"],
+  "success_url": "/post-install.html",
+  "addons": [
+    {
+      "plan": "ably:test"
+    }
+  ]
+}
