@@ -3,8 +3,11 @@ const Express = require('express');
 const ServerPort = 3000;
 const worker = require('./worker');
 
-const ApiKey = 'INSERT-YOUR-API-KEY-HERE'; /* Add your API key here */
-if (ApiKey.indexOf('INSERT') === 0) { throw('Cannot run without an API key. Add your key to example.js'); }
+const ApiKey = 'INSERT-YOUR-API-KEY-HERE'; /* Add your Ably API key here */
+if (ApiKey.indexOf('INSERT') === 0) { throw('Cannot run without an Ably API key. Add your key to example.js'); }
+
+const WolframAppId = 'INSERT-YOUR-WOLFRAM-API-KEY-HERE'; /* Add your Wolfram AppID here */
+if (ApiKey.indexOf('INSERT') === 0) { throw('Cannot run without a Wolfram API key. Add your key to example.js'); }
 
 /* Instance the Ably library */
 var rest = new Ably.Rest({ key: ApiKey });
@@ -29,6 +32,6 @@ app.get('/auth', function (req, res) {
 app.use(express.static('public'));
 app.listen(3000);
 
-worker.start(ApiKey, 'wolfram:answers', 'wolfram', 'us-east-1-a-queue.ably.io:5671/shared');
+worker.start(ApiKey, WolframAppId, 'wolfram:answers', 'wolfram', 'us-east-1-a-queue.ably.io:5671/shared');
 
 console.log('Open the Wolfram demo in your browser: https://localhost:' + ServerPort + '/');
