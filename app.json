@@ -1,0 +1,13 @@
+{
+  "name": "Ably Wolfram Queue demo",
+  "description": "A simple demo to demonstrate using Ably Reactor Queues with Wolfram Alpha",
+  "repository": "https://github.com/ably/tutorials/tree/queue-wolfram-alpha-nodejs",
+  "logo": "https://files.ably.io/logo-70x70.png",
+  "keywords": ["Ably", "AMQP", "Wolfram Alpha", "realtime"],
+  "success_url": "https://github.com/ably/tutorials/blob/queue-wolfram-alpha-nodejs/README.md#setting-up-the-demo-on-heroku",
+  "addons": [
+    {
+      "plan": "ably:test"
+    }
+  ]
+}
