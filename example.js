@@ -12,6 +12,18 @@ var rest = new Ably.Rest({ key: ApiKey });
 var express = require('express');
 var app = express();
 
+/* Issue token requests to browser clients sending a request to the /auth endpoint */
+app.get('/auth', function (req, res) {
+  rest.auth.createTokenRequest(function(err, tokenRequest) {
+    if (err) {
+      res.status(500).send('Error requesting token: ' + JSON.stringify(err));
+    } else {
+      res.setHeader('Content-Type', 'application/json');
+      res.send(JSON.stringify(tokenRequest));
+    }
+  });
+});
+
 /* Server static HTML files from /public folder */
 app.use(express.static('public'));
 app.listen(3000);
