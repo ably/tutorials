@@ -20,9 +20,29 @@ textarea#question {
   margin-bottom: 1em;
 }
 
-img {
+#answers > div {
   box-shadow: 0 0 0.5em #bbb;
   margin-bottom: 1.5em;
+}
+
+#answers > div .question {
+  color: orange;
+  font-style: italic;
+  padding: 5px;
+  float: left;
+}
+
+#answers > div .stat {
+  color: #999;
+  font-size: 0.8em;
+  float: right;
+  padding: 5px;
+}
+
+#answers > div .answer {
+  font-weight: bold;
+  padding: 5px;
+  clear: both;
 }
 
 #status {
