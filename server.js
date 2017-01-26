@@ -1,15 +1,15 @@
 const Ably = require('ably');
 const Express = require('express');
-const ServerPort = 3000;
+const ServerPort = process.env.PORT || 3000;
 const worker = require('./worker');
 
 const ApiKey = process.env.ABLY_API_KEY || 'INSERT-YOUR-API-KEY-HERE'; /* Add your API key here */
 if (ApiKey.indexOf('INSERT') === 0) { throw('Cannot run without an Ably API key. Add your key to server.js'); }
 
 const NeutrinoUserId = process.env.NEUTRINO_USER_ID || 'INSERT-YOUR-NEUTRINO-USER-ID-HERE'; /* Add your Neutrino User ID here */
-if (NeutrinoUserId.indexOf('INSERT') === 0) { throw('Cannot run without a Neutrino User ID. Add your user ID to server.js'); }
+if (NeutrinoUserId.indexOf('INSERT') === 0) { console.warn('Cannot run without a Neutrino User ID. Add your user ID to server.js'); }
 const NeutrinoApiKey = process.env.NEUTRINO_API_KEY || 'INSERT-YOUR-NEUTRINO-API-KEY-HERE'; /* Add your Neutrino API Key here */
-if (NeutrinoApiKey.indexOf('INSERT') === 0) { throw('Cannot run without a Neutrino API key. Add your key to server.js'); }
+if (NeutrinoApiKey.indexOf('INSERT') === 0) { console.warn('Cannot run without a Neutrino API key. Add your key to server.js'); }
 
 /* Instance the Ably library */
 const rest = new Ably.Rest({ key: ApiKey });
@@ -29,9 +29,15 @@ app.get('/auth', function (req, res) {
   });
 });
 
+if ((NeutrinoUserId.indexOf('INSERT') === 0) || (NeutrinoApiKey.indexOf('INSERT') === 0))  {
+  app.get('/', function (req, res) {
+    res.status(500).send('NeutrinoApiKey or NeutrinoUserId is not set. You need to configure environment variables NEUTRINO_API_KEY and NEUTRINO_USER_ID');
+  });
+}
+
 /* Server static HTML files from /public folder */
 app.use(Express.static('public'));
-app.listen(3000);
+app.listen(ServerPort);
 
 worker.start(ApiKey, NeutrinoUserId, NeutrinoApiKey, 'neutrino:filtered', 'neutrino', 'us-east-1-a-queue.ably.io', 61614, 'shared');
 
