@@ -11,7 +11,7 @@ $(function() {
 
   /* Subscribe to filtered text published on this channel */
   filteredChannel.subscribe(function(message) {
-    var $filtered = $('<div class="filtered">').text(message.data.filtered);
+    var $filtered = $('<p>').text(message.data);
     var $stat = $('<div class="stat">').text("Neutrino took " + message.data.neutrinoTime + "ms");
     $output.prepend($('<div>').append($stat).append($filtered));
   });
