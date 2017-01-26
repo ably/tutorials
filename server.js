@@ -1,13 +1,13 @@
 const Ably = require('ably');
 const Express = require('express');
-const ServerPort = 3000;
+const ServerPort = process.env.PORT || 3000;
 const worker = require('./worker');
 
-const ApiKey = 'INSERT-YOUR-API-KEY-HERE'; /* Add your API key here */
+const ApiKey = process.env.ABLY_API_KEY || 'INSERT-YOUR-API-KEY-HERE'; /* Add your API key here */
 if (ApiKey.indexOf('INSERT') === 0) { throw('Cannot run without an Ably API key. Add your key to server.js'); }
 
-const WolframAppId = 'INSERT-YOUR-WOLFRAM-API-KEY-HERE'; /* Add your Wolfram AppID here */
-if (WolframAppId.indexOf('INSERT') === 0) { throw('Cannot run without a Wolfram API key. Add your key to server.js'); }
+const WolframAppId = process.env.WOLFRAM_APP_ID || 'INSERT-YOUR-WOLFRAM-APP-ID-HERE'; /* Add your Wolfram AppID here */
+if (WolframAppId.indexOf('INSERT') === 0) { console.warn('Cannot run without a Wolfram AppID. Add your AppID to server.js'); }
 
 /* Instance the Ably library */
 const rest = new Ably.Rest({ key: ApiKey });
@@ -27,9 +27,15 @@ app.get('/auth', function (req, res) {
   });
 });
 
+if (WolframAppId.indexOf('INSERT') === 0) {
+  app.get('/', function (req, res) {
+    res.status(500).send('WolframAppId is not set. You need to configure an environment variable WOLFRAM_APP_ID');
+  });
+}
+
 /* Server static HTML files from /public folder */
 app.use(Express.static('public'));
-app.listen(3000);
+app.listen(ServerPort);
 
 worker.start(ApiKey, WolframAppId, 'wolfram:answers', 'wolfram', 'us-east-1-a-queue.ably.io:5671/shared');
 
