@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <title>Ably Reactor Queue and Wolfram Alpha demo</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="//code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <h1>Finalizing the setup of this demo</h1>
+
+    <p>Great, the app is now installed! However we need to you to follow few quick steps to get this demo running:</p>
+
+    <ul>
+      <li><a href="http://developer.wolframalpha.com/">Sign up for a free Developer AppId with Wolfram Alpha</a></li>
+      <li>Configure an environment variable with the Wolfram AppId (replace <code>[your wolfram app id]</code> with the AppId from the previous step): <code>heroku config:set WOLFRAM_APP_ID=[your wolfram app id] --app <span class="appid">[heroku app name you assigned for this demo]</span></code></li>
+      <li>Log in to your <a href="https://support.ably.io/support/solutions/articles/3000052373-how-do-i-access-my-app-dashboard-if-i-am-a-heroku-add-on-user-">Ably dashboard</a>: <code>heroku addons:open ably --app <span class="appid">[heroku app name you assigned for this demo]</span></code></li>
+      <li>Set up a queue (in the Queues tab) with the name <code>default</code> in the <code>US East (Virgina)</code> area.</li>
+      <li>Set up a queue rule (button to add rules is further down the page within the Queues tab) with the following:
+
+      <ul>
+        <li>Queue - choose the <code>default</code> queue you just set up</li>
+        <li>Source - choose "Message"</li>
+        <li>Channel Filter - enter <code>"^wolfram:questions"</code> to ensure that all questions published to the <code>wolfram:questions</code> channel are published into the <code>default</code> queue</li>
+      </ul>
+      </li>
+    </ul>
+
+    <p>All done!</p>
+
+    <p>
+      <b><a href="/">View the Reactor Queue and Wolphram Alpha Demo &raquo;</a></b>
+    </p>
+  </body>
+
+  <script type="text/javascript">
+    var domain = window.location.host.split(':')[0];
+    if (domain.match(/\.herokuapp\.com$/)) {
+      $('.appid').text(domain.replace(/\.herokuapp\.com$/, ''));
+    }
+  </script>
+</html>

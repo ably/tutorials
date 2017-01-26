@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <title>Ably Reactor Queue and Wolfram Alpha demo</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="//code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+    <script src="//cdn.ably.io/lib/ably.min-0.9.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="app.js"></script>
+  </head>
+  <body>
+    <h1>Wolfram Alpha</h1>
+    <div class="col">
+      <h2>Questions</h2>
+      <textarea id="question" placeholder="Type a question such as 'How far is Venus from Earth'"></textarea>
+      <button id="ask-btn">Ask Wolfram</button><span id="status"></span>
+      <p>
+        Pressing this button will publish a message to a channel, which will in turn using an <a href="https://www.ably.io/reactor">Ably Reactor Queue</a> rule to republish the message into a queue. The node.js worker server will then consume this message in real time, send the question to Wolfram Alpha using its REST API, and publish the answer back to the client using an Ably channel.
+      </p>
+    </div>
+    <div class="col">
+      <h2>Answers</h2>
+      <div id="answers"></div>
+    </div>
+  </body>
+</html>
