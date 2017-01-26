@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <title>Ably Reactor Queue (STOMP) and Neutrino Profanity Filter demo</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="//code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <h1>Finalizing the setup of this demo</h1>
+
+    <p>Great, the app is now installed! However we need to you to follow few quick steps to get this demo running:</p>
+
+    <ul>
+      <li><a href="https://www.neutrinoapi.com/signup/">Sign up for a free Developer Account with Neutrino</a></li>
+      <li>Configure two environment variables in Heroku with your Neutrino credentials:
+        <ul>
+          <li><code>NEUTRINO_USER_ID</code> needs to contain your Neutrino user ID: <code>heroku config:set NEUTRINO_USER_ID=[your Neutrino user id] --app [heroku app name you assigned for this demo]</code></li>
+          <li><code>NEUTRINO_API_KEY</code> needs to contain your Neutrino user ID: <code>heroku config:set NEUTRINO_API_KEY=[your Neutrino user id] --app [heroku app name you assigned for this demo]</code></li>
+        </ul>
+      </li>
+      <li>Log in to your <a href="https://support.ably.io/support/solutions/articles/3000052373-how-do-i-access-my-app-dashboard-if-i-am-a-heroku-add-on-user-">Ably dashboard</a>: <code>heroku addons:open ably --app <span class="appid">[heroku app name you assigned for this demo]</span></code></li>
+      <li>Set up a queue (in the Queues tab) with the name <code>neutrino</code> in the <code>US East (Virgina)</code> area.</li>
+      <li>Set up a queue rule (button to add rules is further down the page within the Queues tab) with the following:
+
+      <ul>
+        <li>Queue - choose the <code>neutrino</code> queue you just set up</li>
+        <li>Source - choose "Message"</li>
+        <li>Channel Filter - enter <code>"^neutrino:raw"</code> to ensure that all questions published to the <code>neutrino:raw</code> channel are published into the <code>neutrino</code> queue</li>
+      </ul>
+      </li>
+    </ul>
+
+    <p>All done!</p>
+
+    <p>
+      <b><a href="/">View the  Reactor Queue and Neutrino Profanity Filter Demo &raquo;</a></b>
+    </p>
+  </body>
+
+  <script type="text/javascript">
+    var domain = window.location.host.split(':')[0];
+    if (domain.match(/\.herokuapp\.com$/)) {
+      $('.appid').text(domain.replace(/\.herokuapp\.com$/, ''));
+    }
+  </script>
+</html>
