@@ -96,4 +96,9 @@ exports.start = function(apiKey, neutrinoUserId, neutrinoApiKey, filteredChannel
       });
     });
   });
+
+  process.on('uncaughtException', function (error) {
+    console.error('worker:', 'STOMP client failure', error.message);
+  });
 };
+
