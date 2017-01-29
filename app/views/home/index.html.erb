@@ -1,0 +1,17 @@
+<h1>Chuck Norris Jokes</h1>
+
+<div class="col">
+  <h2>Search for joke</h2>
+  <input type="text" id="text" placeholder="Enter text to match a joke on or leave empty for a random joke"></input>
+  <button id="action-btn">Make me laugh Chuck!</button><span id="status"></span>
+  <p>
+    Pressing this button will publish a message to an Ably channel, which will in turn using an <a href="https://www.ably.io/reactor">Ably Reactor Event WebHook</a> rule, be delivered to this app over HTTP.
+    One this app receives the WebHook request, using the <a href="http://www.icndb.com/api/">Chuck Norris Database API</a>, a joke will be published to a channel over REST,
+    and the browser client will receive the message over its realtime connection.
+    This is all done quickly, possibly even more quickly than Chuck himself. Don't tell him though.
+  </p>
+</div>
+<div class="col">
+  <h2>Chuck Norris Jokes</h2>
+  <div id="output"></div>
+</div>
