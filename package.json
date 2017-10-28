@@ -2,6 +2,7 @@
   "name": "reactjs-realtime-commenting",
   "version": "0.1.0",
   "private": true,
+  "author": "Chimezie Enyinnaya <meziemichael@gmail.com>",
   "dependencies": {
     "ably": "^1.0.8",
     "react": "^16.0.0",
