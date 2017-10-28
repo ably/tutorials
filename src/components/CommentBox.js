@@ -2,6 +2,29 @@ import React, { Component } from 'react';
 import Ably from '../ably';
 
 class CommentBox extends Component {
+  addComment(e) {
+    // Prevent the default behaviour of form submit
+    e.preventDefault();
+
+    // Get the value of the comment box
+    // and make sure it not some empty strings
+    const comment = e.target.elements.comment.value.trim();
+    const name = e.target.elements.name.value.trim();
+
+    // Make sure name and comment boxes are filled
+    if (name && comment) {
+      const commentObject = { name, comment };
+
+      // Publish comment
+      const channel = Ably.channels.get('comments');
+      channel.publish('add_comment', commentObject);
+
+      // Clear input fields
+      e.target.elements.comment.value = '';
+      e.target.elements.name.value = '';
+    }
+  }
+
   render() {
     return (
       <div>
