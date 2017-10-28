@@ -12,6 +12,21 @@ class App extends Component {
     }
   }
 
+  componentDidMount() {
+    // Subscribe to comments
+    const channel = Ably.channels.get('comments');
+    channel.subscribe('add_comment', (comment) => {
+      this.setState((prevState) => {
+        return {
+          comments: prevState.comments.concat({
+            name: comment.data.name,
+            comment: comment.data.comment
+          })
+        };
+      });
+    });
+  }
+
   render() {
     return (
       <section className="section">
