@@ -12,6 +12,21 @@ class App extends Component {
     }
   }
 
+  componentDidMount() {
+    /*global Ably*/
+    const channel = Ably.channels.get('comments');
+
+    channel.attach();
+    channel.once('attached', () => {
+      channel.history((err, page) => {
+        // create a new array with comments only in an reverseved order (i.e old to new)
+        const comments = Array.from(page.items.reverse(), item => item.data)
+
+        this.setState({ comments });
+      });
+    });
+  }
+
   handleAddComment(comment) {
     this.setState(prevState => {
       return {
