@@ -1,4 +1,12 @@
-const ably = Ably.Realtime('YOUR_API_KEY_GOES_HERE');
+// Update the following line with your API key:
+const API_KEY = 'YOUR_API_KEY_GOES_HERE';
+
+// -----------------------------------------------------------------------------
+// Delete the following lines of code when you've added your API key above:
+const error = 'Edit app.js to add your API key before running the app';
+alert(error);
+throw new Error(error);
+// -----------------------------------------------------------------------------
 
 const customerId = (function () {
   const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
