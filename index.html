@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Ably's Pizza</title>
+
+  <!-- The Ably client library is conveniently hosted on a CDN, ready to use: -->
+  <script src="https://cdn.ably.io/lib/ably.min-1.js"></script>
+
+  <!-- The CSS file can be found in the repository, linked above -->
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <div id="chat-interface">
+    <h1>Ably's Realtime Pizza</h1>
+
+    <!-- We'll append chat messages as children of the following container: -->
+    <div id="chat-log">
+      <!-- The first chat message is always the same, so it's safe to hard-code: -->
+      <div class="bot message">
+        Welcome to Ably's Realtime Pizza - the most responsive pizza this side
+        of the sun! How may we assist you today?
+      </div>
+    </div>
+
+    <!-- Here is where the user will be able to type in their response messages: -->
+    <div id="user-input">
+      <input id="input-field" type="text" placeholder="Type your message here...">
+    </div>
+  </div>
+
+  <!-- We include our application script at the end, to ensure the HTML above is
+       already loaded and ready to interface with before the script runs: -->
+  <script src="app.js"></script>
+</body>
+</html>

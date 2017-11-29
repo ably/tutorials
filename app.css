@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css?family=Fredericka+the+Great|Patrick+Hand+SC');
+
+body {
+  min-height: 100vh;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 40px 0;
+  font-family: 'Patrick Hand SC', cursive;
+  font-size: 18px;
+  font-weight: 400;
+  color: #f7f7f7;
+  /* Background pattern from Subtle Patterns */
+  background: #054a46 url(background.png);
+}
+
+h1 {
+  font-family: 'Fredericka the Great', cursive;
+  font-size: 56px;
+  font-weight: 400;
+  line-height: 42px;
+  text-indent: 20px;
+  margin: 0 0 30px;
+  color: #ffd11f;
+}
+
+#chat-interface {
+  width: 700px;
+  margin: 0 auto;
+  padding-top: 30px;
+  border-radius: 3px;
+  background-color: #0d1514;
+  box-shadow: 0 0 30px rgba(0,0,0,0.25);
+}
+
+#input-field {
+  width: 100%;
+  margin-top: 20px;
+  border: none;
+  padding: none;
+  outline: none;
+  box-sizing: border-box;
+  border-top: 2px solid #0a0e0d;
+  border-radius: 0 0 3px 3px;
+  background-color: transparent;
+  color: #ffd11f;
+  font-family: 'Patrick Hand SC', cursive;
+  font-size: 24px;
+  font-weight: 400;
+  padding: 15px 20px 18px;
+}
+
+#input-field:focus {
+  background-color: #131f1d;
+}
+
+.message {
+  margin: 10px 20px 0;
+  padding-bottom: 4px;
+  font-size: 24px;
+  line-height: 24px;
+}
+
+.message + .message {
+  margin: 0 20px;
+}
+
+.waiting.message + .message:not(.waiting),
+.bot.message + .message:not(.bot),
+.user.message + .message:not(.user) {
+  margin-top: 12px;
+}
+
+.user.message {
+  color: #52647b;
+}
+
+.waiting {
+  font-size: 18px;
+  color: #999;
+  animation-name: pulse;
+  animation-duration: 0.5s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes pulse {
+  from {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 1;
+  }
+}
