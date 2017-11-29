@@ -1,0 +1,10 @@
+{
+  "name": "SauceType",
+  "description": "Pizza Sauce Type",
+  "valueSelectionStrategy": "TOP_RESOLUTION",
+  "enumerationValues": [
+    { "value": "Pizza Sauce", "synonyms": ["Tomato Sauce", "Tomato", "Pizza", "Pizza Sauce", "Tomato Paste"] },
+    { "value": "Barbeque Sauce", "synonyms": ["BBQ", "BBQ Sauce", "Barbeque"] },
+    { "value": "Garlic Creme Fraiche", "synonyms": ["Creme Fraiche", "Cream Fresh", "Garlic Sauce", "Garlic", "White"] }
+  ]
+}

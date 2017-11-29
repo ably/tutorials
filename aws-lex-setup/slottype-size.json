@@ -1,0 +1,10 @@
+{
+  "name": "PizzaSize",
+  "description": "Pizza Size",
+  "valueSelectionStrategy": "TOP_RESOLUTION",
+  "enumerationValues": [
+    { "value": "Large", "synonyms": ["Big", "Largest", "Biggest", "Maximum", "Max"] },
+    { "value": "Medium", "synonyms": ["Regular", "Normal", "Standard"] },
+    { "value": "Small", "synonyms": ["Little", "Personal", "Minimum", "Min"] }
+  ]
+}

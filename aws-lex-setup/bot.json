@@ -1,0 +1,31 @@
+{
+  "name": "PizzaAssistant",
+  "description": "Ably tutorial - pizza assistant chat-bot",
+  "idleSessionTTLInSeconds": 600,
+  "processBehavior": "BUILD",
+  "locale": "en-US",
+  "childDirected": false,
+  "clarificationPrompt": {
+    "messages": [
+      {
+        "contentType": "PlainText",
+        "content": "I'm sorry, could you rephrase that?"
+      }
+    ],
+    "maxAttempts": 5
+  },
+  "abortStatement": {
+    "messages": [
+      {
+        "contentType": "PlainText",
+        "content": "I give up."
+      }
+    ]
+  },
+  "intents": [
+    {
+      "intentName": "StartPizzaOrder",
+      "intentVersion": "$LATEST"
+    }
+  ]
+}

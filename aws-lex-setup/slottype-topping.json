@@ -1,0 +1,21 @@
+{
+  "name": "ToppingType",
+  "description": "Pizza Topping Type",
+  "valueSelectionStrategy": "TOP_RESOLUTION",
+  "enumerationValues": [
+    { "value": "Mushrooms" },
+    { "value": "Oregano" },
+    { "value": "Olives" },
+    { "value": "Anchovies" },
+    { "value": "Bacon" },
+    { "value": "Mozzarella Cheese", "synonyms": ["Mozzarella", "Cheese"] },
+    { "value": "Ham" },
+    { "value": "Basil" },
+    { "value": "Chicken" },
+    { "value": "Pineapple" },
+    { "value": "Beef" },
+    { "value": "Peppers,synonyms=Capsicum" },
+    { "value": "Pepperoni" },
+    { "value": "Shrimp,synonyms=Prawns,Seafood" }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "CrustType",
+  "description": "Pizza Crust Type",
+  "valueSelectionStrategy": "TOP_RESOLUTION",
+  "enumerationValues": [
+    { "value": "Deep Pan", "synonyms": ["Deep", "Thick", "Deep", "Deep Crust", "Deep Dish", "Thick Crust"] },
+    { "value": "Pan", "synonyms": ["Regular", "Normal", "Standard"] },
+    { "value": "Thin & Crispy", "synonyms": ["Thin", "Crispy"] },
+    { "value": "Cheesy Crust", "synonyms": ["Cheesy", "Cheese", "Cheese Crust"] },
+    { "value": "Gluten Free", "synonyms": ["No Gluten", "Gluten-Free Crust"] }
+  ]
+}
