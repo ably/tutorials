@@ -165,6 +165,14 @@ export default class Chat extends Component<{}> {
         });
     }
   };
+
+  leaveChat = () => {
+    AsyncStorage.removeItem("user");
+    channel.presence.leave();
+    this.setState({ user: "" });
+    this.props.handler();
+  };
+
   render = () => {
     return <View style={styles.container} />;
   };
