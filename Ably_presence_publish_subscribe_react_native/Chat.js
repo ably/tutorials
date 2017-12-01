@@ -143,6 +143,28 @@ export default class Chat extends Component<{}> {
     }
     return chat;
   };
+
+  submitChat = () => {
+    if (this.state.txt != "") {
+      fetch("XXX_API_ROUTE/send_message", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          msg: this.state.txt,
+          name: this.state.user,
+          action: "chat"
+        })
+      })
+        .then(response => response.json())
+        .then(responseJson => {})
+        .catch(error => {
+          console.error(error);
+        });
+    }
+  };
   render = () => {
     return <View style={styles.container} />;
   };
