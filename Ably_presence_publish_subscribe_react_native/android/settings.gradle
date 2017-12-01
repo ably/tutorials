@@ -1,0 +1,3 @@
+rootProject.name = 'Ably_presence_publish_subscribe_react_native'
+
+include ':app'
