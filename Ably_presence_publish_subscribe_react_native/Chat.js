@@ -30,12 +30,57 @@ export default class Chat extends Component<{}> {
       .done();
   };
 
- 
+  subscribe = () => {
+    ably = new realtime({
+      key: "Ecaj0g.JZ8Xqg:eX0US8u7zENvxfvA",
+      clientId: this.state.user
+    });
+    channel = ably.channels.get("cog-tie");
+    channel.presence.subscribe("enter", member => {
+      var data = {
+        msg: "joined the chat",
+        user: member.clientId,
+        action: "joined"
+      };
+
+      var newmsg = this.state.msg;
+
+      newmsg.push(data);
+
+      channel.presence.get((err, members) => {
+        this.setState({ msg: newmsg, usersCount: members.length });
+      });
+    });
+
+    channel.presence.subscribe("leave", member => {
+      var data = {
+        msg: "left the chat",
+        user: member.clientId,
+        action: "left"
+      };
+
+      var newmsg = this.state.msg;
+
+      newmsg.push(data);
+
+      channel.presence.get((err, members) => {
+        this.setState({ msg: newmsg, usersCount: members.length });
+      });
+    });
+
+    channel.presence.enter();
+
+    channel.subscribe("message", msg => {
+      var newmsg = this.state.msg;
+
+      newmsg.push(msg.data);
+
+      this.setState({ msg: newmsg, txt: "" });
+    });
+  };
+
   render = () => {
-    return (
-      <View style={styles.container}>
-      </View>
-    );
+    return <View style={styles.container} />;
   };
 }
 
