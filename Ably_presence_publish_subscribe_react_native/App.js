@@ -1,57 +1,88 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
-import React, { Component } from 'react';
+* Sample React Native App
+* https://github.com/facebook/react-native
+* @flow
+*/
+import React, { Component } from "react";
+import Chat from "./Chat";
 import {
-  Platform,
   StyleSheet,
+  View,
   Text,
-  View
-} from 'react-native';
-
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+  TextInput,
+  Button,
+  AsyncStorage
+} from "react-native";
 
 export default class App extends Component<{}> {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
-      </View>
-    );
+  constructor(props) {
+    super(props);
+    this.state = { txt: "", user: null };
+    this.handler = this.handler.bind(this);
+  }
+
+  componentDidMount = () => {
+    AsyncStorage.getItem("user")
+      .then(value => {
+        this.setState({ user: value });
+      })
+      .done();
+  };
+  submitName = () => {
+    AsyncStorage.setItem("user", this.state.txt);
+    this.setState({ user: this.state.txt });
+  };
+
+  handler = () => {
+    this.setState({
+      user: null
+    });
+  };
+  getRender = () => {
+    if (this.state.user != null) {
+      return <Chat handler={this.handler} />;
+    } else {
+      return (
+        <View style={styles.container}>
+          <Text style={{ alignItems: "center" }}>
+            Please Give us a name to join the chat with
+          </Text>
+          <View
+            style={{
+              flexWrap: "wrap",
+              alignItems: "center",
+              flexDirection: "row"
+            }}
+          >
+            <TextInput
+              value={this.state.txt}
+              style={{ width: "80%" }}
+              placeholder="Enter Your message!"
+              onChangeText={txt => this.setState({ txt })}
+            />
+
+            <Button
+              style={{ width: "20%" }}
+              onPress={this.submitName}
+              title="Send"
+              color="#841584"
+            />
+          </View>
+        </View>
+      );
+    }
+  };
+
+  render = ()=> {
+    return this.getRender();
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F5FCFF"
+  }
 });
