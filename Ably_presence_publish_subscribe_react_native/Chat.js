@@ -5,7 +5,7 @@
  */
 
 import React, { Component } from "react";
-import { StyleSheet, View, Text, AsyncStorage } from "react-native";
+import { StyleSheet, Text, View, TextInput, Button, ScrollView, AsyncStorage } from "react-native";
 
 var realtime = require("ably").Realtime;
 var ably, channel;
@@ -35,7 +35,7 @@ export default class Chat extends Component<{}> {
       key: "Ecaj0g.JZ8Xqg:eX0US8u7zENvxfvA",
       clientId: this.state.user
     });
-    channel = ably.channels.get("cog-tie");
+    channel = ably.channels.get("ably-chat");
     channel.presence.subscribe("enter", member => {
       var data = {
         msg: "joined the chat",
@@ -174,7 +174,56 @@ export default class Chat extends Component<{}> {
   };
 
   render = () => {
-    return <View style={styles.container} />;
+    chatMessages = this.load_messages();
+    return (
+      <View style={styles.container}>
+        <View
+          style={{
+            alignItems: "center",
+            flexDirection: "row",
+            top: 0,
+            marginBottom: 5
+          }}
+          >
+          <Button
+            style={{ width: "40%" }}
+            onPress={this.leaveChat}
+            title="Leave Chat"
+            color="#841584"
+            />
+          <Text>{this.state.usersCount} member(s) active</Text>
+        </View>
+        <ScrollView>
+
+          {chatMessages}
+
+        </ScrollView>
+        <View
+          style={{
+            flexWrap: "wrap",
+            alignItems: "flex-start",
+            flexDirection: "row",
+            position: "absolute",
+            bottom: 0
+          }}
+          >
+          <TextInput
+            value={this.state.txt}
+            style={{ width: "80%" }}
+            placeholder="Enter Your message!"
+            disabled={this.state.user == ""}
+            onChangeText={txt => this.setState({ txt }) }
+            />
+
+          <Button
+            style={{ width: "20%" }}
+            onPress={this.submitChat}
+            title="Send"
+            color="#841584"
+            />
+        </View>
+      </View>
+    );
   };
 }
 
