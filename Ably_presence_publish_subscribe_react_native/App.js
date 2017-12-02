@@ -5,14 +5,7 @@
 */
 import React, { Component } from "react";
 import Chat from "./Chat";
-import {
-  StyleSheet,
-  View,
-  Text,
-  TextInput,
-  Button,
-  AsyncStorage
-} from "react-native";
+import { StyleSheet, View, Text, TextInput, Button, AsyncStorage } from "react-native";
 
 export default class App extends Component<{}> {
   constructor(props) {

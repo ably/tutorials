@@ -7,7 +7,7 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, TextInput, Button, ScrollView, AsyncStorage } from "react-native";
 
-var realtime = require("ably").Realtime;
+var Realtime = require("ably").Realtime;
 var ably, channel;
 
 export default class Chat extends Component<{}> {
@@ -31,8 +31,8 @@ export default class Chat extends Component<{}> {
   };
 
   subscribe = () => {
-    ably = new realtime({
-      key: "Ecaj0g.JZ8Xqg:eX0US8u7zENvxfvA",
+    ably = new Realtime({
+      key: "XXX_API_KEY",
       clientId: this.state.user
     });
     channel = ably.channels.get("ably-chat");

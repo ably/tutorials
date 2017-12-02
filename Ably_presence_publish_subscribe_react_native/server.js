@@ -1,6 +1,3 @@
-var ip = require("ip");
-console.log( ip.address() );
-
 //require express
 var express = require('express')
     //define app as in instance of express
@@ -13,8 +10,8 @@ app.use(bodyParser.json())
 
 //ably realtime
 const ably = require('ably').Realtime;
-const myably = new ably('Ecaj0g.JZ8Xqg:eX0US8u7zENvxfvA')
-const channel = myably.channels.get('cog-tie');
+const ablyRealtime = new ably('XXX_API_KEY')
+const channel = ablyRealtime.channels.get('ably-chat');
 
 
 
@@ -26,19 +23,19 @@ app.use((req, res, next)=> {
 });
 //handle sending of message via ably
 app.post('/send_message', (req, res)=> {
-    var message = {
+    var data = {
         user: req.body.name,
         msg: req.body.msg,
         action: req.body.action
     }
-    channel.publish('message', message, (err)=> {
+    channel.publish('data', data, (err)=> {
         if (err) {
             console.log('publish failed with error ' + err);
         } else {
-            console.log('publish succeeded ' + message.msg);
+            console.log('publish succeeded ' + data.msg);
         }
     })
-    res.send({ status: 'okay', message: message });
+    res.send({ status: 'okay', data: data });
 
 });
 
