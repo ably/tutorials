@@ -1,11 +1,6 @@
+// -----------------------------------------------------------------------------
 // Update the following line with your API key:
 const API_KEY = 'YOUR_API_KEY_GOES_HERE';
-
-// -----------------------------------------------------------------------------
-// Delete the following lines of code when you've added your API key above:
-const error = 'Edit app.js to add your API key before running the app';
-alert(error);
-throw new Error(error);
 // -----------------------------------------------------------------------------
 
 const customerId = (function () {
@@ -19,6 +14,13 @@ const customerId = (function () {
   return id.join('');
 })();
 
+if (API_KEY === 'YOUR_API_KEY_GOES_HERE') {
+  const error = 'Edit app.js to add your API key before running the app';
+  alert(error);
+  throw new Error(error);
+}
+
+const ably = Ably.Realtime(API_KEY);
 const outboundChannel = ably.channels.get('pizza:customer:' + customerId);
 const inboundChannel = ably.channels.get('pizza:bot:' + customerId);
 inboundChannel.subscribe(receiveMessage);
