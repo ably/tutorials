@@ -1,0 +1,10 @@
+{
+  "name": "ably-pizza-tutorial",
+  "version": "1.0.0",
+  "description": "Ably Reactor Function Tutorial (InvokePizzaAssistant)",
+  "dependencies": {
+    "ably": "^1.0.11",
+    "compromise": "^11.2.1",
+    "fuzzyset": "0.0.4"
+  }
+}
