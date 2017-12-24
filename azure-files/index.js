@@ -18,7 +18,7 @@ module.exports = function (context, req) {
     const channel = ably.channels.get('pizza:bot:' + customerId);
 
     // Publish the response, and handle any unexpected errors
-    channel.publish('bot', { message, context }, err => {
+    channel.publish('bot', { message, context: order }, err => {
       if (err) {
         console.log(err); // Use the Azure logging console to see this output
         context.res = {
