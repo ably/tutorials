@@ -25,15 +25,18 @@ const outboundChannel = ably.channels.get('pizza:customer:' + customerId);
 const inboundChannel = ably.channels.get('pizza:bot:' + customerId);
 inboundChannel.subscribe(receiveMessage);
 
+let context = null;
+
 function receiveMessage(message) {
   setWaiting(false); // The bot has replied, so remove the waiting message
+  context = message.context;
   appendMessageElement('bot', message.data);
 }
 
 function postMessage(message) {
   appendMessageElement('user', inputField.value.trim());
   setWaiting(true); // Add a temporary waiting message
-  outboundChannel.publish('user', { user: customerId, message });
+  outboundChannel.publish('user', { customerId, message, context });
 }
 
 const inputField = document.getElementById('input-field');
