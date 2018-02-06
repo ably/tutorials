@@ -1,0 +1,26 @@
+{
+  "name": "Ably_presence_publish_subscribe_react_native",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "ably": "^1.0.9",
+    "ably-react-native": "^1.0.0",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "react": "16.0.0",
+    "react-native": "0.50.4"
+  },
+  "devDependencies": {
+    "babel-jest": "21.2.0",
+    "babel-preset-react-native": "4.0.0",
+    "jest": "21.2.1",
+    "react-test-renderer": "16.0.0"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
