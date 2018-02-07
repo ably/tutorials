@@ -20,7 +20,7 @@ module.exports = function (context, req) {
     // Publish the response, and handle any unexpected errors
     channel.publish('bot', response, err => {
       if (err) {
-        console.log(err); // Use the Azure logging console to see this output
+        context.log(err); // Use the Azure logging console to see this output
         context.res = {
           status: 500,
           body: 'Error publishing response back to Ably'
