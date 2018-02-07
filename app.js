@@ -29,8 +29,8 @@ let context = null;
 
 function receiveMessage(message) {
   setWaiting(false); // The bot has replied, so remove the waiting message
-  context = message.context;
-  appendMessageElement('bot', message.data);
+  context = message.data.context;
+  appendMessageElement('bot', message.data.message);
 }
 
 function postMessage(message) {
