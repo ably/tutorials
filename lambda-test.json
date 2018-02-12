@@ -1,0 +1,17 @@
+{
+  "source": "channel.message",
+  "appId": "-6daoA",
+  "channel": "pizza:customer:stKsXBKsYlPvCqVn",
+  "site": "ap-southeast-2-A",
+  "ruleId": "Xau9vA",
+  "messages": [
+    {
+      "id": "fkFZMeSPmA:9:0",
+      "name": "user",
+      "connectionId": "fkFZMeSPmA",
+      "timestamp": 1511223865774,
+      "encoding": "json",
+      "data": "{\"user\":\"stKsXBKsYlPvCqVn\",\"message\":\"ferfwefwe\"}"
+    }
+  ]
+}

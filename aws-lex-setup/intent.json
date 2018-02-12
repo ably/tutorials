@@ -1,0 +1,153 @@
+{
+  "name": "StartPizzaOrder",
+  "description": "New Pizza Order",
+  "sampleUtterances": [
+    "I'd like to order a {size} {crust} {topping_a} pizza",
+    "I want to order a {size} {crust} pizza",
+    "Can I have a {size} {topping_a} pizza please",
+    "I'll have a {topping_a} pizza with {topping_b} {topping_c} and {topping_d}",
+    "Order a {size} pizza",
+    "Order {crust} {topping_a} pizza",
+    "{crust} pizza",
+    "Give me one {topping_a} pizza",
+    "I'll have a {size} {topping_a} pizza",
+    "I want a pizza",
+    "Can I place an order please",
+    "Order a pizza",
+    "I'll have a {size} {topping_a} pizza with {sauce} sauce",
+    "One {size} pizza with {topping_a}",
+    "I'd like a {size} pizza with {topping_a} {topping_b} and {topping_c}",
+    "Order {topping_a} pizza and also add {topping_b} {topping_c}",
+    "Can I have a {size} {crust} pizza with {sauce} sauce {topping_a} {topping_b} {topping_c} and {topping_d}",
+    "Order pizza with {crust} crust and also add {topping_a} {topping_b} {topping_c}",
+    "Can you do me a {size} pizza with {topping_a} {sauce} sauce",
+    "The toppings should be {topping_a} {topping_b} {topping_c} and {topping_d}"
+  ],
+  "confirmationPrompt": {
+    "messages": [
+      {
+        "contentType": "PlainText",
+        "content": "Ok, shall I place the order?"
+      }
+    ],
+    "maxAttempts": 5
+  },
+  "conclusionStatement": {
+    "messages": [
+      {
+        "contentType": "SSML",
+        "content": "Done. Your pizza will arrive at some point in the future"
+      }
+    ]
+  },
+  "fulfillmentActivity": {
+    "type": "ReturnIntent"
+  },
+  "slots": [
+    {
+      "name": "size",
+      "description": "Pizza Size",
+      "slotConstraint": "Required",
+      "slotType": "PizzaSize",
+      "slotTypeVersion": "$LATEST",
+      "valueElicitationPrompt": {
+        "messages": [
+          {
+            "contentType": "PlainText",
+            "content": "Would you like your pizza to be small, medium or large?"
+          }
+        ],
+        "maxAttempts": 5
+      },
+      "sampleUtterances": [
+        "{size} pizza please",
+        "ummm {size}",
+        "better make it {size}",
+        "I want {size}"
+      ]
+    },
+    {
+      "name": "sauce",
+      "description": "Pizza Sauce",
+      "slotConstraint": "Required",
+      "slotType": "SauceType",
+      "slotTypeVersion": "$LATEST",
+      "valueElicitationPrompt": {
+        "messages": [
+          {
+            "contentType": "PlainText",
+            "content": "What kind of sauce would you like? The most common is pizza sauce or BBQ sauce, and we also offer garlic creme fraiche, which is a popular choice with chicken and seafood pizza toppings."
+          }
+        ],
+        "maxAttempts": 5
+      },
+      "sampleUtterances": [
+        "{sauce} sauce",
+        "I want {sauce}",
+        "Make it {sauce} please"
+      ]
+    },
+    {
+      "name": "crust",
+      "description": "Pizza Crust",
+      "slotConstraint": "Required",
+      "slotType": "CrustType",
+      "slotTypeVersion": "$LATEST",
+      "valueElicitationPrompt": {
+        "messages": [
+          {
+            "contentType": "PlainText",
+            "content": "What pizza crust would you like? Available options are pan (regular), deep pan, thin and crispy, cheese crust, and gluten-free."
+          }
+        ],
+        "maxAttempts": 5
+      },
+      "sampleUtterances": [
+        "{crust} crust",
+        "I want {crust}",
+        "Just {crust} please"
+      ]
+    },
+    {
+      "name": "topping_a",
+      "description": "Topping #1",
+      "slotConstraint": "Required",
+      "slotType": "ToppingType",
+      "slotTypeVersion": "$LATEST",
+      "valueElicitationPrompt": {
+        "messages": [
+          {
+            "contentType": "PlainText",
+            "content": "What do you want on your pizza?"
+          }
+        ],
+        "maxAttempts": 5
+      },
+      "sampleUtterances": [
+        "I'll have {topping_a} please",
+        "Make it {topping_a}"
+      ]
+    },
+    {
+      "name": "topping_b",
+      "description": "Topping #2",
+      "slotConstraint": "Optional",
+      "slotType": "ToppingType",
+      "slotTypeVersion": "$LATEST"
+    },
+    {
+      "name": "topping_c",
+      "description": "Topping #3",
+      "slotConstraint": "Optional",
+      "slotType": "ToppingType",
+      "slotTypeVersion": "$LATEST"
+    },
+    {
+      "name": "topping_d",
+      "description": "Topping #3",
+      "slotConstraint": "Optional",
+      "slotType": "ToppingType",
+      "slotTypeVersion": "$LATEST"
+    }
+  ]
+}

@@ -2,10 +2,8 @@
 
 ---
 
-# Tutorials repository
+# Tutorial Repository: Reactor Event (AWS Lambda)
 
-This repository contains the working code for many of the [Ably tutorials](https://www.ably.io/tutorials).
-
-See [https://www.ably.io/tutorials](https://www.ably.io/tutorials) for a complete list of Ably tutorials. The source code for each tutorial exists as a branch in this repo, see [the complete list of tutorial branches in this repository](https://github.com/ably/tutorials/branches/all).
+This branch contains the working code for the [Reactor Event (AWS Lambda)](https://www.ably.io/tutorials/reactor-event-aws) tutorial. See the tutorial for full details about the project and its code.
 
 To find out more Ably and our realtime data delivery platform, visit [https://www.ably.io](https://www.ably.io)
