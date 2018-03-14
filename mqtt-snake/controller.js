@@ -5,9 +5,19 @@ keypress(process.stdin);
 process.stdin.setRawMode(true);
 process.stdin.on('keypress', function (ch, key) {
   if (key) {
-    console.log('Key clicked: ' +  key.name);
     if (key.ctrl && (key.name == 'c')) {
       process.stdin.pause();
+      client.end();
+    } else if(key.name == 'left') {
+	    publishMessage('input', 'left');
+    } else if(key.name == 'right') {
+	    publishMessage('input', 'right');
+    } else if(key.name == 'up') {
+	    publishMessage('input', 'up');
+    } else if(key.name == 'down') {
+	    publishMessage('input', 'down');
+    } else if(key.name == 'return') {
+	    publishMessage('input', 'return');
     }
   }
 });
@@ -17,11 +27,21 @@ var options = { keepAlive: 15,
   password: 'SECOND_HALF_OF_API_KEY',
   port: 8883
 };
+
 var client = mqtt.connect('mqtts:mqtt.ably.io', options);
 client.on('connect', function () {
   console.log('connected!');
 });
+
 client.on('error', function(err){
   console.log(err);
   client.end();
 });
+
+function publishMessage(channel, message) {
+  client.publish(channel, message, { qos: 1 }, function(err) {
+    if(err) {
+      console.log(err);
+    }
+  }); 
+}
