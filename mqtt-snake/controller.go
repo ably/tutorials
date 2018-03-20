@@ -17,4 +17,28 @@ func main() {
   } else {
     fmt.Println("Connected!")
   }
+
+  err := termbox.Init()
+  if err != nil {
+    panic(err)
+  }
+  defer termbox.Close()
+  fmt.Println("Press the ESC button to quit")
+  for {
+    switch termbox.PollEvent().Key {
+      case termbox.KeyEsc:
+        client.Disconnect(0)
+        return
+      case termbox.KeySpace:
+        fmt.Println("Space")
+      case termbox.KeyArrowUp:
+        fmt.Println("Up")
+      case termbox.KeyArrowDown:
+        fmt.Println("Down")
+      case termbox.KeyArrowLeft:
+        fmt.Println("Left")
+      case termbox.KeyArrowRight:
+        fmt.Println("Right")
+    }
+  }
 }
