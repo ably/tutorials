@@ -14,3 +14,16 @@ client.on('error', function(err){
   console.log(err);
   client.end();
 });
+
+keypress(process.stdin);
+
+process.stdin.setRawMode(true);
+
+process.stdin.on('keypress', function (ch, key) {
+  if (key) {
+    console.log('Key clicked: ' +  key.name);
+    if (key.name == 'escape') {
+      process.stdin.pause();
+    }
+  }
+});
