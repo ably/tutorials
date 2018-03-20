@@ -30,15 +30,15 @@ func main() {
         client.Disconnect(0)
         return
       case termbox.KeySpace:
-        fmt.Println("Space")
+        client.Publish("input", 0, false, "startstop")
       case termbox.KeyArrowUp:
-        fmt.Println("Up")
+        client.Publish("input", 0, false, "up")
       case termbox.KeyArrowDown:
-        fmt.Println("Down")
+        client.Publish("input", 0, false, "down")
       case termbox.KeyArrowLeft:
-        fmt.Println("Left")
+        client.Publish("input", 0, false, "left")
       case termbox.KeyArrowRight:
-        fmt.Println("Right")
-    }
+        client.Publish("input", 0, false, "right")
+    }  
   }
 }
