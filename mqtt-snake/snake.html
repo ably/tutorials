@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Snake with Ably</title>
+  <script src="http://cdn.ably.io/lib/ably.min-1.js"></script>
+</head>
+<body>
+  <h1 id="heading">Ably Realtime Snake</h1>
+  <script type="text/javascript">
+    var ably = new Ably.Realtime('REPLACE_WITH_YOUR_API_KEY');
+    var decoder = new TextDecoder();
+    var channel = ably.channels.get('input');
+    channel.subscribe(function(message) {
+      var command = decoder.decode(message.data);
+      if(command == 'left') {
+        console.log("Left!")
+      } else if(command == 'up') {
+        console.log("Up!")
+      } else if(command == 'right') {
+        console.log("Right!")
+      } else if(command == 'down') {
+        console.log("Down!")
+      } else if(command == 'startstop') {
+        console.log("Pause or Play!")
+      }
+    });
+  </script>
+</body>
+</html>
