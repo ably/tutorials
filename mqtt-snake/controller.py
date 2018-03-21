@@ -3,9 +3,11 @@ import curses
 
 def on_connect(client, userdata, flags, rc):
   print('Connected')
+  
 def on_disconnect(client, userdata, rc):
   print('Disconnected')
   client.loop_stop()
+
 client = mqtt.Client()
 client.username_pw_set('FIRST_HALF_OF_API_KEY', 'SECOND_HALF_OF_API_KEY')
 client.tls_set()
@@ -25,16 +27,15 @@ def main(win):
         client.disconnect()
         break
       elif key == 'KEY_LEFT':
-        win.addstr('Left clicked!')
-        win.addstr(str(counter))
+        client.publish('input', 'left', qos=0)
       elif key == 'KEY_RIGHT':
-        win.addstr('Right clicked!')
+        client.publish('input', 'right', qos=0)
       elif key == 'KEY_UP':
-        win.addstr('Up clicked!')
+        client.publish('input', 'up', qos=0)
       elif key == 'KEY_DOWN':
-        win.addstr('Down clicked!')
+        client.publish('input', 'down', qos=0)
       elif key == ' ':
-        win.addstr('Space clicked!')
+        client.publish('input', 'startstop', qos=0)
     except Exception as e:
       pass
 curses.wrapper(main)
