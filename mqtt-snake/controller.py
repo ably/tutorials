@@ -13,3 +13,28 @@ client.on_connect = on_connect
 client.on_disconnect = on_disconnect
 client.loop_start()
 client.connect('mqtt.ably.io', port=8883, keepalive=15)
+
+def main(win):
+  key=''
+  win.clear()
+  while 1:
+    try:
+      key = win.getkey()
+      win.clear()
+      if key == 'c':
+        client.disconnect()
+        break
+      elif key == 'KEY_LEFT':
+        win.addstr('Left clicked!')
+        win.addstr(str(counter))
+      elif key == 'KEY_RIGHT':
+        win.addstr('Right clicked!')
+      elif key == 'KEY_UP':
+        win.addstr('Up clicked!')
+      elif key == 'KEY_DOWN':
+        win.addstr('Down clicked!')
+      elif key == ' ':
+        win.addstr('Space clicked!')
+    except Exception as e:
+      pass
+curses.wrapper(main)
