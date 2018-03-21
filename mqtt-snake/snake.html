@@ -1,30 +1,109 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Snake with Ably</title>
-  <script src="http://cdn.ably.io/lib/ably.min-1.js"></script>
-</head>
-<body>
-  <h1 id="heading">Ably Realtime Snake</h1>
-  <script type="text/javascript">
-    var ably = new Ably.Realtime('REPLACE_WITH_YOUR_API_KEY');
-    var decoder = new TextDecoder();
-    var channel = ably.channels.get('input');
-    channel.subscribe(function(message) {
-      var command = decoder.decode(message.data);
-      if(command == 'left') {
-        console.log("Left!")
-      } else if(command == 'up') {
-        console.log("Up!")
-      } else if(command == 'right') {
-        console.log("Right!")
-      } else if(command == 'down') {
-        console.log("Down!")
-      } else if(command == 'startstop') {
-        console.log("Pause or Play!")
+ <!DOCTYPE HTML>
+  <html>
+  <head>
+    <meta charset='UTF-8'>
+    <title>Snake with Ably</title>
+    <style>
+    #snake {
+        font-family: 'Courier New', monospace;
+        color: #FFA500;
+        background: #323330;
+        display: inline-block;
+        white-space: pre;
+        line-height: 9px;
+        font-size: 15px;
+    }
+    .center {
+      text-align: center;
+    }
+    #heading {
+      color: #FFA500;
+      text-align: center;
+    }
+    .apple {
+      color: #FF0000;
+    }
+    </style>
+    <script src='http://cdn.ably.io/lib/ably.min-1.js'></script>
+  </head>
+  <body>
+    <h1 id='heading'>Ably Realtime Snake</h1>
+    <div class='center'>
+      <div id='snake'></div>
+    </div>
+
+    <script type='text/javascript'>
+    var snake = function(snakeBody, nextSpot, applePos, sizeOfLevel) {
+      var e = undefined;
+      snakeBody.unshift(nextSpot);
+      applePos^snakeBody[0] && snakeBody.pop();
+      for(nextSpot = sizeOfLevel*sizeOfLevel; nextSpot--;) {
+        if(nextSpot == applePos) {
+          e = [e] + '<span class="apple">■</span>' + ["\n"[nextSpot % sizeOfLevel]];
+        } else if (snakeBody.indexOf(nextSpot) != -1) {
+          e = [e] + '■' + ["\n"[nextSpot % sizeOfLevel]];
+        } else {
+          e = [e] + ' '+ ["\n"[nextSpot % sizeOfLevel]];
+        }
       }
-    });
-  </script>
-</body>
-</html>
+      return~snakeBody.indexOf(snakeBody[0], 1) || e
+    };
+      
+    (function(){
+      var size = 30;
+      var oldStep, step = -1;
+      var paused = false;
+      var ably = new Ably.Realtime('REPLACE_WITH_YOUR_API_KEY');
+      var decoder = new TextDecoder();
+      var channel = ably.channels.get('input');
+      channel.subscribe(function(message) {
+        var nextStep;
+        var command = decoder.decode(message.data);
+        if(command == 'left') {
+          nextStep = 1;
+        } else if(command == 'up') {
+          nextStep = size;
+        } else if(command == 'right') {
+          nextStep = -1;
+        } else if(command == 'down') {
+          nextStep = -size;
+        } else if(command == 'startstop') {
+          paused = !paused;
+          oldStep = step;
+          nextStep = step;
+
+        }
+        step = (nextStep == -oldStep) ? oldStep : nextStep;
+      });
+
+      var center, 
+        apple = center = size*(size*.5+.5); /* Init apple to middle of level */
+      var f,
+        snakie = (f = function(c,i) {
+          return i?f(c, --i).concat(c):[];
+        })(center,5);  /* Fancy fn to create snakie = [center,center,..] with length = 5 */
+      (function() {
+        if(!paused) {
+          oldStep = step;
+          var oldlength = snakie.length, 
+              next = (snakie[0] + step + size*size) % (size*size),
+              game = snake(snakie, next, apple, size);
+          if (typeof game === 'number') {  /* Snake hit itself: Print Game Over centered */
+            document.getElementById('snake').innerHTML += (f=function(i){return i?f(--i)+' ':''})(size*.5-5) + 'Game Over';
+          } else {
+            document.getElementById('snake').innerHTML = game; /* Print the level */
+            setTimeout(arguments.callee, 100); /* loop the game */
+          }
+          if (snakie.length !== oldlength) {
+            while (~snakie.indexOf(apple)) {
+              apple = Math.floor(Math.random()*size*size); /* reposition apple, if it was consumed */
+            }
+          }
+        } else {
+          setTimeout(arguments.callee, 100); /* loop the game */
+        }
+      })();   
+    })();
+    </script>
+  </body>
+  </html>
