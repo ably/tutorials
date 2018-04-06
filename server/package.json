@@ -1,0 +1,16 @@
+{
+  "name": "tictactoe-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Nathan Ridley <axefrog@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "ably": "^1.0.13",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.3",
+    "nanoid": "^1.0.2"
+  }
+}
