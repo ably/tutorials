@@ -1,10 +1,9 @@
 const path = require('path');
 const express = require('express');
-const cookieParser = require('cookie-parser')
-const nanoid = require('nanoid');
-const generate = require('nanoid/generate');
+const bodyParser = require('body-parser')
 const Ably = require('ably');
-const state = require('./state');
+
+const restClient = new Ably.Rest({ key: '-6daoA.grftgw:KfY3K2mjIl9TxLW8' });
 
 // See https://expressjs.com/ for help on using Express
 const app = express();
@@ -13,49 +12,20 @@ const app = express();
 app.use(express.static('public'));
 
 // The user's unique client id is stored in a cookie
-app.use(cookieParser());
-
-// Read or generate a client id for the user, and check which game is being accessed (if any)
-app.use((req, res, next) => {
-  const cookieKey = 'tictactoe-clientId';
-  let clientId = req.cookies[cookieKey];
-
-  // Generate a new id for the player if this is the first time they've visited the site
-  if (!clientId) clientId = nanoid();
-
-  // Always write the clientId cookie to keep the expiry date fresh
-  const expires = new Date();
-  expires.setFullYear(expires.getFullYear() + 1);
-  res.cookie(cookieKey, clientId, { expires });
-
-  // Make values available to routes and other middleware
-  req.clientId = clientId;
-  req.gameId = req.query.gameId;
-  next();
-});
+app.use(bodyParser());
 
 // Called by the Ably realtime client from the browser side
-app.get('/api/auth', (req, res) => {
-  state.auth(req.clientId, req.gameId, function(err, state) {
-    if(err) {
-      res.status(500);
-      res.send(err);
-    }
-    else {
-      res.send(state);
-    }
-  });
-});
+app.post('/auth', (req, res) => {
+  const clientId = req.body.name;
 
-// Called when the user clicks the red "Create Game" button
-app.get('/api/new-game', (req, res) => {
-  state.createGame(req.clientId, function(err, state) {
+  restClient.auth.createTokenRequest({ clientId, }, (err, tokenRequest) => {
+    console.log(`Authorization completed for client "${clientId}"`);
     if(err) {
       res.status(500);
       res.send(err);
     }
     else {
-      res.send(state);
+      res.send(tokenRequest);
     }
   });
 });
@@ -65,7 +35,8 @@ app.get('/:gameId', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
 });
 
-const port = 3000;
+// Use the hosting platform's preferred port, if available
+const port = process.env.PORT || 3000;
 app.listen(port);
 
 console.log(`TicTacToe server is now listening on port ${port}`);

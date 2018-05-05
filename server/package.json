@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "ably": "^1.0.13",
-    "cookie-parser": "^1.4.3",
+    "body-parser": "^1.18.2",
     "express": "^4.16.3",
     "nanoid": "^1.0.2"
   }

@@ -4,7 +4,7 @@
       <game-board-cell
         :position="position"
         :state="state"
-        :final="final && final.includes(position) && (isWinner ? 'win' : 'loss')"
+        :final="winningState && winningState.includes(position) && (isWinner ? 'win' : 'loss')"
         :key="position"
         @select-cell="onClickCell" />
     </template>
@@ -16,7 +16,7 @@ import GameBoardCell from './game-board-cell';
 
 export default {
   name: 'game-board',
-  props: ['state', 'board', 'final', 'active', 'isWinner'],
+  props: ['board', 'winningState', 'active', 'isWinner'],
 
   components: {
     GameBoardCell,
@@ -25,8 +25,7 @@ export default {
   methods: {
     onClickCell(position) {
       if(this.active) {
-        this.state.selectBoardPosition(position)
-          .catch(console.error);
+        this.$emit('select-position', position);
       }
     }
   }
