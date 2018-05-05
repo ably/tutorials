@@ -1,18 +1,40 @@
 <template>
   <div class="home">
-    <create-game :state="state" :disabled="status !== 'ready'" />
+    <set-name :name="name" @set-name="onSetName" @accept-name="onAcceptName" />
+    <large-button @click="onAcceptName" text="Enter Lobby" :is-disabled="!name" />
   </div>
 </template>
 
 <script>
-import CreateGame from './create-game';
+import LargeButton from './large-button';
+import SetName from './set-name';
+import generate from 'nanoid/generate';
+import { storeUserName, retrieveUserName } from '../state';
 
 export default {
   name: 'home',
-  props: ['status', 'state'],
+
+  data() {
+    return {
+      name: retrieveUserName()
+    }
+  },
 
   components: {
-    CreateGame,
+    SetName,
+    LargeButton,
   },
+
+  methods: {
+    onSetName(name) {
+      this.name = name;
+      this.preventCreate = name.length === 0;
+    },
+
+    onAcceptName() {
+      storeUserName(this.name);
+      this.$router.push(`/lobby`);
+    }
+  }
 };
 </script>
