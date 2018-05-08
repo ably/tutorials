@@ -1,0 +1,39 @@
+<html manifest="manifest.appcache">
+
+<head>
+    <script src="https://cdn.ably.io/lib/ably.min-1.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <script type="text/javascript">
+        /* Set up a Realtime client that authenticates with the local web server auth endpoint */
+        console.log('On login page now')
+        function login(e) {
+            e.preventDefault();
+            console.log('Fetching JWT token from auth server')
+            var realtime = new Ably.Realtime({ authUrl: '/auth' });
+            realtime.connection.once('connected', function () {
+                console.log('Client connected to Ably using JWT')
+                alert("Client successfully connected Ably using JWT auth");
+            })
+        }
+    </script>
+</head>
+
+<body>
+    <section class="container">
+        <div class="login">
+            <h1>Ably JWT auth example</h1>
+
+            <form>
+                <input type="text" placeholder="Enter Username" name="username">
+                <br/>
+                <input type="password" placeholder="Password" name="password">
+                <br/>
+                <p class="submit">
+                    <button type="submit" onclick="login(event)">Login</button>
+                </p>
+            </form>
+        </div>
+    </section>
+</body>
+
+</html>
