@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser')
 const Ably = require('ably');
 
-const restClient = new Ably.Rest({ key: '-6daoA.grftgw:KfY3K2mjIl9TxLW8' });
+const restClient = new Ably.Rest({ key: 'YOUR_API_KEY_HERE' });
 
 // See https://expressjs.com/ for help on using Express
 const app = express();
