@@ -10,7 +10,7 @@ This tutorial is built using:
 
 ## On Glitch
 
-* Paste all these files on a [Glitch](https://glitch.com) project.
+* Paste all these files in a [Glitch](https://glitch.com) project.
 * Replace the placeholder text in server.js with your Ably API key.
 * If you don't already have an account, create a free one, [here](ably.io).
 * Hit 'See Live' and open up this URL in two different browser windows.
