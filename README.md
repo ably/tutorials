@@ -4,7 +4,7 @@ This tutorial is built using:
 
 * [A-Frame](http://aframe.io/), a web framework for building virtual reality experiences. Make WebVR with HTML and Entity-Component. Works on Vive, Rift, desktop, mobile platforms.
 
-* Ably Realtime, a realtime data delivery platform providing developers everything they need to create, deliver and manage complex projects.
+* [Ably Realtime](https://ably.io), a realtime data delivery platform providing developers everything they need to create, deliver and manage complex projects.
 
 # Steps to get it working
 
