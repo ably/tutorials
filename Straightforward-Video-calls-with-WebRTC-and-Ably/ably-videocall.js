@@ -132,3 +132,19 @@ function recieveStream(client_id, stream) {
     video.play()
     renderMembers()
 }
+
+function handleEndCall(client_id = null) {
+    if (client_id && client_id != currentCall) {
+        return
+    }
+    client_id = currentCall;
+    alert('call ended')
+    currentCall = undefined
+    connections[client_id].destroy()
+    delete connections[client_id]
+    for (var track of localStream.getTracks()) {
+        track.stop()
+    }
+    localStream = undefined
+    document.getElementById('call').style.display = 'none'
+}
