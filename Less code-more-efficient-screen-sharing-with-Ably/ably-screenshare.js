@@ -78,3 +78,63 @@ AblyRealtime.subscribe(`call-details/${clientId}`, call => {
         alert(call.data.msg)
     }
 })
+
+function initiateCall(client_id) {
+    AdapterJS.webRTCReady(function(isUsingPlugin) {
+        // The WebRTC API is ready.
+        navigator.mediaDevices.getUserMedia(constraints)
+            .then(function(stream) {
+                /* use the stream */
+                localStream = stream
+                var video = document.getElementById('local')
+                attachMediaStream(video, stream);
+                video.play()
+                    // Create a new connection
+                currentCall = client_id
+                if (!connections[client_id]) {
+                    connections[client_id] = new Connection(client_id, AblyRealtime, true, stream)
+                }
+                document.getElementById('call').style.display = 'block'
+            })
+            .catch(function(err) {
+                /* handle the error */
+                alert('Could not get video stream from source')
+            })
+    });
+}
+AblyRealtime.subscribe(`rtc-signal/${clientId}`, msg => {
+    if (localStream === undefined) {
+        AdapterJS.webRTCReady(function(isUsingPlugin) {
+            navigator.mediaDevices.getUserMedia(constraints)
+                .then(function(stream) {
+                    /* use the stream */
+                    console.log(stream)
+                    localStream = stream
+                    var video = document.getElementById('local')
+                    attachMediaStream(video, stream);
+                    video.play()
+                    connect(msg.data, stream)
+                })
+                .catch(function(err) {
+                    alert('error occured while trying to get stream')
+                })
+        })
+    } else {
+        connect(msg.data, localStream)
+    }
+})
+
+function connect(data, stream) {
+    if (!connections[data.user]) {
+        connections[data.user] = new Connection(data.user, AblyRealtime, false, stream)
+    }
+    connections[data.user].handleSignal(data.signal)
+    document.getElementById('call').style.display = 'block'
+}
+
+function recieveStream(client_id, stream) {
+    var video = document.getElementById('remote')
+    attachMediaStream(video, stream);
+    video.play()
+    renderMembers()
+}
