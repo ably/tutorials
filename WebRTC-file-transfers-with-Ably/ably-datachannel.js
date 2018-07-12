@@ -81,3 +81,33 @@ function sendMessage() {
         render()
     }
 }
+
+function onReadAsDataURL(event, text, file) {
+    var chunkLength = 1024;
+    var data = {}; // data object to transmit over data channel
+    data.name = file.name
+    data.size = file.size
+    if (event) {
+        text = event.target.result; // on first invocationgettrue;we 
+        data.stringSize = text.length
+        messageList[currentChat][file.name] = {
+            completed: true,
+            sender: 'me',
+            downloadLink: text,
+            chunks: []
+        }
+        render()
+    }
+    if (text.length > chunkLength) {
+        data.message = text.slice(0, chunkLength); // getting chunk using predefined chunk length
+    } else {
+        data.message = text;
+        data.last = true;
+    }
+    data.sender = clientId
+    connections[currentChat].send(JSON.stringify(data));
+    var remainingDataURL = text.slice(data.message.length);
+    if (remainingDataURL.length) {
+        onReadAsDataURL(null, remainingDataURL, file); // continue transmitting
+    }
+}
