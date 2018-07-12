@@ -45,3 +45,66 @@ function renderMembers() {
     }
     list.innerHTML = html
 }
+
+function chat(client_id) {
+    if (client_id === clientId) return
+        // Create a new connection
+    currentChat = client_id
+    if (!connections[client_id]) {
+        connections[client_id] = new Connection(client_id, AblyRealtime, true)
+    }
+    document.getElementById('chat').style.display = 'block'
+    render()
+}
+AblyRealtime.subscribe(`ablywebrtc-signal/${clientId}`, msg => {
+    if (!connections[msg.data.user]) {
+        connections[msg.data.user] = new Connection(msg.data.user, AblyRealtime, false)
+    }
+    connections[msg.data.user].handleSignal(msg.data.signal)
+})
+
+function sendMessage() {
+    var message = document.getElementById('message')
+    connections[currentChat].send(JSON.stringify({ user: clientId, message: message.value }))
+    if (!messageList[currentChat]) {
+        messageList[currentChat] = []
+    }
+    messageList[currentChat].push({ user: 'Me', message: message.value })
+    message.value = ''
+    render()
+}
+
+function recieveMessage(client_id, data) {
+    if (!messageList[client_id]) {
+        messageList[client_id] = []
+    }
+    data = JSON.parse(data)
+    readStatus[client_id] = true
+    messageList[client_id].push({ user: client_id, message: data.message })
+    renderMembers()
+    render()
+}
+
+function render() {
+    if (!messageList[currentChat]) {
+        return
+    }
+    var list = document.getElementById('list')
+    var html = ''
+    if (messageList[currentChat].length === 0) {
+        html += '<li>No chat messages available</li>'
+        list.innerHTML = html
+        return
+    }
+    for (var index = 0; index < messageList[currentChat].length; index++) {
+        var element = messageList[currentChat][index]
+        readStatus[element.user] = false
+        if (!element.user) {
+            html += '<li><small>' + element.message + '</small></li>'
+        } else {
+            html += '<li>' + element.user + ': ' + element.message + '</li>'
+        }
+    }
+    list.innerHTML = html
+    renderMembers()
+}
