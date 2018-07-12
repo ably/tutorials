@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Ably WebRTC DataChannel Demo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+</head>
+
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    <script src="https://cdn.ably.io/lib/ably.min-1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simple-peer/9.1.2/simplepeer.min.js"></script>
+    <script src="ably-datachannel.js"></script>
+    <script src="connection-helper.js"></script>
+    <div class="container-fluid" style="margin-top: 5em;">
+        <div class="container" id="join">
+            <h4 id="online">Users online (0) </h4>
+            <ul id="memberList"></ul>
+        </div>
+        <div class="container" id="chat" style="display:none;">
+            <input type="file" id="file" class="form-control" placeholder="Connecting to the peers, please wait"></input>
+            <button class="demo-chat-send btn btn-success" id="chatButton" onClick="sendMessage()">Send</button>
+            <ul id='list'>
+            </ul>
+        </div>
+    </div>
+</body>
+<style>
+    small {
+        border-bottom: 2px solid black;
+    }
+    
+    li {
+        list-style: none;
+    }
+</style>
+
+</html>
