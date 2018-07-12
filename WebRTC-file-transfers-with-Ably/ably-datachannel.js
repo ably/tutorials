@@ -111,3 +111,48 @@ function onReadAsDataURL(event, text, file) {
         onReadAsDataURL(null, remainingDataURL, file); // continue transmitting
     }
 }
+
+function recieveMessage(client_id, data) {
+    if (!messageList[client_id]) {
+        messageList[client_id] = {}
+    }
+    data = JSON.parse(data)
+    if (!messageList[client_id][data.name]) {
+        messageList[client_id][data.name] = {
+            sender: data.sender,
+            completed: false,
+            downloadLink: '',
+            stringSize: data.stringSize,
+            chunks: []
+        }
+    }
+    messageList[client_id][data.name].chunks.push(data.message)
+    if (data.last) {
+        var file = messageList[client_id][data.name].chunks.join('')
+        messageList[client_id][data.name].downloadLink = file;
+        messageList[client_id][data.name].completed = true;
+    }
+    renderMembers()
+    render()
+}
+
+function render() {
+    if (!messageList[currentChat]) {
+        return
+    }
+    var list = document.getElementById('list')
+    var html = ''
+    if (Object.keys(messageList[currentChat]).length === 0) {
+        html += '<li>No files available here</li>'
+        list.innerHTML = html
+        return
+    }
+    Object.keys(messageList[currentChat]).forEach((key) => {
+        var element = messageList[currentChat][key]
+        var downloadPercent = (element.chunks.join('').length / element.stringSize) * 100
+        var downloadLink = element.completed ? '<a target =_blank download=' + key + ' href=' + element.downloadLink + ' > download now </a>' : 'recieving ' + downloadPercent + '%'
+        html += '<li><small> ' + element.sender + ' : ' + key + '</small> ' + downloadLink + ' </li>'
+    });
+    list.innerHTML = html
+    renderMembers()
+}
