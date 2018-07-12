@@ -6,6 +6,8 @@ var apiKey = 'XXX_ABLY_API_KEY'
 var clientId = 'client-' + Math.random().toString(36).substr(2, 16)
 var realtime = new Ably.Realtime({ key: apiKey, clientId: clientId })
 var AblyRealtime = realtime.channels.get('ChatChannel')
+var audio = new Audio('https://notificationsounds.com/soundfiles/a86c450b76fb8c371afead6410d55534/file-sounds-1108-slow-spring-board.mp3');
+
 AblyRealtime.presence.subscribe('enter', function(member) {
     AblyRealtime.presence.get((err, members) => {
         membersList = members
@@ -118,6 +120,7 @@ function recieveMessage(client_id, data) {
     }
     data = JSON.parse(data)
     if (!messageList[client_id][data.name]) {
+        audio.play()
         messageList[client_id][data.name] = {
             sender: data.sender,
             completed: false,
@@ -131,6 +134,7 @@ function recieveMessage(client_id, data) {
         var file = messageList[client_id][data.name].chunks.join('')
         messageList[client_id][data.name].downloadLink = file;
         messageList[client_id][data.name].completed = true;
+        audio.play()
     }
     renderMembers()
     render()
