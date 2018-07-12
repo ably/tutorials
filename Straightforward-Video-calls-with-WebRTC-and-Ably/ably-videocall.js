@@ -39,3 +39,42 @@ function renderMembers() {
     }
     list.innerHTML = html
 }
+
+function call(client_id) {
+    if (client_id === clientId) return
+    alert(`attempting to call ${client_id}`)
+    AblyRealtime.publish(`incoming-call/${client_id}`, {
+        user: clientId
+    })
+}
+AblyRealtime.subscribe(`incoming-call/${clientId}`, call => {
+    if (currentCall != undefined) {
+        // user is on another call
+        AblyRealtime.publish(`call-details/${call.data.user}`, {
+            user: clientId,
+            msg: 'User is on another call'
+        })
+        return
+    }
+    var isAccepted = confirm(`You have a call from ${call.data.user}, do you want to accept?`)
+    if (!isAccepted) {
+        // user rejected the call
+        AblyRealtime.publish(`call-details/${call.data.user}`, {
+            user: clientId,
+            msg: 'User declined the call'
+        })
+        return
+    }
+    currentCall = call.data.user
+    AblyRealtime.publish(`call-details/${call.data.user}`, {
+        user: clientId,
+        accepted: true
+    })
+})
+AblyRealtime.subscribe(`call-details/${clientId}`, call => {
+    if (call.data.accepted) {
+        initiateCall(call.data.user)
+    } else {
+        alert(call.data.msg)
+    }
+})
