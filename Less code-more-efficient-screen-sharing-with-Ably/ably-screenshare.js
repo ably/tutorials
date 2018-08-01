@@ -132,7 +132,7 @@ function connect(data, stream) {
     document.getElementById('call').style.display = 'block'
 }
 
-function recieveStream(client_id, stream) {
+function receiveStream(client_id, stream) {
     var video = document.getElementById('remote')
     attachMediaStream(video, stream);
     video.play()

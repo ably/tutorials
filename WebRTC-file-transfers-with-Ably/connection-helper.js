@@ -34,7 +34,7 @@ class Connection {
         delete connections[this._remoteClient];
     }
     _onData(data) {
-        recieveMessage(this._remoteClient, data)
+        receiveMessage(this._remoteClient, data)
     }
     _onError(error) {
         console.log(`an error occured ${error.toString()}`);

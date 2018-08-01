@@ -37,7 +37,7 @@ class Connection {
         handleEndCall(this._remoteClient)
     }
     _onStream(data) {
-        recieveStream(this._remoteClient, data)
+        receiveStream(this._remoteClient, data)
     }
     _onError(error) {
         console.log(`an error occured ${error.toString()}`)

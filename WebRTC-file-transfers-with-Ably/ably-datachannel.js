@@ -114,7 +114,7 @@ function onReadAsDataURL(event, text, file) {
     }
 }
 
-function recieveMessage(client_id, data) {
+function receiveMessage(client_id, data) {
     if (!messageList[client_id]) {
         messageList[client_id] = {}
     }
