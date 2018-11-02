@@ -1,0 +1,1 @@
+var ably = new Ably.Rest('<YOUR-API-KEY>');
