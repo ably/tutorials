@@ -1,0 +1,44 @@
+<html>
+
+<head>
+    <title>Channel Occupancy Events</title>
+    <script src="https://cdn.ably.io/lib/ably.min-1.js" crossorigin="anonymous"></script>
+</head>
+
+<body style="padding: 60px; font-family:Arial, Helvetica, sans-serif">
+    Ably Channel Lifecycle Events Demo
+    <br/>
+    <br/>
+    <div style="text-align: left; padding: 10px">
+        <p>For the live demo, we'll manually attach and detach from channels, through button clicks, so we can see the channel lifecycle events live in action.</p>
+        <p>Whilst it is not recommended to use Basic auth on the client-side, we will be using it for the simplicity of this tutorial. So, feel free to create a dummy app and use it's API key here</p>
+        <input style="padding: 5px" type="text" id="api-key" placeholder="Paste your Ably API key"></input>
+        <button style="padding: 5px; width: 150px" id="init-client" onclick="initClient()">Instantiate the client</button>
+    </div>
+    <div style="text-align: left; padding: 10px">
+        <input style="padding: 5px" id="create-ch-name" placeholder="Enter channel name">
+        <button style="padding: 5px; width: 150px" id="create-channel" onclick="createChannel()">Create channel instance</button>
+    </div>
+    <div style="text-align: left; padding: 10px">
+        <select id="channel-instances" style="width:140px;">
+            <option value="none">None</option>
+        </select>
+        <button style="padding: 5px; width: 150px" id="attach-channel" onclick="attachChannel()">Attach to the channel</button>
+    </div>
+    <div style="text-align: left; padding: 10px">
+        <select id="attached-channels" style="width:140px;">
+            <option value="none">None</option>
+        </select>
+        <button style="padding: 5px; width: 150px" id="detach-channel" onclick="detachChannel()">Detach from the channel</button>
+    </div>
+    <div>
+        Ably console:
+        <br>
+        <textarea id="result" rows="30" style="width: 100%; margin-top: 10px; font-family: courier, courier new; background-color: #333; color: orange;  overflow-y: scroll;"
+            disabled>
+        </textarea>
+    </div>
+    <script src="main.js"></script>
+</body>
+
+</html>
