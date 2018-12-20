@@ -1,43 +1,31 @@
-var URL = '/channels';
-        var resultArea = document.getElementById('result');
-        var channelCount = 0;
-        //request a list of channels on button click
-        function enumerateChannels() {
-            var userApiKey = document.getElementById('user-api-key').value;
-            var ably = new Ably.Rest(userApiKey)
-            ably.request('get', URL, { limit: 100, direction: 'forwards' }, null, null, (err, results) => {
-                if (err) {
-                    resultArea.value += 'An error occurred; err = ' + err.toString();
-                    return;
-                } else {
-                    if(results.items.length == 0){
-                        resultArea.value += "Your API key does not have any active channels\n";
-                        return;
-                    }
-                    resultArea.value += "Your API key has the following active channels:\n";
-                    for (var i = 0; i < results.items.length; i++) {
-                        var resultObj = JSON.parse(JSON.stringify(results.items[i]));
-                        channelCount++;
-                        resultArea.value += channelCount + ". " + resultObj.name + "\n";
-                    }
-                    displayNextPage(results)
-                    
-                }
-                
-            })
-        }
-    
-        function displayNextPage(results){
-            if(results.isLast()){
-                return;
-            } 
-            results.next((err, nextPage) => {
-                for (var i = 0; i < results.items.length; i++) {
-                    var resultObj = JSON.parse(JSON.stringify(results.items[i]));
-                    channelCount++;
-                    resultArea.value += channelCount + ". " + resultObj.name + "\n";
-                }
-                displayNextPage(nextPage)
-            })
-            
-        }
+var ably = new Ably.Rest('<YOUR-API-KEY>');
+var url = '/channels';
+var resultArea = document.getElementById('result');
+ 
+//request a list of channels on button click
+function enumerateChannels() {
+  ably.request('get', url, { limit: 100, by: 'id' }, null, null, handleResultPage);
+}
+ 
+var channelCount = 0;
+function handleResultPage(err, resultPage) {
+  if(err || !resultPage.success) {
+    resultArea.value += 'An error occurred; err = ' + (err || resultPage.errorMessage);
+    return;
+  }
+  if(channelCount === 0) {
+    if(resultPage.items.length == 0){
+      resultArea.value += "Your app does not have any active channels\n";
+      return;
+    }
+    resultArea.value += "Your app has the following active channels:\n";
+  }
+ 
+  resultPage.items.forEach(function(channel) {
+    resultArea.value += (++channelCount) + ". " + channel + "\n";
+  })
+ 
+  if(resultPage.hasNext()) {
+    resultPage.next(handleResultPage);
+  };
+}
