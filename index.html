@@ -8,11 +8,15 @@
 
 <body style="padding: 60px; font-family:Arial, Helvetica, sans-serif">
     Ably Channel Enumeration using REST API - Demo
+    <br/><br/>
+    Make sure that you've enabled the channel metadata permission on your API key.
     <br/>
     <div>
+        <input type="text" style="width: 30%" id="user-api-key" placeholder="Paste your Ably API key"></input>
+        <br/>
         <button id='enumerate' onclick="enumerateChannels()">Enumerate channels</button>
         <br>
-        <textarea id="result" rows="30" style="width: 30%; margin-top: 14px; font-family: courier, courier new; background-color: #333; color: orange;  overflow-y: scroll;"
+        <textarea id="result" rows="30" style="width: 100%; margin-top: 14px; font-family: courier, courier new; background-color: #333; color: orange;  overflow-y: scroll;"
             disabled>
         </textarea>
     </div>
