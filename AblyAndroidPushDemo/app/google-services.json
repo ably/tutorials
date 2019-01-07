@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "96457520580",
+    "firebase_url": "https://androidpushdemo-4bbf6.firebaseio.com",
+    "project_id": "androidpushdemo-4bbf6",
+    "storage_bucket": "androidpushdemo-4bbf6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:96457520580:android:afc86e0f66458783",
+        "android_client_info": {
+          "package_name": "com.android.ably.pushdemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "96457520580-lrfgn2a0clip8npb7jnr2o4jgfe4lp7a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMrCjoIjFzzh-wc_EoB-3xkb-og0D-uPI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
