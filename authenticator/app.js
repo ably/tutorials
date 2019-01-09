@@ -2,10 +2,11 @@
 var express = require('express');
 var Ably = require("ably");
 var cookieParser = require('cookie-parser')
+var path = require('path');
 
-var rest = new Ably.Rest({ key: 'yL8SIw.DC-eZw:l9V62v9KngPwYnIU' });
+var rest = new Ably.Rest({ key: 'FJWZrQ.swLeTg:_R4gkfPIxXcj3tRy' });
 
-var realtime = new Ably.Realtime('yL8SIw.DC-eZw:l9V62v9KngPwYnIU');
+var realtime = new Ably.Realtime('FJWZrQ.swLeTg:_R4gkfPIxXcj3tRy');
 
 
 //Configure isProduction variable
@@ -39,6 +40,10 @@ var data = {
 
 var clientID = '';
 
+app.get('/', function(req, res) {
+    res.sendFile(path.join(__dirname + '/push.html'));
+});
+
 app.get('/auth', function (req, res) {
   var username = req.query.username;
   
@@ -50,7 +55,7 @@ app.get('/auth', function (req, res) {
        configure the token with an identity */
 	   console.log(req.cookies.username);
     tokenParams = {
-      'capability': { '*': ['publish', 'subscribe'] },
+      'capability': { '*': ['publish', 'subscribe', 'push-admin', 'push-subscribe'] },
       'clientId': username
     };
   } else {
@@ -90,7 +95,7 @@ var clientRecipient = {
   client_id: 'test'
 };
 
-app.post('/pushbyclient', function(req, res) {
+app.get('/pushbyclient', function(req, res) {
 realtime.push.admin.publish(clientRecipient, data, function(err) {
   if (err) {
     console.log('Unable to publish push notification; err = ' + err.message);

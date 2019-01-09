@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery.post demo</title>
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+<body>
+ 
+<form action="/" id="pushForm">
+  <input type="submit" value="Push">
+</form>
+<!-- the result of the search will be rendered inside this div -->
+<div id="result"></div>
+ 
+<script>
+// Attach a submit handler to the form
+$( "#pushForm" ).submit(function( event ) {
+ 
+  // Stop form from submitting normally
+  event.preventDefault();
+  
+    var push_data = '{'
+ + '"recipient": {'
+ +  '"deviceId": "01D0BY616FCSGB14N5ZPYG0ZVY"'
+ +'},'
+ + '"notification": {'
+ + '"title": "Hello from Ably!",'
+ + '"body": "Example push notification from Ably JavaScript client."'
+ + '},'
+ + '"data": {'
+ + '"foo": "bar",'
+ + '"baz": "qux"'
+ + '}'
++'}'; 
+  
+  var API_KEY = "FJWZrQ.swLeTg:_R4gkfPIxXcj3tRy";
+	$.ajax({
+    type: 'POST',
+    url: 'https://rest.ably.io/push/publish',
+	 headers: {
+    "Authorization": "Basic " + btoa(API_KEY)
+	},
+    data: push_data, ,
+    success: function(data) { alert('success '); },
+    contentType: "application/json",
+    dataType: 'json'
+});
+  
+});
+</script>
+ 
+</body>
+</html>
+
+
