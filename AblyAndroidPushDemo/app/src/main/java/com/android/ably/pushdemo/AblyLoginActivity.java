@@ -1,5 +1,9 @@
 package com.android.ably.pushdemo;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -14,6 +18,7 @@ import android.widget.Toast;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 
+import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -58,6 +63,30 @@ public class AblyLoginActivity extends AppCompatActivity {
     private TextView textView;
     private TextViewLogger logger;
     private ErrorInfo error = null;
+    private PushReceiver pushMessageReceiver;
+
+    private class PushReceiver extends BroadcastReceiver {
+
+        private final Object lock = new Object();
+        private String action = "";
+        private String runId = "";
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            HashMap<String, String> pushData = (HashMap<String, String>) intent.getSerializableExtra("data");
+            synchronized (lock) {
+                this.action = intent.getAction();
+                this.runId = pushData.get("runId");
+                lock.notifyAll();
+            }
+            onPushMessageReceived(this.action, pushData);
+        }
+    }
+
+    private void onPushMessageReceived(String action, HashMap<String, String>data) {
+        System.out.println(" push message received...." + data);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,7 +144,6 @@ public class AblyLoginActivity extends AppCompatActivity {
                 new Thread(r).start();
             }
         });
-
     }
 
     private void authenticate(String clientId) {
@@ -128,13 +156,11 @@ public class AblyLoginActivity extends AppCompatActivity {
         }
     }
 
-
     private void initAbly() throws AblyException {
         ClientOptions clientOptions = new ClientOptions(apiKey);
         clientOptions.environment = "production";
         clientOptions.logLevel = io.ably.lib.util.Log.VERBOSE;
         clientOptions.authCallback = new Auth.TokenCallback() {
-
             @Override
             public Object getTokenRequest(Auth.TokenParams tokenParams) throws AblyException {
                 if (firstStart) {
@@ -144,7 +170,6 @@ public class AblyLoginActivity extends AppCompatActivity {
                         tokenParams.clientId = tokenRequest.clientId;
                     }
                 }
-
                 String httpAuthResponse = sendRequestToServer(tokenParams.clientId);
                 tokenRequest = new Gson().fromJson(httpAuthResponse, Auth.TokenRequest.class);
                 preferences.edit().putString("clientId", httpAuthResponse).commit();
@@ -154,7 +179,6 @@ public class AblyLoginActivity extends AppCompatActivity {
         };
         ablyRealtime = new AblyRealtime(clientOptions);
         ablyRealtime.setAndroidContext(this);
-
         ablyRealtime.connection.once(ConnectionState.connected, new ConnectionStateListener() {
             @Override
             public void onConnectionStateChanged(ConnectionStateListener.ConnectionStateChange state) {
@@ -172,14 +196,13 @@ public class AblyLoginActivity extends AppCompatActivity {
                 });
             }
         });
-
-
     }
 
     private String sendRequestToServer(String clientId) {
         RequestQueue queue = Volley.newRequestQueue(getBaseContext());
         RequestFuture<String> future = RequestFuture.newFuture();
         /* 10.0.2.2 is the IP address of localhost seen from emulator's perspective */
+
         String url = "http://10.0.2.2:3000/auth?username="+clientId;
         StringRequest request = new StringRequest(url, future, future);
         queue.add(request);
@@ -194,8 +217,17 @@ public class AblyLoginActivity extends AppCompatActivity {
 
     private String generateRunId(){
         runId = java.util.UUID.randomUUID().toString();
+        System.out.println(" runId -> " + runId);
         channelName = channelName(runId);
         return runId;
+    }
+
+    private void registerReceiver() {
+        pushMessageReceiver = new PushReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(AblyPushMessagingService.PUSH_DATA_ACTION);
+        intentFilter.addAction(AblyPushMessagingService.PUSH_NOTIFICATION_ACTION);
+        registerReceiver(pushMessageReceiver, intentFilter);
     }
 
     private String channelName(String runId) {
@@ -219,6 +251,7 @@ public class AblyLoginActivity extends AppCompatActivity {
         logger.i("activatePush()", ".. activated push system");
         return true;
     }
+
 
     private boolean pushSubscribe(String channelName, boolean wait) {
         logger.i("pushSubscribe()", "push subscribing to channel");
@@ -269,6 +302,7 @@ public class AblyLoginActivity extends AppCompatActivity {
                 findViewById(R.id.btLogout).setVisibility(tokenRequest.clientId == null ? View.GONE : View.VISIBLE);
 
                 generateRunId();
+                registerReceiver();
                 try {
                     activatePush(true);
                 } catch (AblyException e) {
