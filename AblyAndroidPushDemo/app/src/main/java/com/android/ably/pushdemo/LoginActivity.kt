@@ -111,8 +111,8 @@ class LoginActivity : Activity() {
 
         /* activate Firebase */
         logger.i("activatePush()", "initialising Firebase")
-        //FirebaseInstanceId.getInstance().getToken()
-        AblyPushRegistrationService.onNewRegistrationToken(this, FirebaseInstanceId.getInstance().getToken())
+        FirebaseInstanceId.getInstance().getToken()
+        //AblyPushRegistrationService.onNewRegistrationToken(this, FirebaseInstanceId.getInstance().getToken())
         /* ensure the Ably library registers any new token with the server */
         logger.i("activatePush()", "activating push system .. waiting")
         ablyRealtime.push.activate()
@@ -240,7 +240,6 @@ class LoginActivity : Activity() {
                 if (clientId != null) {
 
                     tokenParams.clientId =  tokenRequest!!.clientId
-
                 }
             }
 
@@ -251,7 +250,6 @@ class LoginActivity : Activity() {
                    setButtonsState()
                    tokenRequest
                }
-
         }
         ablyRealtime = AblyRealtime(clientOptions)
         ablyRealtime.setAndroidContext(this)
@@ -310,7 +308,7 @@ class LoginActivity : Activity() {
 
                 activatePush()
             }
-            //pushSubscribe()
+            pushSubscribe()
            // pushPublishData()
 
         }
