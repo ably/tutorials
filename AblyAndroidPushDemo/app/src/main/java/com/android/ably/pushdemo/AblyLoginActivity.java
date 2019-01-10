@@ -86,6 +86,7 @@ public class AblyLoginActivity extends AppCompatActivity {
 
     private void onPushMessageReceived(String action, HashMap<String, String>data) {
         System.out.println(" push message received...." + data);
+        logger.d("onPushMessageReceived", data.get("title"));
     }
 
     @Override
