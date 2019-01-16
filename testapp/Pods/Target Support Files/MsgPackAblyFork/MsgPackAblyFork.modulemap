@@ -1,0 +1,4 @@
+framework module MsgPackAblyFork {
+  umbrella header "MessagePack.h"
+  export *
+}

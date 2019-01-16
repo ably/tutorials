@@ -1,0 +1,6 @@
+framework module KSCrashAblyFork {
+  umbrella header "KSCrashAblyFork-umbrella.h"
+
+  export *
+  module * { export * }
+}
