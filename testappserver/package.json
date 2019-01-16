@@ -1,0 +1,15 @@
+{
+  "name": "testappserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ably": "^1.0.21",
+    "express": "^4.16.4"
+  }
+}
