@@ -26,11 +26,11 @@ app.get('/register', (req, res) => {
         console.log('Registering device')
         //var deviceId = get device id from the request payload
         var deviceId = '0001E4YMQD00GW0X476W5TVBFE';
-        var device = new DeviceDetails({
+        var device = {
             id: deviceId,
             formFactor: 'phone',
             platform: 'ios'
-        })
+        }
         client.push.admin.deviceRegistrations.save(device, (err, device) => {
             if(err){
                 console.log('Error: ' + err)
@@ -44,10 +44,10 @@ app.get('/register', (req, res) => {
 })
 
 function subscribeDevice (device){
-    var channelSub = new PushChannelSubscription({
+    var channelSub = {
         channel: 'push',
         deviceId: device.id
-    })
+    }
     client.push.admin.channelSubscriptions.save(channelSub, (err, channelSub) => {
         if(err){
             console.log('Error: ' + err)
