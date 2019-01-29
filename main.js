@@ -1,5 +1,6 @@
 var Ably = require('ably')
-var client = Ably.Realtime('apiKey')
+//replace with actual API key or token
+var client = Ably.Realtime('apikey')
 var express = require('express')
 var app = express()
 
@@ -23,20 +24,38 @@ app.get('/register', (req, res) => {
         res.status(500).send('Error: ' + JSON.stringify(err))
     } else {
         console.log('Registering device')
-        //will need to inspect the request to see if this works
-        var deviceId = req.deviceId 
-        //save(DeviceDetails device, callback(ErrorInfo err, DeviceDetails device))
+        //var deviceId = get device id from the request payload
+        var deviceId = '0001E4YMQD00GW0X476W5TVBFE';
         var device = new DeviceDetails({
             id: deviceId,
             formFactor: 'phone',
             platform: 'ios'
         })
         client.push.admin.deviceRegistrations.save(device, (err, device) => {
-            if(err)
+            if(err){
                 console.log('Error: ' + err)
+            } else{
+                console.log('Device registered:' + device.id)
+                subscribeDevice(device)
+            }
+                
         })
     }
 })
+
+function subscribeDevice (device){
+    var channelSub = new PushChannelSubscription({
+        channel: 'push',
+        deviceId: device.id
+    })
+    client.push.admin.channelSubscriptions.save(channelSub, (err, channelSub) => {
+        if(err){
+            console.log('Error: ' + err)
+        } else{
+            console.log('Device subscribed to push channel with deviceId' + device.id)
+        }
+    })
+}
 
 app.get('/', (req, res) => {
     console.log('iOS Push Notifications tutorial with Ably')
@@ -44,4 +63,4 @@ app.get('/', (req, res) => {
 
 app.listen(3000, () => {
     console.log('APP LISTENING ON PORT 3000')
-})
+}) 
