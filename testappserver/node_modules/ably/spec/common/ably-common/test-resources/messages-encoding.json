@@ -1,0 +1,35 @@
+{
+  "_messages": "/* Encoded message payloads that every client library should 1. send via raw POST and receive correctly decoded via a realtime channel instance and 2. send that again via realtime and check that it's encoded the same as here (e. g. via GET history) */",
+  "messages": [
+    {
+    	"data": "foo",
+    	"encoding": null,
+    	"expectedType": "string",
+    	"expectedValue": "foo"
+    },
+    {
+    	"data": "{\"foo\":42}",
+    	"encoding": null,
+    	"expectedType": "string",
+    	"expectedValue": "{\"foo\":42}"
+    },
+    {
+    	"data": "{\"foo\":42,\"bar\":[\"a\",1.2,{\"boo\":\"ha\"}]}",
+    	"encoding": "json",
+    	"expectedType": "jsonObject",
+    	"expectedValue": {"foo":42, "bar":["a", 1.2, {"boo":"ha"}]}
+    },
+    {
+    	"data": "[{\"foo\":42},\"qux\"]",
+    	"encoding": "json",
+    	"expectedType": "jsonArray",
+    	"expectedValue": [{"foo":42}, "qux"]
+    },
+    {
+    	"data": "3q2+7w==",
+    	"encoding": "base64",
+    	"expectedType": "binary",
+    	"expectedHexValue": "deadbeef"
+    }
+  ]
+}
