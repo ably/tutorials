@@ -8,7 +8,7 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
 app.get('/auth', function (req, res) {
   var tokenParams = {}; /* Use token defaults for now */
-  rest.auth.createTokenRequest(tokenParams, function(err, tokenRequest) {
+  realtime.auth.createTokenRequest(tokenParams, function(err, tokenRequest) {
     if (err) {
       res.status(500).send('Error requesting token: ' + JSON.stringify(err));
     } else {
