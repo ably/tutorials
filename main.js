@@ -24,12 +24,23 @@ app.get('/register', (req, res) => {
         res.status(500).send('Error: ' + JSON.stringify(err))
     } else {
         console.log('Registering device')
-        //var deviceId = get device id from the request payload
-        var deviceId = '0001E4YMQD00GW0X476W5TVBFE';
+        //var deviceId and deviceToken to be received in the request object
+        var recipientDetails = {
+            transportType: 'apns',
+            //replace with actual device token
+            deviceToken: ''
+        }
+        //replace with actual deviceid
+        var deviceId = '';
         var device = {
             id: deviceId,
             formFactor: 'phone',
-            platform: 'ios'
+            metadata: 'PST',
+            platform: 'ios',
+            push: {
+                recipient: recipientDetails,
+                state: 'Active'
+            } 
         }
         client.push.admin.deviceRegistrations.save(device, (err, device) => {
             if(err){
