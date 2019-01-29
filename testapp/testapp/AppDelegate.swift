@@ -10,8 +10,8 @@ import UIKit
 import Ably
 import UserNotifications
 
-let authURL = "YOUR_NGROK_HTTPS/auth"
-let subscribeURL = "YOUR_NGROK_HTTPS/subscribe"
+let authURL = "https://df30eb48.ngrok.io/auth"
+let subscribeURL = "https://df30eb48.ngrok.io/subscribe"
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, ARTPushRegistererDelegate {
     var realtime: ARTRealtime!
@@ -105,24 +105,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ARTPushRegistererDelegate
             // Handle error
             print ("** failed to custom register: \(String(describing: error))")
         }
-        let params = ["deviceId": deviceDetails?.id ?? ""]
-        let url = URL.init(string: subscribeURL)
-        var request = URLRequest(url: url!)
-        request.httpMethod = "POST"
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: params)
-            request.httpBody = jsonData
-            let task = URLSession.shared.dataTask(with: request, completionHandler: { (responseData: Data?, response: URLResponse?, error: Error?) in
-                NSLog("\(String(describing: response))")
-                if let error = error {
-                    callback(nil, ARTErrorInfo.create(from: error))
-                }
-                callback(nil, nil)
-            })
-            task.resume()
-        } catch {
-            callback(nil, ARTErrorInfo.create(from: error))
-        }
+        let request = NSMutableURLRequest(url: NSURL(string: subscribeURL)! as URL,
+                                          cachePolicy: .useProtocolCachePolicy,
+                                          timeoutInterval: 10.0)
+        request.httpMethod = "GET"
+
+        let session = URLSession.shared
+        let dataTask = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
+            if (error != nil) {
+                print(error)
+            } else {
+                let httpResponse = response as? HTTPURLResponse
+                print(httpResponse)
+            }
+        })
+
+        dataTask.resume()
     }
 
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
