@@ -64,3 +64,9 @@ app.get('/', (req, res) => {
 app.listen(3000, () => {
     console.log('APP LISTENING ON PORT 3000')
 }) 
+
+
+/*Steps to run this server */
+// 1. Download the ably-js 1.1 node library using `npm install ably@beta`
+// 2. Replace the 'apiKey' string with an actual key
+// 3. Run the server using `node main.js`
