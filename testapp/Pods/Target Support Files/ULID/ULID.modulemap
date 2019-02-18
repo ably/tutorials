@@ -1,6 +1,0 @@
-framework module ULID {
-  umbrella header "ULID-umbrella.h"
-
-  export *
-  module * { export * }
-}
