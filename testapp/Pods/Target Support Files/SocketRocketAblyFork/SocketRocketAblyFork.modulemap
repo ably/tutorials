@@ -1,6 +1,0 @@
-framework module SocketRocketAblyFork {
-  umbrella header "SocketRocketAblyFork-umbrella.h"
-
-  export *
-  module * { export * }
-}
