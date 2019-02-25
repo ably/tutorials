@@ -32,7 +32,7 @@ app.get('/register', (req, res) => {
         }
         //replace with actual deviceid
         var deviceId = '';
-        var device = {
+        var myDevice = {
             id: deviceId,
             formFactor: 'phone',
             metadata: 'PST',
@@ -42,12 +42,14 @@ app.get('/register', (req, res) => {
                 state: 'Active'
             } 
         }
-        client.push.admin.deviceRegistrations.save(device, (err, device) => {
+        client.push.admin.deviceRegistrations.save(myDevice, (err, device) => {
             if(err){
-                console.log('Error: ' + err)
+                console.log('Error: ' + err);
             } else{
-                console.log('Device registered:' + device.id)
-                subscribeDevice(device)
+                console.log('Device registered:' + device.id);
+                subscribeDevice(device);
+                res.setHeader('Content-Type', 'application/json');
+                res.send(device);
             }
                 
         })
