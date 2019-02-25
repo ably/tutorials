@@ -113,8 +113,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ARTPushRegistererDelegate
             if (error != nil) {
                 print(error)
             } else {
-                let httpResponse = response as? HTTPURLResponse
-                print(httpResponse)
+                do{
+                    let json = try JSONSerialization
+                        .jsonObject(with: data!, options:.allowFragments) as! NSDictionary
+                    print("JSON")
+                    let tokenDetails = json["deviceIdentityToken"] as! [String: Any]
+                    let issued = Date.init(timeIntervalSince1970: tokenDetails["issued"] as! TimeInterval)
+                    let expires = Date.init(timeIntervalSince1970: tokenDetails["expires"] as! TimeInterval)
+                    let deviceDetails = ARTDeviceIdentityTokenDetails.init(token: tokenDetails["token"] as! String,
+                                                                           issued: issued,
+                                                       expires: expires,
+                                                       capability: tokenDetails["capability"] as! String,
+                                                       deviceId: tokenDetails["deviceId"] as! String)
+                    callback(deviceDetails, nil)
+                } catch {
+                    print("There was an error while obtaining JSON")
+                    callback(nil, ARTErrorInfo.create(from: error))
+                }
             }
         })
         dataTask.resume()
