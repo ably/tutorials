@@ -15,6 +15,7 @@ android {
 
         buildConfigField "String", "ABLY_KEY", "\"${properties.getProperty('ably.key')}\""
         buildConfigField "String", "ABLY_ENV", "\"${properties.getProperty('ably.env')}\""
+        buildConfigField "String", "ABLY_AUTH_URL", "\"${properties.getProperty('auth.url')}\""
 
     }
     buildTypes {

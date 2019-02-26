@@ -44,7 +44,9 @@ public class MainActivity extends AppCompatActivity {
     public static final String STEP_4 = "Send Test Push";
 
     public static final String TEST_PUSH_CHANNEL_NAME = "test_push_channel";
-    private static final String LOCAL_SERVER_AUTH_URL = "http://192.168.1.6:3000/auth";
+    //Eg: https://0e3f1d12.ngrok.io/
+    //Ensure that ngrok is setup, or modify xml/network_security_config.xml accordingly.
+    private static final String LOCAL_SERVER_AUTH_URL = BuildConfig.ABLY_AUTH_URL;
 
     //Broadcast receiver actions
     public static final String ABLY_PUSH_ACTIVATE_ACTION = "io.ably.broadcast.PUSH_ACTIVATE";

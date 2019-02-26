@@ -2,6 +2,7 @@
 <network-security-config>
 
     <domain-config cleartextTrafficPermitted="true">
-        <domain includeSubdomains="true">192.168.1.6</domain>
+        <!-- It is assumed that ngrok.io is setup for the tutorial -->
+        <domain includeSubdomains="true">ngrok.io</domain>
     </domain-config>
 </network-security-config>
