@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
         ablyRealtime.push.activate();
     }
 
-    private void subscribleChannels() {
+    private void subscribeChannels() {
 
         ablyRealtime.channels.get(TEST_PUSH_CHANNEL).push.subscribeClientAsync(new CompletionListener() {
             @Override
@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
                     initAblyPush();
                     break;
                 case STEP_3:
-                    subscribleChannels();
+                    subscribeChannels();
                     break;
             }
         } catch (AblyException e) {
