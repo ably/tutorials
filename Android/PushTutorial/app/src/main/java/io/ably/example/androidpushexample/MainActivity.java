@@ -195,6 +195,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case STEP_4:
                     sendTestPush();
+                    button.setEnabled(true);
                     break;
             }
         } catch (AblyException e) {
