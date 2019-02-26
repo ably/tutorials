@@ -1,5 +1,8 @@
 package io.ably.example.androidpushexample.receivers;
 
+import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
+
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -15,9 +18,9 @@ public class AblyPushMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage message) {
         //FCM data is received here.
 
+        Intent intent = new Intent(PUSH_NOTIFICATION_ACTION);
+        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
     }
-
-
 
 
 }

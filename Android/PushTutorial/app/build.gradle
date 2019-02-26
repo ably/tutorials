@@ -35,6 +35,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.1'
 
     implementation 'io.ably:ably-android:1.1.0-RC1'
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+
 }
 
 /**

@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
@@ -15,12 +16,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+
+import io.ably.example.androidpushexample.receivers.AblyPushMessagingService;
 import io.ably.lib.realtime.AblyRealtime;
 import io.ably.lib.realtime.CompletionListener;
 import io.ably.lib.realtime.ConnectionStateListener;
 import io.ably.lib.types.AblyException;
 import io.ably.lib.types.ClientOptions;
 import io.ably.lib.types.ErrorInfo;
+import io.ably.lib.types.Param;
 import io.ably.lib.util.IntentUtils;
 
 /**
@@ -34,10 +40,15 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String STEP_1 = "Initialize Ably";
     public static final String STEP_2 = "Activate Push";
-    public static final String STEP_3 = "Subscribe Push Channel";
-    public static final String STEP_4 = "Send Push";
+    public static final String STEP_3 = "Subscribe Channels";
+    public static final String STEP_4 = "Send Test Push";
 
-    public static final String TEST_PUSH_CHANNEL = "test_push_channel";
+    public static final String TEST_PUSH_CHANNEL_NAME = "test_push_channel";
+    private static final String LOCAL_SERVER_AUTH_URL = "http://192.168.1.6:3000/auth";
+
+    //Broadcast receiver actions
+    public static final String ABLY_PUSH_ACTIVATE_ACTION = "io.ably.broadcast.PUSH_ACTIVATE";
+
     private TextView rollingLogs;
     private Button stepsButton;
     private StringBuilder logs = new StringBuilder();
@@ -66,15 +77,22 @@ public class MainActivity extends AppCompatActivity {
     private BroadcastReceiver pushReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            ErrorInfo error = IntentUtils.getErrorInfo(intent);
-            if (error != null) {
-                logMessage("Error activating push service: " + error);
-                handler.sendMessage(handler.obtainMessage(FAILURE));
+            if (ABLY_PUSH_ACTIVATE_ACTION.equalsIgnoreCase(intent.getAction())) {
+                ErrorInfo error = IntentUtils.getErrorInfo(intent);
+                if (error != null) {
+                    logMessage("Error activating push service: " + error);
+                    handler.sendMessage(handler.obtainMessage(FAILURE));
+                    return;
+                }
+                logMessage("Device is now registered for push");
+                handler.sendMessage(handler.obtainMessage(SUCCESS, STEP_3));
                 return;
             }
 
-            logMessage("Device is now registered for push");
-            handler.sendMessage(handler.obtainMessage(SUCCESS, STEP_3));
+
+            if (AblyPushMessagingService.PUSH_NOTIFICATION_ACTION.equalsIgnoreCase(intent.getAction())) {
+                logMessage("Received Push message");
+            }
         }
     };
 
@@ -84,6 +102,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         rollingLogs = findViewById(R.id.rolling_logs);
         stepsButton = findViewById(R.id.steps);
+        LocalBroadcastManager.getInstance(this).registerReceiver(pushReceiver, new IntentFilter(ABLY_PUSH_ACTIVATE_ACTION));
+        LocalBroadcastManager.getInstance(this).registerReceiver(pushReceiver, new IntentFilter(AblyPushMessagingService.PUSH_NOTIFICATION_ACTION));
+
     }
 
 
@@ -92,6 +113,8 @@ public class MainActivity extends AppCompatActivity {
         ClientOptions options = new ClientOptions();
         options.environment = BuildConfig.ABLY_ENV;
         options.key = BuildConfig.ABLY_KEY;
+        options.authUrl = LOCAL_SERVER_AUTH_URL;
+        options.authParams = new Param[]{new Param("clientId", getClientId())};
 
         ablyRealtime = new AblyRealtime(options);
         ablyRealtime.setAndroidContext(getApplicationContext());
@@ -117,17 +140,21 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private String getClientId() {
+        String clientId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        return clientId;
+    }
+
     private void initAblyPush() throws AblyException {
-        LocalBroadcastManager.getInstance(this).registerReceiver(pushReceiver, new IntentFilter("io.ably.broadcast.PUSH_ACTIVATE"));
         ablyRealtime.push.activate();
     }
 
     private void subscribeChannels() {
 
-        ablyRealtime.channels.get(TEST_PUSH_CHANNEL).push.subscribeClientAsync(new CompletionListener() {
+        ablyRealtime.channels.get(TEST_PUSH_CHANNEL_NAME).push.subscribeClientAsync(new CompletionListener() {
             @Override
             public void onSuccess() {
-                logMessage("Subscribed to push for the channel " + TEST_PUSH_CHANNEL);
+                logMessage("Subscribed to push for the channel " + TEST_PUSH_CHANNEL_NAME);
                 handler.sendMessage(handler.obtainMessage(SUCCESS, STEP_4));
             }
 
@@ -146,7 +173,6 @@ public class MainActivity extends AppCompatActivity {
         logs.append(message);
         logs.append("\n");
         handler.sendMessage(handler.obtainMessage(UPDATE_LOGS));
-
     }
 
     public void performAction(View view) {
@@ -165,10 +191,41 @@ public class MainActivity extends AppCompatActivity {
                 case STEP_3:
                     subscribeChannels();
                     break;
+                case STEP_4:
+                    sendTestPush();
+                    break;
             }
         } catch (AblyException e) {
             logMessage("AblyException " + e.getMessage());
             handler.sendMessage(handler.obtainMessage(FAILURE));
         }
     }
+
+    private void sendTestPush() {
+        try {
+            logMessage("ClientId: " + ablyRealtime.push.getLocalDevice().clientId);
+            JsonObject data = new JsonObject();
+            data.add("testKey", new JsonPrimitive("testValueDirect"));
+            data.add("clientId", new JsonPrimitive(ablyRealtime.push.getLocalDevice().clientId));
+            JsonObject payload = new JsonObject();
+            payload.add("data", data);
+            String deviceId = ablyRealtime.push.getLocalDevice().id;
+            ablyRealtime.push.admin.publishAsync(new Param[]{new Param("deviceId", deviceId)}, payload, new CompletionListener() {
+                @Override
+                public void onSuccess() {
+                    logMessage("Push message sent from device successfully.");
+                }
+
+                @Override
+                public void onError(ErrorInfo reason) {
+                    logMessage("Error sending push. reason: " + reason);
+                }
+            });
+        } catch (AblyException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
 }
