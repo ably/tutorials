@@ -1,0 +1,23 @@
+{
+  "name": "tutorials",
+  "version": "1.0.0",
+  "description": "[![Ably](https://s3.amazonaws.com/files.ably.io/logo-with-type.png)](https://www.ably.io)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cjbatin/tutorials.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cjbatin/tutorials/issues"
+  },
+  "homepage": "https://github.com/cjbatin/tutorials#readme",
+  "dependencies": {
+    "ably": "^1.1.5",
+    "express": "^4.16.4"
+  }
+}
