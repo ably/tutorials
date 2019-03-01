@@ -38,6 +38,7 @@ dependencies {
 
     implementation 'io.ably:ably-android:1.1.0-RC1'
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
 
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 }
