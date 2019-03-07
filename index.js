@@ -8,7 +8,7 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 app.get('/auth', function (req, res) {
   var tokenParams = {
     'clientId': /* Assign a random id */
-  }; 
+  };
   realtime.auth.createTokenRequest(tokenParams, function(err, tokenRequest) {
     if (err) {
       res.status(500).send('Error requesting token: ' + JSON.stringify(err));
@@ -18,7 +18,6 @@ app.get('/auth', function (req, res) {
     }
   });
 });
-
 app.get('/push/device', function (req, res) {
   var recipient = {
     deviceId: 'YOUR_DEVICE_ID'
@@ -81,4 +80,3 @@ app.get('/push/channel', function (req, res) {
     res.send("Push Sent");
   });
 })
-
