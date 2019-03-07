@@ -55,7 +55,6 @@ app.get('/push/client', function (req, res) {
     res.send("Push Sent");
   });
 })
-
 app.get('/push/channel', function (req, res) {
   var extras = {
     push: {
