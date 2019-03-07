@@ -8,7 +8,7 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 app.get('/auth', function (req, res) {
   var tokenParams = {
     'clientId': /* Assign a random id */
-  }; 
+  };
   realtime.auth.createTokenRequest(tokenParams, function(err, tokenRequest) {
     if (err) {
       res.status(500).send('Error requesting token: ' + JSON.stringify(err));
@@ -18,7 +18,6 @@ app.get('/auth', function (req, res) {
     }
   });
 });
-
 app.get('/subscribe', (req, res) => {
   console.log('Registering device')
   //will need to inspect the request to see if this works
