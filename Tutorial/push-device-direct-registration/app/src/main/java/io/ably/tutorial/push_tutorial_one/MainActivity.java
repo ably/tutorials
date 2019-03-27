@@ -16,13 +16,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+
 import io.ably.lib.realtime.AblyRealtime;
+import io.ably.lib.realtime.CompletionListener;
 import io.ably.lib.realtime.ConnectionStateListener;
 import io.ably.lib.types.AblyException;
 import io.ably.lib.types.ClientOptions;
 import io.ably.lib.types.ErrorInfo;
 import io.ably.lib.types.Param;
 import io.ably.lib.util.IntentUtils;
+import io.ably.tutorial.push_tutorial_one.receivers.AblyPushMessagingService;
 
 /**
  * Created by Amit S.
@@ -35,7 +40,10 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String STEP_1 = "Initialize Ably";
     public static final String STEP_2 = "Activate Push";
+    public static final String STEP_3 = "Subscribe Channels";
+    public static final String STEP_4 = "Send Test Push";
 
+    public static final String TEST_PUSH_CHANNEL_NAME = "test_push_channel";
     //Eg: https://0e3f1d12.ngrok.io/
     //Ensure that ngrok is setup, or modify xml/network_security_config.xml accordingly.
     private static final String PRIVATE_SERVER_AUTH_URL = BuildConfig.SERVER_BASE_URL + "/auth";
@@ -67,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
         }
     });
 
-
     private BroadcastReceiver pushReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -78,6 +85,12 @@ public class MainActivity extends AppCompatActivity {
                     handler.sendMessage(handler.obtainMessage(FAILURE));
                     return;
                 }
+                logMessage("Device is now registered for push");
+                handler.sendMessage(handler.obtainMessage(SUCCESS, STEP_3));
+                return;
+            }
+            if (AblyPushMessagingService.PUSH_NOTIFICATION_ACTION.equalsIgnoreCase(intent.getAction())) {
+                logMessage("Received Push message");
             }
         }
     };
@@ -89,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
         rollingLogs = findViewById(R.id.rolling_logs);
         stepsButton = findViewById(R.id.steps);
         LocalBroadcastManager.getInstance(this).registerReceiver(pushReceiver, new IntentFilter(ABLY_PUSH_ACTIVATE_ACTION));
+        LocalBroadcastManager.getInstance(this).registerReceiver(pushReceiver, new IntentFilter(AblyPushMessagingService.PUSH_NOTIFICATION_ACTION));
 
     }
 
@@ -109,6 +123,13 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case STEP_2:
                     initAblyPush();
+                    break;
+                case STEP_3:
+                    subscribeChannels();
+                    break;
+                case STEP_4:
+                    sendTestPush();
+                    button.setEnabled(true);
                     break;
             }
         } catch (AblyException e) {
@@ -166,6 +187,55 @@ public class MainActivity extends AppCompatActivity {
         ablyRealtime.push.activate();
     }
 
+    /**
+     * Step 3: Subscribe to the Channel using Ably Library. Ensure the Channel has push enabled.
+     * Push can be enabled from *Channel rules* section under *Settings* of your account dashboard.
+     */
+    private void subscribeChannels() {
+        ablyRealtime.channels.get(TEST_PUSH_CHANNEL_NAME).push.subscribeClientAsync(new CompletionListener() {
+            @Override
+            public void onSuccess() {
+                logMessage("Subscribed to push for the channel " + TEST_PUSH_CHANNEL_NAME);
+                handler.sendMessage(handler.obtainMessage(SUCCESS, STEP_4));
+            }
+
+            @Override
+            public void onError(ErrorInfo reason) {
+                logMessage("Error subscribing to push channel " + reason.message);
+                logMessage("Visit link for more details: " + reason.href);
+                handler.sendMessage(handler.obtainMessage(FAILURE));
+            }
+        });
+
+    }
+
+    /**
+     * Step 4: Send a Test push using the Device ID through Ably.
+     * The library sends push notification through device ID
+     */
+    private void sendTestPush() {
+        try {
+            JsonObject data = new JsonObject();
+            data.add("testKey", new JsonPrimitive("testValueDirect"));
+            data.add("clientId", new JsonPrimitive(ablyRealtime.push.getLocalDevice().clientId));
+            JsonObject payload = new JsonObject();
+            payload.add("data", data);
+            String deviceId = ablyRealtime.push.getLocalDevice().id;
+            ablyRealtime.push.admin.publishAsync(new Param[]{new Param("deviceId", deviceId)}, payload, new CompletionListener() {
+                @Override
+                public void onSuccess() {
+                    logMessage("Push message sent from device successfully.");
+                }
+
+                @Override
+                public void onError(ErrorInfo reason) {
+                    logMessage("Error sending push. reason: " + reason);
+                }
+            });
+        } catch (AblyException e) {
+            e.printStackTrace();
+        }
+    }
 
     private void logMessage(String message) {
         Log.i(MainActivity.class.getSimpleName(), message);
