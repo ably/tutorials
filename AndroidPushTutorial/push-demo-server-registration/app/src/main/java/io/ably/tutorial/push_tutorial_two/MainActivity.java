@@ -16,6 +16,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
+import io.ably.lib.push.LocalDevice;
 import io.ably.lib.realtime.AblyRealtime;
 import io.ably.lib.realtime.ConnectionStateListener;
 import io.ably.lib.types.AblyException;
@@ -24,6 +27,11 @@ import io.ably.lib.types.ErrorInfo;
 import io.ably.lib.types.Param;
 import io.ably.lib.util.IntentUtils;
 import io.ably.tutorial.push_tutorial_two.receivers.AblyPushMessagingService;
+import io.ably.tutorial.push_tutorial_two.server.NetResponse;
+import io.ably.tutorial.push_tutorial_two.server.ServerAPI;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Amit S.
@@ -103,6 +111,9 @@ public class MainActivity extends AppCompatActivity {
                 case STEP_1:
                     initAblyRuntime();
                     break;
+                case STEP_2:
+                    initAblyPush();
+                    break;
             }
         } catch (AblyException e) {
             logMessage("AblyException " + e.getMessage());
@@ -151,6 +162,47 @@ public class MainActivity extends AppCompatActivity {
                         handler.sendMessage(handler.obtainMessage(FAILURE));
                         break;
                 }
+            }
+        });
+    }
+
+    /**
+     * Step 2: Register for Push notification through private server.
+     * We also subscribe for the required channels on Server for the relevant device Id.
+     *
+     * @throws AblyException
+     */
+    private void initAblyPush() throws AblyException {
+        LocalDevice device = ablyRealtime.push.getActivationContext().getLocalDevice();
+        if (device.push.recipient == null) {
+            logMessage("Push not initialized. Please check Firebase settings");
+            return;
+        }
+        String registrationToken = device.push.recipient.get("registrationToken").getAsString();
+        if (registrationToken == null || registrationToken.length() == 0) {
+            logMessage("Registration token cannot be null. Please check Firebase settings");
+            return;
+        }
+        String deviceId = device.id;
+        String clientId = getClientId();
+
+        logMessage("Sending registration Token: " + registrationToken);
+        logMessage("Device ID: " + deviceId);
+        logMessage("Client ID: " + clientId);
+        logMessage("Registering device via Server");
+        logMessage("Subscribing channels");
+
+        ServerAPI.getInstance().api().register(deviceId, registrationToken, clientId).enqueue(new Callback<NetResponse>() {
+            @Override
+            public void onResponse(Call<NetResponse> call, Response<NetResponse> response) {
+                //This is where device is successfully registered via Server.
+                logMessage("Successfully registered: " + new Gson().toJson(response.body()));
+            }
+
+            @Override
+            public void onFailure(Call<NetResponse> call, Throwable t) {
+                logMessage("Error registering with server: " + t.getMessage());
+                handler.sendMessage(handler.obtainMessage(FAILURE));
             }
         });
     }
