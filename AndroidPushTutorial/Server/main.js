@@ -57,6 +57,29 @@ app.get('/register', (req, res) => {
     
 })
 
+app.get('/push/device', function (req, res) {
+  var deviceId = req.query.deviceId;
+
+  var recipient = {
+    deviceId: deviceId
+
+  };
+  var notification = {
+    notification: {
+      title: 'Hello from Ably!'
+    }
+
+  };
+  realtime.push.publish(recipient, notification, function(err) {
+    if (err) {
+        console.log('Unable to publish push notification; err = ' + err.message);
+        return;
+    }
+    console.log('Push notification published');
+    res.send("Push Sent");
+  });
+})
+
 function subscribeDevice (device){
     var channelSub = {
         channel: 'test_push_channel',
