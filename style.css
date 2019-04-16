@@ -1,0 +1,45 @@
+h1 {
+    font-family: Arial, Sans Serif;
+    font-size: 18px;
+}
+
+pre#curl::before {
+    content: "$";
+    padding-right: 10px;
+    color: #999;
+}
+
+pre {
+    border: 1px solid #CCC;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #EEE
+}
+
+body {
+    font-family: Arial, Sans Serif;
+    font-size: 13px;
+}
+
+a, a:visited, a:active {
+    color: #ed760a;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+input[type=text] {
+    width: 100%;
+    margin: 0 0 8px 0;
+}
+
+input[type=button] {
+    background-color: #50b4f3;
+    padding: 10px;
+    font-weight: bold;
+    border-radius: 3px;
+    border: none;
+    color: white;
+}

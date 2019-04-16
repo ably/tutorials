@@ -1,0 +1,27 @@
+<html>
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script src="https://cdn.ably.io/lib/ably-1.js"></script>
+  <link rel="stylesheet" type="text/css" href="style.css"/>
+</head>
+<body>
+  <h1><a href="https://www.ably.io" target="_blank"><img src="/images/favicon.png">Ably Realtime</a> Idempotent Example</h1>
+  <p>A simple example publishing to a channel over REST whilst providing an explicit message ID. If the publish occurs within 2 minutes, and the ID is the same as a previous message, Ably will ensure the publish operation is idempotent avoiding duplicates. <a href="https://blog.ably.io/" target="_blank">Read more on what idempotency is and how Ably provides this feature</a> or <a href="https://youtu.be/Nd4MbPmBox4">watch a video.</a></p>
+  <input type="text" value="" id="msg-id" placeholder="Optional ID used for idempotent publishes">
+  
+  <input type="text" value="" id="msg-data" placeholder="Optional data payload for this message">
+  
+  <input type="button" value="Publish a message over REST" id="send">
+  <br><br>
+  or publish a message directly from our <a href="https://www.ably.io/documentation/rest-api" target="_blank">REST API</a> in your console:
+  <pre id="curl">curl -X POST https://rest.ably.io/channels/chan-name/messages \
+    -u "xVLyHw.8DWG5g:qy2CmvWTj0qtDlBQ" \
+    -H "Content-Type: application/json" \
+--data '{ "id": "[unique-id]", "data": "data from curl" }'
+  </pre>
+  You can change "[unique-id]" to whatever ID you wish to use for your idempotent message, or remove the "id" attribute for a normal publish without idempotency.
+  <h3>Message activity log:</h3>
+  <ul id="received"></ul>
+  <script src="main.js"></script>
+</body>
+</html>
