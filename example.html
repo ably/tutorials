@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <h1>SSE example</h1>
+
+    <h3>Events:</h3>
+    <ul id="events"></ul>
+  </body>
+
+  <script type="text/javascript">
+
+const apiKey = "INSERT-YOUR-API-KEY-HERE";
+
+// can have multiple channels, comma-separated.
+// If a channel name is not url-safe, URL-encode it first
+const channels = "example-channel";
+
+if(apiKey.indexOf("INSERT") === 0) {
+  alert("Add your API key to example.html");
+  throw 'Cannot proceed without api key';
+}
+
+const url = `https://realtime.ably.io/event-stream?v=1.1&key=${apiKey}&channels=${channels}`
+const eventSource = new EventSource(url);
+
+eventSource.onopen = function() {
+  addEvent(`Connected and subscribed to channels: ${channels.split(',').join(', ')}`);
+}
+
+eventSource.onmessage = function(event) {
+  const message = JSON.parse(event.data);
+  addEvent(`Message: ${message.name} - ${message.data}`);
+}
+
+eventSource.onerror = function(error) {
+  if(error.data) {
+    addEvent(`Error: ${error.data}`);
+  } else {
+    addEvent('Error connecting to Ably');
+  }
+}
+
+const eventList = document.querySelector('ul#events');
+
+function addEvent(text) {
+  const newElement = document.createElement("li");
+  newElement.textContent = text;
+  eventList.appendChild(newElement);
+}
+
+  </script>
+</html>
