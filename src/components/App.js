@@ -5,9 +5,19 @@ import Comments from './Comments';
 class App extends Component {
   constructor(props) {
     super(props);
+
+    this.handleAddComment = this.handleAddComment.bind(this);
     this.state = {
       comments: []
     }
+  }
+
+  handleAddComment(comment) {
+    this.setState(prevState => {
+      return {
+        comments: [comment].concat(prevState.comments)
+      };
+    });
   }
 
   render() {
@@ -16,7 +26,7 @@ class App extends Component {
         <div className="container">
           <div className="columns">
             <div className="column is-half is-offset-one-quarter">
-              <CommentBox />
+              <CommentBox handleAddComment={this.handleAddComment} />
               <Comments comments={this.state.comments} />
             </div>
           </div>
