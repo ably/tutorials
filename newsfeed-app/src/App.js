@@ -1,6 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import * as Ably from "ably";
-import {Container, Header, Divider, Label, Button, Form, TextArea } from "semantic-ui-react";
+import {
+  Container,
+  Header,
+  Divider,
+  Label,
+  Button,
+  Form,
+  TextArea
+} from "semantic-ui-react";
 
 import "./App.css";
 import UICard from "./UICard";
@@ -18,12 +26,27 @@ const avatarsInAssets = [
   "https://cdn.glitch.com/0bff6817-d500-425d-953c-6424d752d171%2Favatar_5.png?1536042517889"
 ];
 
-const names = ["Ross", "Monica", "Rachel", "Joey", "Chandler", "Steve", "Bill", "Elon", "Tom", "Shaun"];
+const names = [
+  "Ross",
+  "Monica",
+  "Rachel",
+  "Joey",
+  "Chandler",
+  "Steve",
+  "Bill",
+  "Elon",
+  "Tom",
+  "Shaun"
+];
 function getRandomArbitrary(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
-const myId = "id-" + Math.random().toString(36).substr(2, 16);
+const myId =
+  "id-" +
+  Math.random()
+    .toString(36)
+    .substr(2, 16);
 const apiKey = "JAofug.wynVXg:YU-Tf_OcO7Jz_UIK";
 const ably = new Ably.Realtime({
   key: apiKey,
@@ -32,6 +55,8 @@ const ably = new Ably.Realtime({
 });
 const chatChannel = ably.channels.get("chat");
 const presenceChannel = ably.channels.get("presence");
+const metaChannel = ably.channels.get("[meta]channel.lifecycle");
+
 let my = {};
 my.avatar = avatarsInAssets[getRandomArbitrary(0, 9)];
 my.name = names[getRandomArbitrary(0, 9)];
@@ -43,6 +68,7 @@ const App = () => {
     msgs: [],
     newMsgs: []
   });
+  const [onlineUsers, setOnlineUsers] = useState(0);
 
   let you = {};
 
@@ -89,10 +115,21 @@ const App = () => {
         };
       });
     });
+
+    metaChannel.subscribe("channel.occupancy", msg => {
+      var msgJSONobj = JSON.parse(JSON.stringify(msg.data));
+      if (msgJSONobj.name === "chat") {
+        setOnlineUsers(msgJSONobj.status.occupancy.metrics.connections);
+      }
+    });
   }, []);
 
   function sendMyMessage() {
-    const newMsgId = "msg-id-" + Math.random().toString(36).substr(2, 6);
+    const newMsgId =
+      "msg-id-" +
+      Math.random()
+        .toString(36)
+        .substr(2, 6);
     setTodoInput("");
     if (todoInput !== "") {
       chatChannel.publish("chatMessage", {
@@ -143,7 +180,13 @@ const App = () => {
           <Button content="Send" primary onClick={sendMyMessage} />
         </div>
       </Form>
-
+      <div className="App-users">
+        {onlineUsers !== 0 && (
+          <Label>
+            User{onlineUsers === 1 ? "" : "s"} Online - {onlineUsers.toString()}
+          </Label>
+        )}
+      </div>
       <Divider />
       <div onClick={getMessages} className="App-update">
         {state.newMsgs.length !== 0 && (
