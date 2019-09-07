@@ -1,0 +1,36 @@
+<html lang="en">
+<body>
+<h1>Subscribe (and Decrypt) Messages</h1>
+<br><br>
+<label for="subscriptions">Your subscriptions will appear here:</label>
+<textarea id="subscriptions" style="width: 100%" rows="15"></textarea>
+</body>
+
+<!-- Include the latest Ably Library  -->
+<script src="https://cdn.ably.io/lib/ably.min-1.js"></script>
+
+<!-- Instance the Ably library  -->
+<script type="text/javascript">
+    var realtime = new Ably.Realtime('INSERT-YOUR-API-KEY-HERE');
+    var channelName = 'encrypted:messages';
+
+    /* Create options object with cipher(encryption) configuration */
+    /* Note: A sample cipher key is provided here for simplicity. Alternatively, one could use
+    the Ably.Realtime.Crypto.generateRandomKey() utility method to generate a valid key */
+    var channelOpts = {
+        cipher: {
+            key: "AAECAwQFBgcICQoLDA0ODw=="
+        }
+    };
+
+    /* Create a subscriber with channel options */
+    var channelSub = realtime.channels.get(channelName, channelOpts);
+
+    var textAreaSubscriptions = document.getElementById('subscriptions');
+    /* Subscribe to messages from an encrypted channel */
+    channelSub.subscribe(function (message) {
+        var timestamp = new Date(message.timestamp).toLocaleString();
+        textAreaSubscriptions.value += '[' + timestamp + '] ' + message.data + '\n';
+    });
+</script>
+</html>
