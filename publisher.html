@@ -12,5 +12,25 @@
 <!-- Instance the Ably library  -->
 <script type="text/javascript">
     var realtime = new Ably.Realtime('INSERT-YOUR-API-KEY-HERE');
+    var channelName = 'encrypted:messages';
+
+    /* Create options object with cipher(encryption) configuration */
+    /* Note: A sample cipher key is provided here for simplicity. Alternatively, one could use
+    the Ably.Realtime.Crypto.generateRandomKey() utility method to generate a valid key */
+    var channelOpts = {
+        cipher: {
+            key: "AAECAwQFBgcICQoLDA0ODw=="
+        }
+    };
+
+    /* Create a publisher with channel options */
+    var channelPub = realtime.channels.get(channelName, channelOpts);
+
+    /* Publish a message with random number when the publish button is clicked */
+    var btnPublish = document.getElementById('publish');
+    btnPublish.addEventListener('click', function () {
+        var message = document.getElementById('message').value;
+        channelPub.publish(channelName, message);
+    });
 </script>
 </html>
