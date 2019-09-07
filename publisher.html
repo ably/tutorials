@@ -1,0 +1,16 @@
+<html lang="en">
+<body>
+<h1>Publish Encrypted Messages</h1><br><br>
+<label for="message">Message</label>
+<input type="text" id="message">
+<button id="publish">Publish</button>
+</body>
+
+<!-- Include the latest Ably Library  -->
+<script src="https://cdn.ably.io/lib/ably.min-1.js"></script>
+
+<!-- Instance the Ably library  -->
+<script type="text/javascript">
+    var realtime = new Ably.Realtime('INSERT-YOUR-API-KEY-HERE');
+</script>
+</html>
