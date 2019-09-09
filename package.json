@@ -8,7 +8,8 @@
         "node": ">=0.10"
     },
     "scripts": {
-        "app:publish": "node ./publisher.js"
+        "app:publish": "node ./publisher.js",
+        "app:subscribe": "node ./subscriber.js"
     },
     "dependencies": {
         "ably": "~1.1"
