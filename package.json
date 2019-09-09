@@ -7,6 +7,9 @@
     "engines": {
         "node": ">=0.10"
     },
+    "scripts": {
+        "app:publish": "node ./publisher.js"
+    },
     "dependencies": {
         "ably": "~1.1"
     }
