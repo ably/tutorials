@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import * as Ably from "ably";
 import {
   Container,
@@ -6,10 +6,12 @@ import {
   Divider,
   Button,
   Form,
-  TextArea
+  TextArea,
+  Label
 } from "semantic-ui-react";
 
 import "./App.css";
+import UICard from "./UICard";
 
 // User avatars
 const avatarsInAssets = [
@@ -64,6 +66,7 @@ my.avatar = avatarsInAssets[getRandomArbitrary(0, 9)];
 my.name = names[getRandomArbitrary(0, 9)];
 
 const App = () => {
+  const scrollRef = useRef(null); // for getting scroll ref
   const [todoInput, setTodoInput] = useState(""); // User Input/Message
   const [state, setState] = useState({
     msgs: [],
@@ -158,6 +161,22 @@ const App = () => {
     }
   }
 
+  function getMessages() {
+    // Updating the state with latest messages and sorting
+    setState(prevState => {
+      return {
+        ...prevState,
+        msgs: [...prevState.msgs, ...prevState.newMsgs].sort(
+          (a, b) => b.date - a.date
+        ),
+        newMsgs: []
+      };
+    });
+
+    // Scrolling to top for viewing new messages
+    scrollRef.current.scrollTop = 0;
+  }
+
   return (
     <Container textAlign="left" className="App-header">
       <Header as="h2">Ably React Tutorial - RealTime</Header>
@@ -173,6 +192,19 @@ const App = () => {
       </Form>
 
       <Divider />
+      <div onClick={getMessages} className="App-update">
+        {state.newMsgs.length !== 0 && (
+          <Label>
+            {state.newMsgs.length.toString()} new update
+            {state.newMsgs.length === 1 ? "" : "s"} have arrived!
+          </Label>
+        )}
+      </div>
+      {state.msgs.length !== 0 && (
+        <div ref={scrollRef} className="App-cards">
+          <UICard events={state.msgs} />
+        </div>
+      )}
     </Container>
   );
 };
