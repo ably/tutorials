@@ -61,6 +61,7 @@ const ably = new Ably.Realtime({
 });
 const chatChannel = ably.channels.get("chat");
 const presenceChannel = ably.channels.get("presence");
+const metaChannel = ably.channels.get("[meta]channel.lifecycle");
 let my = {};
 my.avatar = avatarsInAssets[getRandomArbitrary(0, 9)];
 my.name = names[getRandomArbitrary(0, 9)];
@@ -72,6 +73,7 @@ const App = () => {
     msgs: [],
     newMsgs: []
   }); // to hold all messages and incoming new messages
+  const [onlineUsers, setOnlineUsers] = useState(0); // for online users
 
   let you = {};
 
@@ -125,6 +127,15 @@ const App = () => {
           ]
         };
       });
+    });
+
+    // Using Channel Occupancy to get online users
+    metaChannel.subscribe("channel.occupancy", msg => {
+      var msgJSONobj = JSON.parse(JSON.stringify(msg.data));
+      if (msgJSONobj.name === "chat") {
+        // Update the state OnlineUsers
+        setOnlineUsers(msgJSONobj.status.occupancy.metrics.connections);
+      }
     });
   }, []);
 
@@ -190,7 +201,13 @@ const App = () => {
           <Button content="Send" primary onClick={sendMyMessage} />
         </div>
       </Form>
-
+      <div className="App-users">
+        {onlineUsers !== 0 && (
+          <Label>
+            User{onlineUsers === 1 ? "" : "s"} Online - {onlineUsers.toString()}
+          </Label>
+        )}
+      </div>
       <Divider />
       <div onClick={getMessages} className="App-update">
         {state.newMsgs.length !== 0 && (
