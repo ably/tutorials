@@ -5,4 +5,5 @@ repositories {
 }
 
 dependencies {
+    compile 'io.ably:ably-java:1.1.+'
 }
