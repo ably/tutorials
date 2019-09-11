@@ -13,3 +13,8 @@ task(publish, dependsOn: 'classes', type: JavaExec) {
     main = 'io.ably.tutorial.Publisher'
     classpath = sourceSets.main.runtimeClasspath
 }
+
+task(subscribe, dependsOn: 'classes', type: JavaExec) {
+    main = 'io.ably.tutorial.Subscriber'
+    classpath = sourceSets.main.runtimeClasspath
+}
