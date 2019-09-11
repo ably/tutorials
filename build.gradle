@@ -1,4 +1,5 @@
 apply plugin: 'application'
+apply plugin: 'java'
 
 repositories {
 	jcenter()
@@ -6,4 +7,9 @@ repositories {
 
 dependencies {
     compile 'io.ably:ably-java:1.1.+'
+}
+
+task(publish, dependsOn: 'classes', type: JavaExec) {
+    main = 'io.ably.tutorial.Publisher'
+    classpath = sourceSets.main.runtimeClasspath
 }
