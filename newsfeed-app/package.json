@@ -1,0 +1,20 @@
+{
+  "name": "newsfeed-app",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "ably": "^1.1.16",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-scripts": "0.9.x",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^0.88.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

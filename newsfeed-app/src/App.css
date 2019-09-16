@@ -1,0 +1,24 @@
+.App-header {
+  margin-top: 10px;
+}
+
+.App-button {
+  margin-top: 5px;
+  float: right;
+}
+
+.App-users {
+  margin-top: 10px;
+  text-align: left;
+}
+
+.App-update {
+  margin-bottom: 10px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.App-cards {
+  overflow-y: scroll;
+  max-height: 500px;
+}
