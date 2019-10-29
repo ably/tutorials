@@ -122,7 +122,17 @@ function index() {
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data)
+            
+            const translatedText = data['translations'][0]['translation'];
+            if ( messageType === "send") {
+                channel.publish('text', translatedText);
+                channel.publish("user", {
+                    "name": user.name,
+                    "avatar": user.avatar
+                });
+            } else {
+                show(translatedText, message.timestamp, otherUser);
+            }
         })
         .catch(error => console.error(error)) 
     }
@@ -155,6 +165,54 @@ function index() {
         }
     });
 
+
+    //Get the send button, input field and language dropdown menu elements respectively.
+    const sendButton =  document.getElementById("publish");
+    const inputField = document.getElementById("input-field");
+    const languageSelector = document.getElementById("languageSelector")
+
+    //Add an event listener to check when the send button is clicked
+    sendButton.addEventListener('click', function() {
+        const input = inputField.value;
+        const selectedLanguage = languageSelector.options[languageSelector.selectedIndex].value;
+        inputField.value = "";
+        let date = new Date(); 
+        let timestamp = date.getTime()
+
+        //display the message as it is using the show method
+        show(input, timestamp, user, "send")
+        
+        //translate the text as a sent message
+        translateText(input, selectedLanguage, "send")
+    });    
+
+        //This method displays the message.
+    function show(text, timestamp, currentUser, messageType="receive") {
+        const time = getTime(timestamp);
+        const messageItem = `<li class="message ${messageType === "send" ? "sent-message": ""}">
+            <picture>
+                <img class="message-image" src=${currentUser.avatar} alt="" />
+            </picture>
+            <div class="message-info"> 
+                <h5 class="message-name">${currentUser.name}</h5>
+                <p class="message-text">${text}</p>
+            </div> 
+            <span class="message-time"> ${time}</span>
+        </li>`
+        // const messageItem = `<li class="message">${text}<span class="message-time"> ${time}</span></li`;
+        $('#channel-status').append(messageItem)
+    }
+
+    //This method is used to convert a timestamp to 24hour time format, this is the format we will display the time of the message in.
+    function getTime(unix_timestamp) {
+        var date = new Date(unix_timestamp);
+        var hours = date.getHours();
+        var minutes = "0" + date.getMinutes();
+        var seconds = "0" + date.getSeconds();
+        // Will display time in 10:30:23 format
+        var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+        return formattedTime;
+    }
 }
 
 index();
