@@ -1,6 +1,49 @@
 
 import '@babel/polyfill' 
 function index() {
+
+    // A method to randomly get an item from an array
+    function getRandomArbitrary(min, max) {
+        return Math.floor(Math.random() * (max - min) + min);
+    }
+
+    //a list of avatars that will randomly be assigned to each app user
+    const avatarsInAssets = [
+        'https://cdn.glitch.com/0bff6817-d500-425d-953c-6424d752d171%2Favatar_8.png?1536042504672',
+        'https://cdn.glitch.com/0bff6817-d500-425d-953c-6424d752d171%2Favatar_3.png?1536042507202',
+        'https://cdn.glitch.com/0bff6817-d500-425d-953c-6424d752d171%2Favatar_6.png?1536042508902',
+        'https://cdn.glitch.com/0bff6817-d500-425d-953c-6424d752d171%2Favatar_10.png?1536042509036',
+        'https://cdn.glitch.com/0bff6817-d500-425d-953c-6424d752d171%2Favatar_7.png?1536042509659',
+        'https://cdn.glitch.com/0bff6817-d500-425d-953c-6424d752d171%2Favatar_9.png?1536042513205',
+        'https://cdn.glitch.com/0bff6817-d500-425d-953c-6424d752d171%2Favatar_2.png?1536042514285',
+        'https://cdn.glitch.com/0bff6817-d500-425d-953c-6424d752d171%2Favatar_1.png?1536042516362',
+        'https://cdn.glitch.com/0bff6817-d500-425d-953c-6424d752d171%2Favatar_4.png?1536042516573',
+        'https://cdn.glitch.com/0bff6817-d500-425d-953c-6424d752d171%2Favatar_5.png?1536042517889'
+    ]
+
+    //a list of names that will randomly be assigned to each app user
+    const namesInAssets = [
+        'Sarah Tancredi',
+        'Michael Scoffied',
+        'Waheed Musa',
+        'Ada Lovelace',
+        'Charles Gabriel',
+        'Mr White',
+        'Lovely Spring',
+        'William Shakespare',
+        'Prince Williams',
+        'Queen Rose'
+    ]
+
+    //create a user object by randomly assigning an id, an avatar and a name. 
+    let user = {
+        id: "id-" + Math.random().toString(36).substr(2, 16),
+        avatar: avatarsInAssets[getRandomArbitrary(0, 9)],
+        name: namesInAssets[getRandomArbitrary(0, 9)]
+    };
+    //this object will hold the data of other users that send messages to the channel
+    let otherUser = {};
+
     //This method retrieves a list of all languages
     async function getLanguages() {
         let response = await fetch("/api/get-languages", {
