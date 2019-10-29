@@ -126,6 +126,14 @@ function index() {
         })
         .catch(error => console.error(error)) 
     }
+
+
+    const ably = new Ably.Realtime({
+        key: YOUR_ABLY_API_KEY,
+        clientId:`${user.id}`,
+        echoMessages: false
+    });
+
 }
 
 index();
