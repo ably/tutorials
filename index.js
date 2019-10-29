@@ -134,6 +134,27 @@ function index() {
         echoMessages: false
     });
 
+    //specify the channel the user should belong to. In this case, it is the `test` channel
+    const channel = ably.channels.get('test');
+
+    //Subscribe the user to the messages of the channel. So the use rwill receive each message sent to the test channel.
+
+    channel.subscribe("text", function(message) {
+        const selectedLanguage = $("#languageSelector").find(":selected").val();
+        translateText(message, selectedLanguage)
+    });
+
+    //This gets the data of other users as they publish to the channel.
+    channel.subscribe("user", (data) => {
+        var dataObj = JSON.parse(JSON.stringify(data));
+        if (dataObj.clientId != user.id) {
+            let otherAvatar = dataObj.data.avatar;
+            let otherName = dataObj.data.name;
+            otherUser.name = otherName;
+            otherUser.avatar = otherAvatar;
+        }
+    });
+
 }
 
 index();
