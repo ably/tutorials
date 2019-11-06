@@ -139,7 +139,7 @@ function index() {
 
 
     const ably = new Ably.Realtime({
-        key: YOUR_ABLY_API_KEY,
+        key: "YOUR_ABLY_API_KEY",
         clientId:`${user.id}`,
         echoMessages: false
     });
@@ -156,15 +156,13 @@ function index() {
 
     //This gets the data of other users as they publish to the channel.
     channel.subscribe("user", (data) => {
-        var dataObj = JSON.parse(JSON.stringify(data));
-        if (dataObj.clientId != user.id) {
-            let otherAvatar = dataObj.data.avatar;
-            let otherName = dataObj.data.name;
-            otherUser.name = otherName;
-            otherUser.avatar = otherAvatar;
-        }
-    });
-
+		if (data.clientId != user.id) {
+			let otherAvatar = data.data.avatar;
+			let otherName = data.data.name;
+			otherUser.name = otherName;
+			otherUser.avatar = otherAvatar;
+		}
+	});
 
     //Get the send button, input field and language dropdown menu elements respectively.
     const sendButton =  document.getElementById("publish");
