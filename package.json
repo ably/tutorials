@@ -1,0 +1,43 @@
+{
+  "name": "multi-lingual-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "browserify index.js -o public/bundle.js",  
+    "watch": "watchify index.js -o public/bundle.js -v"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/polyfill": "^7.6.0",
+    "@babel/runtime": "^7.6.3",
+    "browserify": "^16.5.0",
+    "express": "^4.17.1",
+    "ibm-watson": "^5.1.0",
+    "watchify": "^3.11.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.6.4",
+    "@babel/core": "^7.6.4",
+    "@babel/plugin-transform-runtime": "^7.6.2",
+    "@babel/preset-env": "^7.6.3",
+    "babelify": "^10.0.0"
+  },
+
+  "browserify": {
+    "transform": [
+      [
+        "babelify",
+        {
+          "presets": [
+            "@babel/preset-env"
+          ]
+        }
+      ]
+    ]
+  }
+
+}

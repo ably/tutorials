@@ -1,13 +1,27 @@
-[![Ably](https://s3.amazonaws.com/files.ably.io/logo-with-type.png)](https://www.ably.io)
+# Realtime Multilingual Chat App
 
----
+### Context
+This repository consists of the code for a realtime multilingual chat app. This app enables people to chat in different languages. It uses the IBM-Watson Language Translator API for the translation of languages and Ably Pub/Sub for realtime sharing of messages.
 
-# Tutorials repository
+The app consists three parts:
+<ul>
+  <li>A dropdown that the users can use to select the preferred language that they want to communicate in.</li>
+  <li>The chat section where messages in the chat channel will appear. </li>
+  <li>The input section where users can add messages to the chat conversation. </li>
+</ul>
 
-This repository contains the working code for many of the [Ably tutorials](https://www.ably.io/tutorials).
+### Requirements
+To get this app running on your system, ensure that you are working with Node >= version 6 and npm >= version 5.2.
 
-This branch contains the code for a multi-lingual chat app built using IBM's translator API and Ably's Realtime API.
+### Getting Started
+Here are the steps to get this app running on your system.
+<ol>  
+  <li>Clone or download this app</li>
+  <li>Run `npm install`</li>
+  <li>In the `index.js` file, replace "YOUR_ABLY_API_KEY" on line 142 with your APP ID gotten from your Ably dashboard. Also, in the `server.js` file, replace the IBM-Watson credentials with the right credentials.</li>
+  <li>Run `npm start`</li>
+</ol>
 
-See [https://www.ably.io/tutorials](https://www.ably.io/tutorials) for a complete list of Ably tutorials. The source code for each tutorial exists as a branch in this repo, see [the complete list of tutorial branches in this repository](https://github.com/ably/tutorials/branches/all).
-
+### More Information
 To find out more Ably and our realtime data delivery platform, visit [https://www.ably.io](https://www.ably.io)
+
