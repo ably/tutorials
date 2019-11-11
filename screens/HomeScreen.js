@@ -1,43 +1,32 @@
 import React from 'react'
-import { ActivityIndicator, View, StyleSheet } from 'react-native'
+import { View, StyleSheet, Text, Button } from 'react-native'
 
-import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'
-
-import { geoLocationHook } from '../hooks/ably.hooks'
+import { Container, Content, Thumbnail, Header } from 'native-base'
 
 export default HomeScreen = ({ navigation }) => {
-  const [location, geoLoading] = geoLocationHook([])
-
+  //const uri = 'https://facebook.github.io/react-native/docs/assets/favicon.png'
+  const uri =
+    'https://specials-images.forbesimg.com/imageserve/5d54137895808800097cbe00/960x0.jpg?fit=scale'
   return (
-    <View style={styles.container}>
-      {!geoLoading ? (
-        <MapView
-          provider={PROVIDER_GOOGLE}
-          style={styles.map}
-          initialRegion={{
-            latitude: location.coords.latitude,
-            longitude: location.coords.longitude,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421
-          }}
-        >
-          <Marker
-            coordinate={{
-              latitude: location.coords.latitude,
-              longitude: location.coords.longitude
-            }}
-            pinColor="#000"
-          />
-        </MapView>
-      ) : (
-        <ActivityIndicator
-          size="large"
-          style={{ flex: 1, justifyContent: 'center' }}
-          color="#000"
-        />
-      )}
-    </View>
+    <Container style={styles.container}>
+      <Thumbnail large source={{ uri }} style={{ alignSelf: 'center' }} />
+      <Text style={{ textAlign: 'center', marginTop: 10, fontSize: 20 }}>
+        Watch and Track Arrivals to and Departure
+      </Text>
+      <Text style={{ textAlign: 'center', fontSize: 20 }}>
+        From London Heathrow Airport
+      </Text>
+      <Button
+        onPress={() => {
+          navigation.navigate('App')
+        }}
+        title="Start Flight Tracking Mode"
+      />
+    </Container>
   )
+}
+{
+  /*  */
 }
 
 HomeScreen.navigationOptions = {
@@ -45,11 +34,9 @@ HomeScreen.navigationOptions = {
 }
 
 const styles = StyleSheet.create({
-  map: {
-    ...StyleSheet.absoluteFillObject
-  },
   container: {
     flex: 1,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    justifyContent: 'center'
   }
 })

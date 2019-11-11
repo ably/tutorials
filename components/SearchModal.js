@@ -51,7 +51,7 @@ export default SearchModal = ({ navigation }) => {
         <Item>
           <Icon name="ios-search" />
           <Input
-            placeholder="Enter IATAID"
+            placeholder="Enter an IATAID"
             onChange={e => searchFlights(e.nativeEvent.text.toUpperCase())}
           />
           <Icon name="ios-airplane" />

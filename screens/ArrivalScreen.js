@@ -3,9 +3,9 @@ import { StyleSheet } from 'react-native'
 import { ListCards } from '../components/ListCards'
 import { Container, Content, Fab, Icon, Button } from 'native-base'
 import { useAblyChannel } from '../hooks/ably.hooks'
+import FabButton from '../components/FabButton'
 
 export default ArrivalScreen = ({ navigation }) => {
-  const [active, setActive] = useState(false)
   const [
     isConnecting,
     isLoading,
@@ -40,22 +40,7 @@ export default ArrivalScreen = ({ navigation }) => {
       ) : (
         <>
           <Content>{Arrivals}</Content>
-          <Fab
-            active={active}
-            direction="up"
-            containerStyle={{}}
-            style={{ backgroundColor: '#000' }}
-            position="bottomRight"
-            onPress={() =>
-              navigation.navigate('Search', {
-                data: channelData,
-                type: 'arrival',
-                rotate: true
-              })
-            }
-          >
-            <Icon name="search" />
-          </Fab>
+          <FabButton navigation={navigation} channelData={channelData}/>
         </>
       )}
     </Container>

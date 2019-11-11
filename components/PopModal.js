@@ -40,7 +40,7 @@ export default PopModal = ({ navigation }) => {
           {action === 'arrival' && setArrivals(`${iataId}`, null)}
           {action === 'departure' && setDepartures(`${iataId}`, null)}
           <ActivityIndicator size="large" color="#000" />
-          <Text style={{ fontSize: 12 }}>Loading for {iataId} </Text>
+          <Text style={{ fontSize: 12 }}>Loading live location of {iataId} </Text>
         </>
       ) : (
         <View
@@ -56,7 +56,7 @@ export default PopModal = ({ navigation }) => {
             bordered
             dark
           >
-            <Text style={{ padding: 10 }}>Launch Watch?</Text>
+            <Text style={{ padding: 10 }}>Launch Live Tracking?</Text>
           </Button>
           <Button
             style={{ marginLeft: 10 }}
@@ -73,5 +73,5 @@ export default PopModal = ({ navigation }) => {
 }
 
 PopModal.navigationOptions = {
-  headerLeft: null
+  header: null
 }

@@ -57,9 +57,9 @@ export default FlightDashboard = ({ handleClose, data }) => {
       </MapView>
       <View style={styles.dashboarWrap}>
         <View style={styles.dashboard}>
-          <ListIcons icon="ios-airplane" text={data.airline} label="AIRL" />
-          <ListIcons icon="ios-trending-up" text={data.long} label="LNG" />
-          <ListIcons icon="ios-speedometer" text={data.speed} label="Speed" />
+          <ListIcons icon="ios-airplane" text={data.airline} label="Airline" />
+          <ListIcons icon="ios-trending-up" text={data.long} label="Long" />
+          <ListIcons icon="ios-speedometer" text={data.speed} label="Speed (kt)" />
           <ListIcons icon="ios-trending-down" text={data.lat} label="LAT" />
           <ListIcons icon="ios-flash" text={data.iataId} label="IATAID" />
         </View>

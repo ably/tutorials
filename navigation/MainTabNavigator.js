@@ -22,7 +22,7 @@ const navigateRoute = (navigation, label, rotate) => {
   let tabBarVisible
   if (navigation.state.routes.length > 1) {
     navigation.state.routes.map(route => {
-      if (route.routeName === 'FlightMap') {
+      if (route.routeName === 'FlightMap' || route.routeName === 'Search' ||route.routeName === 'PopModal'  ) {
         tabBarVisible = false
       } else {
         tabBarVisible = true
@@ -44,23 +44,15 @@ const navigateRoute = (navigation, label, rotate) => {
   }
 }
 
-const HomeStack = createStackNavigator(
+export const HomeStack = createStackNavigator(
   {
-    Home: HomeScreen
+    Home: HomeScreen,
   },
   config
 )
 
-HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? `ios-home` : 'md-home'}
-      rotate="0deg"
-    />
-  ),
-  tabBarOptions: { activeTintColor: 'black' }
+HomeStack.navigationOptions = ({ navigation }) => {
+  return navigateRoute(navigation, 'Home', '45deg')
 }
 
 HomeStack.path = ''
@@ -89,18 +81,6 @@ const ArrivalStack = createStackNavigator(
   }
 )
 
-/* ArrivalStack.navigationOptions = {
-  tabBarLabel: 'Arrivals',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-airplane' : 'md-airplane'}
-      rotate="45deg"
-    />
-  ),
-  tabBarOptions: { activeTintColor: 'black' }
-}
- */
 ArrivalStack.navigationOptions = ({ navigation }) => {
   return navigateRoute(navigation, 'Arrival', '45deg')
 }
@@ -124,11 +104,9 @@ DepartureStack.navigationOptions = ({ navigation }) => {
 
 DepartureScreen.path = ''
 
-const tabNavigator = createBottomTabNavigator({
+export const BottomTabNavigator = createBottomTabNavigator({
   ArrivalStack,
   DepartureStack
 })
 
-tabNavigator.path = ''
-
-export default tabNavigator
+BottomTabNavigator.path = ''

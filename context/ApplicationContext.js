@@ -18,12 +18,17 @@ export default ApplicationContext = ({ children }) => {
 
   const departureListener = message => {
     console.log('Still Listening Departure', message.data)
-    message.data && setIsLoading(false) || setDeparturesData(message.data)
+    message.data && subscribing(message.data)
   }
 
   const arrivalListener = message => {
     console.log('Still Listening', message.data)
-    message.data && setIsLoading(false) || setArrivalsData(message.data)
+    message.data && subscribing(message.data)
+  }
+
+  const subscribing = data => {
+    setIsLoading(false)
+    setArrivalsData(data)
   }
 
   const unsubscribe = (useChannel, type) => {
