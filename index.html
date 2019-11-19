@@ -39,5 +39,32 @@
         </tr>
     </table>
 </body>
+<script>
+    var $resultWeather = $('#result-open-weather'),
+        oldTemperature = -50,
+        channelWeather,
+        eventSource;
+    var apiKey = "<YOUR-API-KEY>";
+    $('select#city-id').on('change', function () {
+        eventSource.close();
+        subscribeOpenWeather($('select#city-id').val());
+    });
+    subscribeOpenWeather($('select#city-id').val());
+    function subscribeOpenWeather(id) {
+        var channelWeather = "[product:ably-openweathermap/weather]weather:" + id;
+        var URL = `https://realtime.ably.io/sse?v=1.1&key=${apiKey}&channels=${encodeURIComponent(channelWeather)}&rewind=1`;
+        eventSource = new EventSource(URL);
+        eventSource.onmessage = function (msg) {
+            var message = JSON.parse(msg.data);
+            var weatherData = JSON.parse(message.data);
+            $resultWeather.text((weatherData.main.temp - 273.15).toFixed(2) + '°C with ' + weatherData.weather[0].description);
+        }
+        eventSource.onerror = function (error) {
+            if (error.data) {
+                $resultWeather.text(`Error: ${error.data}`);
+            }
+        }
+    }
+</script>
 
 </html>
