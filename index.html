@@ -40,4 +40,29 @@
     </table>
 </body>
 
+<script type="text/javascript">
+    window.addEventListener("load", function () {
+        var ably = new Ably.Realtime("<YOUR-API-KEY>"),
+            $resultWeather = $('#result-open-weather')
+            channelWeather;
+        subscribeOpenWeather($('select#city-id').val());
+        $('select#city-id').on('change', function () {
+            subscribeOpenWeather($('select#city-id').val());
+        });
+
+        function subscribeOpenWeather(id) {
+            // get the channel object with the rewind parameter set to 1
+            channelWeather = ably.channels.get('[product:ably-openweathermap/weather?rewind=1]weather:' + id);
+            let weatherDesc;
+            // subscribe to this channel and update the text box when new updates arrive
+            channelWeather.subscribe((msg) => {
+                if ($('select#city-id').val() == msg.data.id) {
+                    weatherDesc = msg.data.weather[0].description;
+                    $resultWeather.text((msg.data.main.temp - 273.15).toFixed(2) + '°C with ' + msg.data.weather[0].description);
+                }
+            });
+        }
+    });
+</script>
+
 </html>
