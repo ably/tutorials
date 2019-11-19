@@ -1,0 +1,43 @@
+<html>
+
+<head>
+    <title>Ably's rewind channel param tutorial</title>
+    <!-- CDN for JQuery -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <!-- CDN for Ably JS library -->
+    <script src="https://cdn.ably.io/lib/ably.min-1.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div>
+        City:
+        <!-- Drop down to select from the available cities -->
+        <select id="city-id">
+            <option value="2643741">London, UK</option>
+            <option value="1850147">Tokyo, Japan</option>
+            <option value="1273294">Delhi, India</option>
+            <option value="1796236">Shanghai, China</option>
+            <option value="3448439">Sao Paulo, Brazil</option>
+            <option value="5128581">New York, US</option>
+            <option value="360630">Cairo, Egypt</option>
+            <option value="2988507">Paris, France</option>
+            <option value="2950158">Berlin, Germany</option>
+            <option value="756135">Warsaw, Poland</option>
+            <option value="2147714">Sydney, Australia</option>
+        </select>
+    </div>
+    <br />
+    <table style="width:100%; padding: 20px; height: 50px;" border="1">
+        <tr>
+            <!-- Text Field to show the temperature info for the selected city -->
+            <td style="text-align: center;">
+                <div class="container">
+                    <h4 id="result-open-weather"></h4>
+                </div>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>
