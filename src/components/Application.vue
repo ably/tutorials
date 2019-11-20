@@ -93,6 +93,14 @@ export default {
       });
     }
   },
+  watch: {
+    membersdata: function() {
+      console.log(membersdata);
+    }
+  }
+};
+</script>
+
 <style>
 body {
   margin: 0;
