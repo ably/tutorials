@@ -31,6 +31,14 @@ var ably = new Ably.Realtime({
   clientId: `${Math.random() * 1000000}`
 });
 
+export default {
+  name: "Application",
+  mounted() {
+    const name = prompt('To get started, input your name in the field below and locate your friends around based on your location, please turn on your location setting \n What is your name?')
+    this.usersName = name
+    const channel = prompt('Enter name of channel you are interested in')
+    this.channelName = channel
+  },
       markers: [],
 
 <style>
