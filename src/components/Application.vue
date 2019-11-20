@@ -19,6 +19,16 @@
       />
     </GmapMap>
 
+    <div class="notification">
+      <p>Online Users: {{markers.length}}</p>
+        <ul>
+          <li v-for="(user, i) in onlineUsers" :key="i">
+            <pre v-text="user.data.userName"></pre>
+          </li>
+        </ul>
+    </div>
+  </div>
+</template>
 
 <script>
 import axios from "axios";
@@ -96,6 +106,9 @@ export default {
       onlineUsers: [],
       channelName: null
     };
+  },
+  components: {
+    Loading
   },
   methods: {
     fetchData() {
