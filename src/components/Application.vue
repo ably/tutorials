@@ -54,6 +54,34 @@ export default {
       channelName: null
     };
   },
+  methods: {
+    fetchData() {
+      if (!("geolocation" in navigator)) {
+        this.errorStr = "Geolocation is not available.";
+        return;
+      }
+      this.gettingLocation = true;
+      navigator.geolocation.watchPosition(
+        pos => {
+          this.gettingLocation = false;
+          this.initialPosition.lat = pos.coords.latitude;
+          this.initialPosition.lng = pos.coords.longitude;
+          const userData = {
+            position: {
+              lat: pos.coords.latitude,
+              lng: pos.coords.longitude
+            },
+            userName: this.usersName
+          };
+          this.userlocation = userData;
+          this.updateRoom(userData);
+        },
+        err => {
+          this.gettingLocation = false;
+          this.errorStr = err.message;
+        }
+      );
+    },
 
 <style>
 body {
