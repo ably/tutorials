@@ -39,6 +39,49 @@ export default {
     const channel = prompt('Enter name of channel you are interested in')
     this.channelName = channel
   },
+  async created() {
+    await this.fetchData();
+    var channel = ably.channels.get(this.channelName);
+    console.log(channel)
+    await channel.attach(err => {
+      if (err) {
+        return console.error("Error attaching to the channel");
+      }
+      console.log("We are now attached to the channel");
+      channel.presence.enter(this.userlocation, function(err) {
+        if (err) {
+          return console.error("Error entering presence");
+        }
+        console.log("We are now successfully present");
+      });
+    });
+
+    let membersData;
+    channel.presence.subscribe('update',function(presenceMsg) {
+      console.log(
+        "Received a " + presenceMsg.action + " from " + presenceMsg.clientId
+      );
+      channel.presence.get(function(err, members) {
+        membersData = members
+        console.log(
+          "There are now " + members.length + " clients present on this channel"
+        );
+      });
+    });
+
+
+
+    this.polling = setInterval(() => {
+      this.onlineUsers = membersData
+      this.markers = membersData.map((mem) => {
+        if (JSON.stringify(this.userlocation) == JSON.stringify(mem.data)) {
+          return {...mem.data, icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'}
+        } else {
+          return {...mem.data, icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'}
+        }
+      })
+    }, 3000);
+  },
   data() {
     return {
       usersName: null,
