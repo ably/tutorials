@@ -39,7 +39,21 @@ export default {
     const channel = prompt('Enter name of channel you are interested in')
     this.channelName = channel
   },
+  data() {
+    return {
+      usersName: null,
+      gettingLocation: true,
+      initialPosition: {
+        lat: 10,
+        lng: 10
+      },
+      zoom: 11,
       markers: [],
+      userlocation: [],
+      onlineUsers: [],
+      channelName: null
+    };
+  },
 
 <style>
 body {
