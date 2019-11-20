@@ -1,11 +1,21 @@
-[![Ably](https://s3.amazonaws.com/files.ably.io/logo-with-type.png)](https://www.ably.io)
+# friend-finder
 
----
+> a friend finder application using geolocation
 
-# Tutorials repository
+## Build Setup
 
-This repository contains the working code for many of the [Ably tutorials](https://www.ably.io/tutorials).
+``` bash
+# install dependencies
+npm install
 
-See [https://www.ably.io/tutorials](https://www.ably.io/tutorials) for a complete list of Ably tutorials. The source code for each tutorial exists as a branch in this repo, see [the complete list of tutorial branches in this repository](https://github.com/ably/tutorials/branches/all).
+# serve with hot reload at localhost:8080
+npm run dev
 
-To find out more Ably and our realtime data delivery platform, visit [https://www.ably.io](https://www.ably.io)
+# build for production with minification
+npm run build
+
+# build for production and view the bundle analyzer report
+npm run build --report
+```
+
+For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
