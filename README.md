@@ -9,3 +9,5 @@ This repository contains the working code for many of the [Ably tutorials](https
 See [https://www.ably.io/tutorials](https://www.ably.io/tutorials) for a complete list of Ably tutorials. The source code for each tutorial exists as a branch in this repo, see [the complete list of tutorial branches in this repository](https://github.com/ably/tutorials/branches/all).
 
 To find out more Ably and our realtime data delivery platform, visit [https://www.ably.io](https://www.ably.io)
+
+This branch contains the starter kit for the flight tracking tutorial built in React, using the Heathrow flights data stream on the Ably Hub.
