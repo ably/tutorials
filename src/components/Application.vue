@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <GmapMap
-      :center="{lat: initialPosition.lat, lng:initialPosition.lng}"
+      :center="{ lat: initialPosition.lat, lng: initialPosition.lng }"
       :zoom="10"
       map-type-id="terrain"
       style="width: 100%; height: 90%"
@@ -13,19 +13,19 @@
         :position="m.position"
         :clickable="true"
         :draggable="false"
-        @click="center=m.position"
+        @click="center = m.position"
         :icon="m.icon"
         :title="m.userName"
       />
     </GmapMap>
 
     <div class="notification">
-      <p>Online Users: {{markers.length}}</p>
-        <ul>
-          <li v-for="(user, i) in onlineUsers" :key="i">
-            <pre v-text="user.data.userName"></pre>
-          </li>
-        </ul>
+      <p>Online Users: {{ markers.length }}</p>
+      <ul>
+        <li v-for="(user, i) in onlineUsers" :key="i">
+          <pre v-text="user.data.userName"></pre>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -44,16 +44,17 @@ var ably = new Ably.Realtime({
 export default {
   name: "Application",
   mounted() {
-    const name = prompt('To get started, input your name in the field below and locate your friends around based on your location, please turn on your location setting \n What is your name?')
-    this.usersName = name
-    const channel = prompt('Enter name of channel you are interested in')
-    this.channelName = channel
+    const name = prompt(
+      "To get started, input your name in the field below and locate your friends around based on your location, please turn on your location setting \n What is your name?"
+    );
+    this.usersName = name;
+    const channel = prompt("Enter name of channel you are interested in");
+    this.channelName = channel;
   },
   async created() {
     await this.fetchData();
     var channel = ably.channels.get(this.channelName);
-    console.log(channel)
-    await channel.attach(err => {
+    channel.attach(err => {
       if (err) {
         return console.error("Error attaching to the channel");
       }
@@ -66,32 +67,35 @@ export default {
       });
     });
 
-    let membersData;
-    channel.presence.subscribe('update',function(presenceMsg) {
+    let self = this;
+    channel.presence.subscribe("update", function(presenceMsg) {
+      console.log(presenceMsg)
       console.log(
         "Received a " + presenceMsg.action + " from " + presenceMsg.clientId
       );
       channel.presence.get(function(err, members) {
-        membersData = members
+        console.log(members)
+        self.markers = members.map(mem => {
+          if (JSON.stringify(self.userlocation) == JSON.stringify(mem.data)) {
+            return {
+              ...mem.data,
+              icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+            };
+          } else {
+            return {
+              ...mem.data,
+              icon: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+            };
+          }
+        });
+        self.onlineUsers = members;
         console.log(
           "There are now " + members.length + " clients present on this channel"
         );
       });
     });
-
-
-
-    this.polling = setInterval(() => {
-      this.onlineUsers = membersData
-      this.markers = membersData.map((mem) => {
-        if (JSON.stringify(this.userlocation) == JSON.stringify(mem.data)) {
-          return {...mem.data, icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'}
-        } else {
-          return {...mem.data, icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'}
-        }
-      })
-    }, 3000);
   },
+
   data() {
     return {
       usersName: null,
@@ -149,11 +153,6 @@ export default {
       });
     }
   },
-  watch: {
-    membersdata: function() {
-      console.log(membersdata);
-    }
-  }
 };
 </script>
 
@@ -176,16 +175,15 @@ body {
 
 .notification {
   background: #ffffff;
-  padding-left: 2.0rem;
+  padding-left: 2rem;
   font-weight: bold;
   font-size: 13px;
-  padding-bottom: 1.0rem;
+  padding-bottom: 1rem;
 }
 
 i {
-  font-style: italic
+  font-style: italic;
 }
-
 
 main {
   text-align: center;
