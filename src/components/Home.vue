@@ -1,19 +1,18 @@
 <template>
   <div class="home">
-    <img src="../assets/cloud.svg" />
     <div class="write-up">
       <h4>Dear Friend,</h4>
-      <p>Welcome to Friend Finder the App</p>
+      <p>Welcome to friend-finder the App</p>
       <h3>Getting Started</h3>
       <ul>
         <li>Click on the big green button to start</li>
         <li>Enter your name and click Enter</li>
         <li>
           Enter the name of your friends channel, or enter the name of a channel
-          you want to create for yoiu and your friends, then hit Enter
+          you want to create ,for you and your friends, then hit Enter
         </li>
         <li>Share your channel name with your friends to join</li>
-        <li>you can zoom in and out to see your friends fromt the map</li>
+        <li>you can zoom in and out to see your friends from the map</li>
         <li>
           You would have detailed information about current friends in your
           channel
