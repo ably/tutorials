@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react'
 import { StyleSheet } from 'react-native'
 import { ListCards } from '../components/ListCards'
-import { Container, Content, Fab, Icon, Button } from 'native-base'
+import { Container, Content } from 'native-base'
 import { useAblyChannel } from '../hooks/ably.hooks'
+import FabButton from '../components/FabButton'
 
 export default ArrivalScreen = ({ navigation }) => {
   const [isLoading, displayMessqage, channelData] = useAblyChannel(
@@ -40,6 +41,11 @@ export default ArrivalScreen = ({ navigation }) => {
       ) : (
         <>
           <Content>{Arrivals}</Content>
+          <FabButton
+            navigation={navigation}
+            channelData={channelData}
+            type="arrival"
+          />
         </>
       )}
     </Container>
