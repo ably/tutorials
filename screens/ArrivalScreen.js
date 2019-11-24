@@ -1,17 +1,47 @@
 import React, { useEffect } from 'react'
 import { StyleSheet } from 'react-native'
-import { Container, Text } from 'native-base'
+import { ListCards } from '../components/ListCards'
+import { Container, Content, Fab, Icon, Button } from 'native-base'
+import { useAblyChannel } from '../hooks/ably.hooks'
 
 export default ArrivalScreen = ({ navigation }) => {
-  // TODO:
+  const [isLoading, displayMessqage, channelData] = useAblyChannel(
+    'arrivals',
+    []
+  )
 
   useEffect(() => {
-    console.log('Arrival Mounted')
+    console.log('Arrival Component Mounted')
   }, [])
 
+  const Arrivals = channelData
+    ? channelData.map((item, index) => {
+        return (
+          <ListCards
+            key={index}
+            text={`${item.origin} - ${item.destination} (${item.iataId})`}
+            icon="ios-airplane"
+            action={() =>
+              navigation.navigate('PopModal', {
+                iataId: item.iataId,
+                action: 'arrival',
+              })
+            }
+            rotate
+          />
+        )
+      })
+    : []
+
   return (
-    <Container style={styles.container}>
-      <Text style={styles.text}>Complete the Tutorial to see Arrival Data</Text>
+    <Container>
+      {isLoading ? (
+        <LoadingScreen message={displayMessqage} />
+      ) : (
+        <>
+          <Content>{Arrivals}</Content>
+        </>
+      )}
     </Container>
   )
 }
@@ -25,8 +55,5 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 15,
     backgroundColor: '#fff',
-  },
-  text: {
-    textAlign: 'center',
   },
 })

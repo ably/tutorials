@@ -1,19 +1,47 @@
 import React, { useEffect } from 'react'
-import { Container, Text } from 'native-base'
-import { StyleSheet } from 'react-native'
+import { ListCards } from '../components/ListCards'
+import { Container, Content } from 'native-base'
+import LoadingScreen from '../components/LoadingScreen'
+import { useAblyChannel } from '../hooks/ably.hooks'
 
 export default DepartureScreen = ({ navigation }) => {
-  //TODO:
+  const [isLoading, displayMessage, channelData] = useAblyChannel(
+    'departures',
+    []
+  )
 
   useEffect(() => {
-    console.log('Depature Mounted')
+    console.log('Departure Component Mounted')
   }, [])
 
+  const Departures = channelData
+    ? channelData.map((item, index) => {
+        // console.log(channelData)
+        return (
+          <ListCards
+            key={index}
+            text={`${item.origin} - ${item.destination} (${item.iataId})`}
+            icon="ios-airplane"
+            action={() =>
+              navigation.navigate('PopModal', {
+                iataId: item.iataId,
+                action: 'departure',
+              })
+            }
+          />
+        )
+      })
+    : []
+
   return (
-    <Container style={styles.container}>
-      <Text style={styles.text}>
-        Complete the Tutorial to see Departures Data
-      </Text>
+    <Container>
+      {isLoading ? (
+        <LoadingScreen message={displayMessage} />
+      ) : (
+        <>
+          <Content>{Departures}</Content>
+        </>
+      )}
     </Container>
   )
 }
@@ -21,14 +49,3 @@ export default DepartureScreen = ({ navigation }) => {
 DepartureScreen.navigationOptions = {
   title: 'Departures from London',
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 15,
-    backgroundColor: '#fff',
-  },
-  text: {
-    textAlign: 'center',
-  },
-})

@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import Context from './context'
 import { ably } from '../env'
 
-const HUB_STREAM = '<HUB_API_STREAM_CHANNEL>'
+const HUB_STREAM = '[product:ably-flightradar24/heathrow-flights]flights:plane'
+
 
 export default ApplicationContext = ({ children }) => {
   const [arrivals, setArrivalsData] = useState(null)
