@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react'
 import { ably } from '../env'
 
 //set CHANNEL_SCOPE  channel
-const CHANNEL_SCOPE = '[product:ably-flightradar24/heathrow-flights]flights:airport:LHR'
-
+const CHANNEL_SCOPE = '<HUB_CHANNEL_SCOPE>'
 export const useAblyChannel = (channel, dependencies) => {
 
   const [onMessage, setOnMessage] = useState('Please wait..')

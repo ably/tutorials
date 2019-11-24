@@ -1,53 +1,19 @@
 import React, { useEffect } from 'react'
-import { ListCards } from '../components/ListCards'
-import { Container, Content } from 'native-base'
-import LoadingScreen from '../components/LoadingScreen'
-import { useAblyChannel } from '../hooks/ably.hooks'
-import FabButton from '../components/FabButton'
+import { Container, Text } from 'native-base'
+import { StyleSheet } from 'react-native'
 
 export default DepartureScreen = ({ navigation }) => {
-  const [isLoading, displayMessage, channelData] = useAblyChannel(
-    'departures',
-    []
-  )
+  //TODO:
 
   useEffect(() => {
-    console.log('Departure Component Mounted')
+    console.log('Depature Mounted')
   }, [])
 
-  const Departures = channelData
-    ? channelData.map((item, index) => {
-        // console.log(channelData)
-        return (
-          <ListCards
-            key={index}
-            text={`${item.origin} - ${item.destination} (${item.iataId})`}
-            icon="ios-airplane"
-            action={() =>
-              navigation.navigate('PopModal', {
-                iataId: item.iataId,
-                action: 'departure',
-              })
-            }
-          />
-        )
-      })
-    : []
-
   return (
-    <Container>
-      {isLoading ? (
-        <LoadingScreen message={displayMessage} />
-      ) : (
-        <>
-          <Content>{Departures}</Content>
-          <FabButton
-            navigation={navigation}
-            channelData={channelData}
-            type="departure"
-          />
-        </>
-      )}
+    <Container style={styles.container}>
+      <Text style={styles.text}>
+        Complete the Tutorial to see Departures Data
+      </Text>
     </Container>
   )
 }
