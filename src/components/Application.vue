@@ -49,6 +49,19 @@ var ably = new Ably.Realtime({
     this.channelName = channel;
   },
     await this.fetchData();
+    var channel = ably.channels.get(this.channelName);
+    channel.attach(err => {
+      if (err) {
+        return console.error("Error attaching to the channel");
+      }
+      console.log("We are now attached to the channel");
+      channel.presence.enter(this.userlocation, function(err) {
+        if (err) {
+          return console.error("Error entering presence");
+        }
+        console.log("We are now successfully present");
+      });
+    });
 
   data() {
     return {
