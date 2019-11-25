@@ -69,6 +69,28 @@ var ably = new Ably.Realtime({
         "Received a " + presenceMsg.action + " from " + presenceMsg.clientId
       );
       channel.presence.get(function(err, members) {
+        console.log(members)
+        self.markers = members.map(mem => {
+          if (JSON.stringify(self.userlocation) == JSON.stringify(mem.data)) {
+            return {
+              ...mem.data,
+              icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+            };
+          } else {
+            return {
+              ...mem.data,
+              icon: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+            };
+          }
+        });
+        self.onlineUsers = members;
+        console.log(
+          "There are now " + members.length + " clients present on this channel"
+        );
+      });
+    });
+  },
+
   data() {
     return {
       usersName: null,
