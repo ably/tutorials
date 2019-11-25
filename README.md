@@ -18,8 +18,7 @@ npm run build
 npm run build --report
 ```
 
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
-=======
+
 To find out more Ably and our realtime data delivery platform, visit [https://www.ably.io](https://www.ably.io)
 
 This branch contains the source code for the realtime location tracking app made in Vue JS that allows you to track your friends location on a live map.
