@@ -16,3 +16,12 @@
         :title="m.userName"
       />
     </GmapMap>
+
+    <div class="notification">
+      <p>Online Users: {{ markers.length }}</p>
+      <ul>
+        <li v-for="(user, i) in onlineUsers" :key="i">
+          <pre v-text="user.data.userName"></pre>
+        </li>
+      </ul>
+    </div>
