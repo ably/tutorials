@@ -1,3 +1,5 @@
+<template>
+  <div id="app">
     <GmapMap
       :center="{ lat: initialPosition.lat, lng: initialPosition.lng }"
       :zoom="10"
@@ -25,3 +27,6 @@
         </li>
       </ul>
     </div>
+  </div>
+</template>
+
