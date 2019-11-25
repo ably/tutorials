@@ -63,6 +63,12 @@ var ably = new Ably.Realtime({
       });
     });
 
+    channel.presence.subscribe("update", function(presenceMsg) {
+      console.log(presenceMsg)
+      console.log(
+        "Received a " + presenceMsg.action + " from " + presenceMsg.clientId
+      );
+      channel.presence.get(function(err, members) {
   data() {
     return {
       usersName: null,
