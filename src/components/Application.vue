@@ -34,3 +34,8 @@ import axios from "axios";
 import * as Ably from "ably";
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
+
+var ably = new Ably.Realtime({
+  key: "<ably key>",
+  clientId: `${Math.random() * 1000000}`
+});
