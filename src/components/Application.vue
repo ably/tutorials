@@ -30,6 +30,7 @@
   </div>
 </template>
 
+<script>
 import axios from "axios";
 import * as Ably from "ably";
 import Loading from "vue-loading-overlay";
@@ -40,6 +41,8 @@ var ably = new Ably.Realtime({
   clientId: `${Math.random() * 1000000}`
 });
 
+export default {
+  name: "Application",
   mounted() {
     const name = prompt(
       "To get started, input your name in the field below and locate your friends around based on your location, please turn on your location setting \n What is your name?"
@@ -48,6 +51,7 @@ var ably = new Ably.Realtime({
     const channel = prompt("Enter name of channel you are interested in");
     this.channelName = channel;
   },
+  async created() {
     await this.fetchData();
     var channel = ably.channels.get(this.channelName);
     channel.attach(err => {
@@ -63,6 +67,7 @@ var ably = new Ably.Realtime({
       });
     });
 
+    let self = this;
     channel.presence.subscribe("update", function(presenceMsg) {
       console.log(presenceMsg)
       console.log(
@@ -147,3 +152,98 @@ var ably = new Ably.Realtime({
         console.log("We have successfully updated our data");
       });
     }
+  },
+};
+</script>
+
+<style>
+body {
+  margin: 0;
+}
+
+#app {
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+  background: #becbd8;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.notification {
+  background: #ffffff;
+  padding-left: 2rem;
+  font-weight: bold;
+  font-size: 13px;
+  padding-bottom: 1rem;
+}
+
+i {
+  font-style: italic;
+}
+
+main {
+  text-align: center;
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+  width: 25%;
+  margin: 20px auto;
+  height: 65%;
+}
+h1 {
+  line-height: 0;
+  font-size: 7em;
+}
+
+sup {
+  font-size: 20px;
+}
+
+span {
+  font-size: 20px;
+}
+
+img {
+  width: 150px;
+  vertical-align: top;
+}
+
+.details {
+  color: #35495e;
+  font-weight: bold;
+  text-align: center;
+}
+
+header {
+  margin: 0;
+  height: 56px;
+  padding: 0 16px 0 24px;
+  background-color: #35495e;
+  color: #ffffff;
+}
+
+header span {
+  display: block;
+  position: relative;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  font-weight: 400;
+  box-sizing: border-box;
+  padding-top: 16px;
+}
+
+@media screen and (max-width: 450px) {
+  main {
+    box-shadow: none;
+    width: 100%;
+  }
+}
+</style>
