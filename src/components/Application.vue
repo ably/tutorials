@@ -75,3 +75,13 @@ var ably = new Ably.Realtime({
         }
       );
     },
+
+    updateRoom(data) {
+      var channel = ably.channels.get(this.channelName);
+      channel.presence.update(data, function(err) {
+        if (err) {
+          return console.error("Error updating presence data");
+        }
+        console.log("We have successfully updated our data");
+      });
+    }
