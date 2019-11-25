@@ -48,6 +48,26 @@ var ably = new Ably.Realtime({
     const channel = prompt("Enter name of channel you are interested in");
     this.channelName = channel;
   },
+
+  data() {
+    return {
+      usersName: null,
+      gettingLocation: true,
+      initialPosition: {
+        lat: 10,
+        lng: 10
+      },
+      zoom: 11,
+      markers: [],
+      userlocation: [],
+      onlineUsers: [],
+      channelName: null
+    };
+  },
+  components: {
+    Loading
+  },
+  methods: {
     fetchData() {
       if (!("geolocation" in navigator)) {
         this.errorStr = "Geolocation is not available.";
