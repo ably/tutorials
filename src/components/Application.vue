@@ -48,6 +48,7 @@ var ably = new Ably.Realtime({
     const channel = prompt("Enter name of channel you are interested in");
     this.channelName = channel;
   },
+    await this.fetchData();
 
   data() {
     return {
