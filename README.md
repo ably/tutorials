@@ -56,4 +56,4 @@ expo start
 expo build
 ```
 
-You can quickly follow up the toturial [here](https://dev.to/ablydev) to build your own live flight tracking application
+You can quickly follow up the tutorial [here](https://dev.to/ablydev) to build your own live flight tracking application
