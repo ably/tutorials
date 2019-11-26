@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { ably } from '../env'
 
 //set CHANNEL_SCOPE  channel
-const CHANNEL_SCOPE = '<HUB_CHANNEL_SCOPE>'
+const CHANNEL_NAME = '<CHANNEL_NAME>'
 export const useAblyChannel = (channel, dependencies) => {
 
   const [onMessage, setOnMessage] = useState('Please wait..')
