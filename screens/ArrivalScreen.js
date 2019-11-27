@@ -4,6 +4,8 @@ import { ListCards } from '../components/ListCards'
 import { Container, Content } from 'native-base'
 import { useAblyChannel } from '../hooks/ably.hooks'
 import FabButton from '../components/FabButton'
+import LoadingScreen from '../components/LoadingScreen'
+
 
 export default ArrivalScreen = ({ navigation }) => {
   const [isLoading, displayMessqage, channelData] = useAblyChannel(
