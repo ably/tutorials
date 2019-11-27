@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { ably } from '../env'
 
 //set CHANNEL_SCOPE  channel
-  const HUB_STREAM =
+  const CHANNEL_NAME =
     '[product:ably-flightradar24/heathrow-flights]flights:airport:LHR'
 export const useAblyChannel = (channel, dependencies) => {
 
@@ -20,7 +20,7 @@ export const useAblyChannel = (channel, dependencies) => {
       setLoading(true)
     })
 
-    const useChannel = ably.channels.get(`${CHANNEL_SCOPE}:${channel}`)
+    const useChannel = ably.channels.get(`${CHANNEL_NAME}:${channel}`)
     useChannel.subscribe(message => {
       if (message.data.length > 0) {
         setOnMessage('Loading Data...')
