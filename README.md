@@ -1,5 +1,7 @@
 [![Ably](https://s3.amazonaws.com/files.ably.io/logo-with-type.png)](https://www.ably.io)
 
+This repository contains source code to implement Push Notifications on iOS devices using Ably's realtime libraries.
+
 ---
 
 # Tutorials repository

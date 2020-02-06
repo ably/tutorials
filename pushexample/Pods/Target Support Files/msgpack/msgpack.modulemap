@@ -1,0 +1,5 @@
+
+framework module msgpack {
+  umbrella header "MessagePack.h"
+  export *
+}

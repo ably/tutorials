@@ -1,0 +1,11 @@
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Ably" "${PODS_CONFIGURATION_BUILD_DIR}/KSCrashAblyFork" "${PODS_CONFIGURATION_BUILD_DIR}/SAMKeychain" "${PODS_CONFIGURATION_BUILD_DIR}/SocketRocketAblyFork" "${PODS_CONFIGURATION_BUILD_DIR}/ULID" "${PODS_CONFIGURATION_BUILD_DIR}/msgpack"
+GCC_ENABLE_CPP_EXCEPTIONS = YES
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Ably/Ably.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/KSCrashAblyFork/KSCrashAblyFork.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/SAMKeychain/SAMKeychain.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/SocketRocketAblyFork/SocketRocketAblyFork.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/ULID/ULID.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/msgpack/msgpack.framework/Headers"
+LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
+OTHER_LDFLAGS = $(inherited) -l"c++" -l"icucore" -l"z" -framework "Ably" -framework "CFNetwork" -framework "Foundation" -framework "KSCrashAblyFork" -framework "MessageUI" -framework "SAMKeychain" -framework "Security" -framework "SocketRocketAblyFork" -framework "SystemConfiguration" -framework "ULID" -framework "msgpack"
+PODS_BUILD_DIR = ${BUILD_DIR}
+PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
+PODS_PODFILE_DIR_PATH = ${SRCROOT}/.
+PODS_ROOT = ${SRCROOT}/Pods
+USE_RECURSIVE_SCRIPT_INPUTS_IN_SCRIPT_PHASES = YES

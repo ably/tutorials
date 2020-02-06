@@ -1,0 +1,7 @@
+${PODS_ROOT}/Target Support Files/Pods-pushexample/Pods-pushexample-frameworks.sh
+${BUILT_PRODUCTS_DIR}/Ably/Ably.framework
+${BUILT_PRODUCTS_DIR}/KSCrashAblyFork/KSCrashAblyFork.framework
+${BUILT_PRODUCTS_DIR}/SAMKeychain/SAMKeychain.framework
+${BUILT_PRODUCTS_DIR}/SocketRocketAblyFork/SocketRocketAblyFork.framework
+${BUILT_PRODUCTS_DIR}/ULID/ULID.framework
+${BUILT_PRODUCTS_DIR}/msgpack/msgpack.framework

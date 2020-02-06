@@ -1,0 +1,6 @@
+framework module Pods_pushexample {
+  umbrella header "Pods-pushexample-umbrella.h"
+
+  export *
+  module * { export * }
+}
