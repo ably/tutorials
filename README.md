@@ -12,7 +12,7 @@ The project was bootstrapped with [Create React App](https://github.com/facebook
 
 Clone the repository and then install the dependencies:
 
-### `$ npm install`
+### `npm install`
 
 ## Run a the app in development mode
 
