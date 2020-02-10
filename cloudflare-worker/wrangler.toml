@@ -1,0 +1,6 @@
+name = "2d-worker"
+type = "webpack"
+account_id = "YOUR_CLOUDFLARE_ACCOUNT_ID"
+workers_dev = true
+route = ""
+zone_id = ""

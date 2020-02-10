@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/static/css/main.ae313cc4.chunk.css",
+    "main.js": "/static/js/main.feccfbeb.chunk.js",
+    "main.js.map": "/static/js/main.feccfbeb.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.9bc42e9a.js",
+    "runtime-main.js.map": "/static/js/runtime-main.9bc42e9a.js.map",
+    "static/js/2.965d99ec.chunk.js": "/static/js/2.965d99ec.chunk.js",
+    "static/js/2.965d99ec.chunk.js.map": "/static/js/2.965d99ec.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.d4e13a9459ea58813650a188452a0738.js": "/precache-manifest.d4e13a9459ea58813650a188452a0738.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.ae313cc4.chunk.css.map": "/static/css/main.ae313cc4.chunk.css.map",
+    "static/js/2.965d99ec.chunk.js.LICENSE": "/static/js/2.965d99ec.chunk.js.LICENSE",
+    "static/media/DM-CGS-18.wav": "/static/media/DM-CGS-18.52ceb82a.wav",
+    "static/media/DM-CGS-45.wav": "/static/media/DM-CGS-45.022609e8.wav",
+    "static/media/player_walk.png": "/static/media/player_walk.9f19440f.png",
+    "static/media/road_0.png": "/static/media/road_0.cdfb2ff8.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.9bc42e9a.js",
+    "static/js/2.965d99ec.chunk.js",
+    "static/css/main.ae313cc4.chunk.css",
+    "static/js/main.feccfbeb.chunk.js"
+  ]
+}
