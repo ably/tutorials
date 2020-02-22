@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import World from './feature/world'
+import Scoreboard from './feature/scoreboard'
+import { Switch, Route, BrowserRouter as Router } from 'react-router-dom'
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    //const match = useRouteMatch()
+    return (
+        <Router>
+            <div>
+                <Switch>
+                    <Route path="/scoreboard">
+                        <Scoreboard />
+                    </Route>
+                    <Route path="/">
+                        <main className="arcade">
+                            <h1 className="arcade-top">FaaS-T DELIVERY!</h1>
+                            <div className="arcade-back">
+                                <World />
+                            </div>
+                            <a href="/scoreboard" rel="noopener noreferrer nofollow" target="_blank" className="base">Go to alerts dashboard</a>
+                        </main>
+                    </Route>
+                </Switch>
+            </div>
+        </Router>
+    )
 }
 
-export default App;
+export default App

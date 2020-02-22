@@ -1,14 +1,23 @@
 {
-  "name": "app",
+  "name": "ably-game",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.26",
+    "@fortawesome/free-solid-svg-icons": "^5.12.0",
+    "@fortawesome/react-fontawesome": "^0.1.8",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "@types/redux": "^3.6.0",
+    "ably": "^1.1.22",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-scripts": "3.4.0"
+    "react-redux": "^7.1.3",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.3.0",
+    "redux": "^4.0.5",
+    "uifx": "^2.0.7"
   },
   "scripts": {
     "start": "react-scripts start",

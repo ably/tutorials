@@ -1,0 +1,202 @@
+/* apply a natural box layout model to all elements, but allowing components to change */
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.tile{
+    display: inline-flex;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 40px;
+    height: 40px;
+}
+
+.finish{
+    background-image: url('/tiles/cover.png');
+    position: relative;
+}
+
+.finish:after {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: url('/tiles/finish.png') 0 0 no-repeat;
+    background-size: 40px;
+    animation: spring 1.5s;
+    animation-timing-function: ease;
+    animation-iteration-count: 6;
+    backface-visibility: hidden;
+    transform: translate3d(0, 0, 0);
+    perspective: 1000px;      
+
+}
+
+@keyframes spring { 
+    0% {
+      transform: scale(1) translateY(0); 
+    }
+    10% {
+      transform: scale(1.2, 0.6); 
+    }
+    30% { 
+      transform: scale(0.8, 1.1) translateY(-20px); 
+    }
+    50% { 
+      transform: scale(1) translateY(0); 
+    }
+    100% { 
+      transform: translateY(0); 
+    }
+  }
+
+.arcade {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.arcade-top {
+    position: relative;
+    width: 1020px;
+    padding: 20px;
+    background-color: #F9A01B;
+    border-left: #ED760A 20px solid;
+    border-right: #ED760A 20px solid;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1.8em;
+    text-align: center;
+    color: white;
+}
+
+.arcade-top:after {
+    content: "";
+    position: absolute;
+    display: block;
+    border-top: 40px solid #ea971a;
+    border-left: 70px solid transparent;
+    border-right: 70px solid transparent;
+    height: 0;
+    width: 980px;
+    left: 50%;
+    transform: translate(-50%, 20px);
+}
+
+.arcade-top:before {
+    content: "";
+    position: absolute;
+    display: block;
+    border-top: 40px solid #ED760A;
+    border-left: 70px solid transparent;
+    border-right: 70px solid transparent;
+    height: 0;
+    width: 1020px;
+    left: 50%;
+    top: 100%;
+    transform: translate(-50%, 0px);
+}
+
+.arcade-back {
+    position: relative;
+    width: 880px;
+    padding: 20px;
+    background-color: #da8406;
+    border-left: #e06d05 20px solid;
+    border-right: #e06d05 20px solid;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1.8em;
+    text-align: center;
+    color: white;    transform: translate(0, 20px);
+}
+
+.world{
+    position: relative;
+    width: 800px;
+    height: 480px;
+    border-radius: 5px;
+    background: url('/tiles/road_0.png') no-repeat 0 0;
+    background-size: contain;
+    overflow: hidden;
+    box-shadow: inset 0px 0px 50px 0px rgba(0,0,0,0.5);
+}
+
+.base {
+    display: block;
+    background: url(/tiles/arcade.png) no-repeat 0 0;
+    background-size: cover;
+    height: 500px;
+    width: 1059px;
+    z-index: 1;
+    font-size: 0;
+    transform: translate(0, 9px);
+}
+
+.base:hover {
+    background-image: url(/tiles/arcade_press.png);
+}
+
+.stones{
+    position: relative;
+}
+
+.pause-screen-wrapper{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    position: relative;
+}
+
+.pause-screen{
+    position: absolute;
+    height: 55px;
+    top: 30%;
+    width: 100%;
+}
+
+.end{
+    color: white;
+    text-align: center;
+    position: absolute;
+    background-color: rgba(0,0,0,0.6);
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    line-height: 1.2em;
+    z-index: 1;
+}
+
+.end-text {
+    display: block;
+    margin-top: 40px;
+    font-size: 0.5em;
+}
+
+.scoreboard-title {
+    padding: 20px 20px 20px 120px;
+    background: url('/tiles/truck.png') no-repeat 20px 20px #F9A01B;
+    background-size: 80px;
+    color: white;
+}
+
+.scoreboard-list {
+    padding: 0;
+    margin: 0;
+}
+
+.scoreboard-item {
+    margin: 20px;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: white;
+    color: #333;
+}

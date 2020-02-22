@@ -1,0 +1,27 @@
+.pop-wrapper {
+    background: rgba(0,0,0,0.6);
+    width: 100%;
+    margin: 0px auto;
+    height: 100%;
+    padding: 60px;
+    text-align: center;
+    position: relative;
+    border-radius: 4px;
+    line-height: 1.4em;
+}
+
+.pop-wrapper button{
+    width: 28%;
+    border-radius: 5px;
+    border: none;
+    background: #F9A01B;
+    color: white;
+    padding: 10px;
+    outline: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.3em;
+}
+.pop-wrapper button:hover{
+    background-color: #ED760A;
+}
