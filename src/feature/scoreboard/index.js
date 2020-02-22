@@ -8,7 +8,7 @@ class Scoreboard extends React.Component {
         this.scoreboard = [];
         console.log("subscribing to ably");
         
-        const ably = new Realtime('1Mp0GA.sk52-w:0wBfApEvp7mnSI49')
+        const ably = new Realtime('<API_KEY>')
         ably.connection.on('connected', () => {
             console.log('Successfully connected!')
             
