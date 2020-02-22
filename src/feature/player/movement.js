@@ -8,7 +8,7 @@ import {
     MAP_WIDTH,
 } from '../constants'
 import store from '../../config/store'
-import { getNewPosition } from '../../util'
+import { getNewPosition, channelId } from '../../util'
 require('../../ably')
 
 const localPlayerSteps = JSON.parse(localStorage.getItem('steps'))
@@ -16,6 +16,13 @@ let playerSteps = localPlayerSteps || 0
 
 export const movement = player => {
     //TODO: Add Ably Script
+    window.Ably.connection.on(function(stateChange) {
+        console.log('New connection state is ' + stateChange.current)
+    })
+
+    const outboundChannel = window.Ably.channels.get(
+        'cloudflare:worker:' + channelId(6)
+    )
 
     const getCurrentTiles = () => {
         const level = store.getState().control.level
@@ -59,7 +66,12 @@ export const movement = player => {
                 })
 
                 // TODO: Add Ably Outbound Channel
-                
+                outboundChannel.publish('player', { playerSteps }, err => {
+                    if (err) {
+                        return console.error('Failed to publish', err)
+                    }
+                    console.log('published')
+                })
                 return window.alert(
                     ` Delivery ${level + 1} completed successfully!`
                 )
