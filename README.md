@@ -1,5 +1,7 @@
 [![Ably](https://s3.amazonaws.com/files.ably.io/logo-with-type.png)](https://www.ably.io)
 
+This branch contains the working code to build an IoT based realtime attendance system for Slack. You can check out the [associated tutorial](https://www.ably.io/tutorials/realtime-attendance-system-iot) to try this out yourself.
+
 ---
 
 # Tutorials repository
