@@ -1,0 +1,25 @@
+<svg viewport-fill="black">
+<!-- Clock -->
+  <text id="myClock" x="50%" y="40%" font-size="32" font-family="System-Regular" 
+  text-anchor="middle" text-length="20" fill="fb-cyan">00:00:00</text>
+  <!-- Train time -->
+  <text id="trainlabel" x="3%" y="10%" fill="fb-indigo" font-family="Seville-Bold-Italic" 
+  text-length="30"></text>
+  <text id="teta" x="6%" y="20%" fill="fb-lavender" text-length="30"></text>
+  <!-- Walk time -->
+  <text id="walkinglabel" x="54%" y="89%" fill="fb-indigo" font-family="Seville-Bold-Italic" 
+  text-length="30"></text>
+  <text id="weta" x="66%" y="98%" fill="fb-lavender" text-length="30"></text>
+  <!-- Spinner -->
+  <use id="spinner" href="#spinner" x="50%-25" y= "50%-25" 
+  width="50" height="50" fill="fb-lavender" />
+  <!-- Arc -->
+  <arc id="cir" x="50" y="50" width="200" height="190" 
+  fill="fb-green" arc-width="6" start-angle="0" sweep-angle="360">
+    <!-- Leave in -->
+    <text id="leavelabel" x="33%" y="55%" fill="fb-indigo" 
+    font-family="Seville-Bold-Italic" text-length="30"></text>
+    <text id="eta" x="38%" y="65%" fill="fb-green" 
+    font-family="Fabrikat-Bold" text-length="30"></text>
+  </arc>
+</svg>
