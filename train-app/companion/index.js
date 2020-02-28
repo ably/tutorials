@@ -4447,3 +4447,75 @@ function sendMessage() {
         }
       });
  }
+
+ if (JSON.parse(settingsStorage.getItem("line")) != null) {
+    sendMessage();
+   }
+   
+   // OnChange of the settings
+   settingsStorage.onchange = function(evt) {
+     // evt holds the setting which triggered the onchange
+     if (evt.key == "line") {
+       // We get the old and new value of the setting
+       const lineOld =
+         evt.oldValue == null ? "" : JSON.parse(evt.oldValue).values[0].name;
+       const lineNew = JSON.parse(evt.newValue).values[0].name;
+       // If same we just return 
+       if (lineOld == lineNew) return;
+       // If not same we reset the next options
+       settingsStorage.setItem("origin", '{"name":""}');
+       settingsStorage.setItem("stationspossible", "");
+       settingsStorage.setItem("towards", '{"name":""}');
+       settingsStorage.setItem("via", "");
+       // Get the Stations List for the new line
+       const stationsList = StationsIDMapping.filter(function(train) {
+         return train.line === lineNew;
+       });
+       // Get just the station name
+       const stationsOptions = stationsList.map(train => {
+         const { stationid, line, ...rest } = train;
+         return { name: rest.station };
+       });
+       // Update the stationspossible with the new value
+       settingsStorage.setItem(
+         "stationspossible",
+         `{"values":${JSON.stringify(stationsOptions)}} `
+       );
+     } else if (evt.key == "origin") {
+       // We get the old and new value of the setting
+       const originOld = JSON.parse(evt.oldValue).name;
+       const originNew = JSON.parse(evt.newValue).name;
+       const lineNew = JSON.parse(settingsStorage.getItem("line")).values[0].name;
+       // If same we just return 
+       if (originNew == originOld) return;
+       // If not same we reset the next options
+       settingsStorage.setItem("towards", '{"name":""}');
+       settingsStorage.setItem("via", "");
+       // Get the viaOptions for the new origin
+       const viaOptions = towardsMapping.filter(function(mapping) {
+         return mapping.line === lineNew && mapping.origin === originNew;
+       });
+       // Get just the towards options
+       const towardsOptions = viaOptions[0].towards.map(mapping => {
+         return { name: mapping };
+       });
+       // Update the via with the new value 
+       settingsStorage.setItem(
+         "via",
+         `{"values":${JSON.stringify(towardsOptions)}} `
+       );
+     } else if (evt.key == "towards") {
+       // We get the old and new value of the setting
+       const towardsOld = JSON.parse(evt.oldValue).name;
+       const towardsNew = JSON.parse(evt.newValue).name;
+       // If same we just return 
+       if (towardsOld == towardsNew) return;
+     }
+     sendMessage();
+   };
+   // Listen for the onerror event
+   messaging.peerSocket.onerror = function(err) {
+     // Handle any errors
+     console.log("Connection error: " + err.code + " - " + err.message);
+   };
+   
