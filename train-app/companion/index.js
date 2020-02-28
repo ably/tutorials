@@ -4378,3 +4378,72 @@ function locationSuccess(position) {
 function locationError(error) {
   console.log("Error: " + error.code, "Message: " + error.message);
 }
+
+function sendMessage() {
+    // Get the line, origin station & towards from Companion settings through settingsStorage
+    const line = JSON.parse(settingsStorage.getItem("line")).values[0].name;
+    const station = JSON.parse(settingsStorage.getItem("origin")).name;
+    const towards = JSON.parse(settingsStorage.getItem("towards")).name;
+  
+    if (station === "" || towards === "") return
+      // Get stationId for the selected line and origin station,
+      // using the StationsIDMapping static data
+      const stationId = StationsIDMapping.filter(function(train) {
+        return train.line === line && train.station === station;
+      });
+ 
+      // We use the Ably TFL Hub, to recieve update for the given line & stationid (station & towards)   
+      let channelName = `[product:ably-tfl/tube]tube:${line}:${stationId[0].stationid}:arrivals`;
+      let trainChannel = realtime.channels.get(channelName);
+      // Replace the space with plus so that it can be passed to Google API
+      let dest = station.split(" ").join("+");
+      if (latitude !== undefined && longitude !== undefined) {
+        // Sending current location & station as destination to Google API to get walking time
+        let googleUrl = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${latitude},${longitude}&destinations=${dest}&mode=walking&key=${apiKey}`;
+        fetch(googleUrl, {
+          method: "GET"
+        })
+          .then(function(res) {
+            return res.json();
+          })
+          .then(function(data) {
+            let myData = data;
+             // Convert the time to mins
+            walkingTime = Math.floor(
+              myData.rows[0].elements[0].duration.value / 60
+            );
+          })
+          .catch(err => console.log("[FETCH]: " + err));
+      }
+ 
+      // We subscribe to the messages coming on the Ably TFL Hub channel   
+      trainChannel.subscribe(msg => {
+        /* station update in msg */
+        // Get upcoming trains for our user input of line, station and towards
+        const trains = msg.data.filter(train => {
+          return (
+            line === train.LineId &&
+            station === train.StationName &&
+            towards === train.Towards &&
+            Math.floor((new Date(train.ExpectedArrival) - new Date())/1000/60) >= walkingTime
+          );
+        });
+        // Get the first upcoming train time
+        let trainTime = new Date(trains[0].ExpectedArrival);
+        let currentTime = new Date();
+        let diff = trainTime - currentTime;
+        timeToArrival = Math.floor(diff / 1000 / 60);
+        // Now using the messaging module we send the data to the app 
+        // Walk time, train time 
+        if (
+          messaging.peerSocket.readyState === messaging.peerSocket.OPEN &&
+          walkingTime !== undefined
+        ) {
+          messaging.peerSocket.send({
+            tTA: timeToArrival,
+            wT: walkingTime,
+            lT: (timeToArrival - walkingTime) > 30? "FAR" : (timeToArrival - walkingTime)
+          });
+        }
+      });
+ }
