@@ -4343,3 +4343,38 @@ const StationsIDMapping = [
       towards: ["Hainault", "Woodford Via Hainault"]
     }
   ];
+
+const ablyAPIKey = '<YOUR-API-KEY>';
+var realtime = new Ably.Realtime(ablyAPIKey);
+const apiKey = '<YOUR-GOOGLE-API-KEY>';
+let watchID = geolocation.watchPosition(locationSuccess, locationError);
+let latitude, longitude, timeToArrival, walkingTime;
+
+function locationSuccess(position) {
+  latitude = position.coords.latitude;
+  longitude = position.coords.longitude;
+  if (JSON.parse(settingsStorage.getItem("line")) === null) return;
+  // Reading the origin station from Companion Settings
+  const station = JSON.parse(settingsStorage.getItem("origin")).name; 
+  if (station === "") return;
+
+  // Replace the space with plus so that it can be passed to Google API  
+  let dest = station.split(" ").join("+");  
+  let googleUrl = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${latitude},${longitude}&destinations=${dest}&mode=walking&key=${apiKey}`;
+  fetch(googleUrl, {
+    method: "GET"
+  })
+    .then(function(res) {
+      return res.json();
+    })
+    .then(function(data) {
+      let myData = data;
+      // Convert the time to mins
+      walkingTime = Math.floor(myData.rows[0].elements[0].duration.value / 60); 
+    })
+    .catch(err => console.log("[FETCH]: " + err));
+}
+
+function locationError(error) {
+  console.log("Error: " + error.code, "Message: " + error.message);
+}
