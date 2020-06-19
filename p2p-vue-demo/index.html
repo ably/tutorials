@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>P2P Example</title>
+    
+    <script src="//cdn.ably.io/lib/ably-1.js" defer></script>    
+    <script src="//cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+ 
+    <script src="/p2p.js" defer></script>    
+    <script src="/p2p.lib.server.js" defer></script>    
+    <script src="/p2p.lib.client.js" defer></script>    
+    <script src="/index.js" defer></script>
+
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <h1>P2P Host / Client Example</h1>
+
+      <div class="debug">
+        Client State: {{ state?.status == undefined ? "Disconnected" : state?.status }}
+      </div>
+
+      <form class="form" v-if="!joinedOrHosting">
+        <label for="session-name">Enter a name for your session</label>
+        <input type="text" name="session-name" v-model="uniqueId">
+        <label for="name-name">Enter your name</label>
+        <input type="text" name="name" v-model="friendlyName">          
+
+        <button v-on:click="host" class="form-button form-button--host">Host a Session</button>
+        <button v-on:click="join" class="form-button">Join a Session</button>
+      </form>      
+
+      <section v-else class="game-info">
+        <h2>UniqueId: {{ uniqueId }}</h2>    
+        <h3>Active players: {{ transmittedServerState?.players?.length }}</h3>
+        <ul class="players">
+          <li class="player" v-for="user in transmittedServerState?.players">                
+            <span>{{ user.friendlyName }}</span>
+          </li>
+        </ul>        
+      </section>
+    </div>
+  </body>
+</html>

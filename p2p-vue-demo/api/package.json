@@ -1,0 +1,14 @@
+{
+  "name": "",
+  "version": "",
+  "description": "",
+  "scripts": {
+    "prestart": "func extensions install",
+    "start": "func start",
+    "test": "echo \"No tests yet...\""
+  },
+  "author": "",
+  "dependencies": {
+    "ably": "^1.1.25"
+  }
+}
