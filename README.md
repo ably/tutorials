@@ -1,4 +1,4 @@
-[![Ably](https://s3.amazonaws.com/files.ably.io/logo-with-type.png)](https://www.ably.io)
+[![Ably](https://s3.amazonaws.com/files.ably.com/logo-with-type.png)](https://www.ably.io)
 
 ---
 
