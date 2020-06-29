@@ -17,7 +17,7 @@ class PubSubClient {
     this.metadata = { uniqueId: uniqueId, ...identity };
 
     const ably = new Ably.Realtime.Promise({ authUrl: '/api/createTokenRequest' });
-    this.channel = await ably.channels.get(`p2p-sample-${uniqueId}`);
+    this.channel = await ably.channels.get(`p2p-sample-${uniqueId}`, { params: { rewind: '1m' } });  
 
     this.channel.subscribe((message) => {
       this.onMessageReceivedCallback(message.data, this.metadata);
@@ -25,7 +25,7 @@ class PubSubClient {
 
     this.connected = true;
   }
-
+  
   sendMessage(message, targetClientId) {
     if (!this.connected) { 
       throw "Client is not connected"; 

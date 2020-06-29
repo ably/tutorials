@@ -11,6 +11,7 @@ var app = new Vue({
     state: function() { return this.p2pClient?.state; },
     transmittedServerState: function() { return this.p2pClient?.serverState; },
     joinedOrHosting: function () { return this.p2pClient != null || this.p2pServer != null; },
+    iAmHost: function() { return this.p2pServer != null; },
   },
   methods: {
     host: async function(evt) {
@@ -38,7 +39,10 @@ var app = new Vue({
       this.p2pClient = new P2PClient(identity, this.uniqueId, pubSubClient);
 
       await this.p2pClient.connect();
-    } 
+    },
+    sendWordsAsHost: async function(evt) {
+      await this.p2pServer.sendWordsAcrossMultipleMessages();
+    }
   }
 });
 

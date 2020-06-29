@@ -27,7 +27,7 @@ By the end of this demo, everyone that joins the `channel`, should see the name 
 > Vue (pronounced /vjuː/, like view) is a progressive framework for building user interfaces. It is designed from the ground up to be incrementally adoptable, and can easily scale between a library and a framework depending on different use cases. It consists of an approachable core library that focuses on the view layer only, and an ecosystem of supporting libraries that helps you tackle complexity in large Single-Page Applications. 
 > <cite>-- [vue.js Github repo](https://github.com/vuejs/vue)</cite>
 
-[Vue.js](https://vuejs.org/) is a single page app framework, and we will use it to build the UI of our app. Our Vue code lives in [index.js](index.js) - and handles all of the user interactions. We're using Vue because it doesn't require a toolchain and it provides simple binding syntax for updating the UI when data changes.
+[Vue.js](https://vuejs.org/) is a single page app framework, and we will use it to build the UI of our app. Our Vue code lives in [index.js](https://github.com/ably/tutorials/blob/tutorial-p2p-vue/p2p-vue-demo/index.js) - and handles all of the user interactions. We're using Vue because it doesn't require a toolchain and it provides simple binding syntax for updating the UI when data changes.
 
 Our Vue app looks a little like this abridged sample:
 
@@ -435,7 +435,7 @@ Here you'll notice Vue's `template syntax` - {{ some-property-name }} - by using
 
 The `v-for` directive on the `li` element will loop for each element of the `players` collection, allowing us to output each `user.friendlyName` using just one line of markup.
 
-This markup, binds to our final Vue app in [index.js](index.js):
+This markup, binds to our final Vue app in [index.js]:(https://github.com/ably/tutorials/blob/tutorial-p2p-vue/p2p-vue-demo/index.js)
 
 ```js
 var app = new Vue({
@@ -466,6 +466,150 @@ Referencing both the `data` object properties, and our extra `computed` object p
 This is a self contained demo of building peer to peer apps, hosting in browser tabs and using Ably Channels as the communication medium.
 
 We'd love to see what exciting apps or games you could build on top of this sort of pattern - and to that end, we made one ourselves!
+## Resilience - what happens if we disconnect?
+
+The `Ably JavaScript SDK` is pretty smart - it'll buffer **outbound** messages when it finds itself in a disconnected state. We're going to illustrate this with a word streaming example.
+
+Let's add a couple of bits of code - firstly to the `P2PServer`
+
+```js
+    async sendWordsAcrossMultipleMessages() {
+      const phrase = "Long before his nine o'clock headache appears".split(" ");
+      const sleep = (ms) => (new Promise(resolve => setTimeout(resolve, ms)));
+
+      for (let word of phrase) {
+        this.ably.sendMessage({ kind: "word", word: word, serverState: this.state });
+        await sleep(500);
+      }
+    }
+```
+(The full code sample has a much longer phrase embedded in it)
+
+Here, we're taking a phrase, and sending it as a series of messages word-by-word, with a 500ms pause in between each word. We're using `async / await` to pause our code, just be *resolving a promise* every 500ms.
+
+Now we should update our client to listen for this message, we'll add a `case` statement for our `word` message to it's `onReceiveMessage` handler.
+
+```js
+    onReceiveMessage(message) {
+      if (message.serverState) {
+        this.serverState = message.serverState; 
+      }
+
+      switch(message.kind) {
+        case "connection-acknowledged": 
+          this.state.status = "acknowledged"; 
+          break;
+        case "word":
+          this.state.receivedWords += " " + message.word;
+          break;
+        default: () => { };
+      }
+    } 
+```
+When we see a `word` message, we add it to a string in our state object. Because of this, we also need to update the `this.state` object in the `P2PClient` constructor to start us off with an empty `receivedWords` property.
+
+```js
+this.state = { 
+  status: "disconnected",
+  receivedWords: ""
+  };
+```
+
+Next, we're going to make sure we display this in everyones `UI` by binding the state property into our markup in `index.html`
+
+```html
+  <section v-else class="game-info">
+    <h2>UniqueId: {{ uniqueId }}</h2>    
+    <button v-if="iAmHost" v-on:click="sendWordsAsHost" class="form-button">Stream words to client</button>     
+
+    <h3>Active players: {{ transmittedServerState?.players?.length }}</h3>
+    <ul class="players">
+      <li class="player" v-for="user in transmittedServerState?.players">                
+        <span>{{ user.friendlyName }}</span>
+      </li>
+    </ul>   
+    
+    <div>
+      {{ this.p2pClient.state.receivedWords }}
+    </div>
+  </section>
+</div>
+```
+We're doing two things here:
+
+1. Adding a `sendWordsAsHost` onclick to a new `html button`
+2. Binding `{{ this.p2pClient.state.receivedWords }}` - the string of words our client has seen.
+
+We need to create a function to handle our `Stream words to client` click, so we'll add a new method to our `Vue methods` property in `index.js`
+
+```js
+sendWordsAsHost: async function(evt) {
+  await this.p2pServer.sendWordsAcrossMultipleMessages();
+}
+```
+This calls the function we added to our `P2PServer` and the button only displays to the host because of the `v-if` directive bound a a new `computed property` `iAmHost` that verifies a `p2pserver` is active.
+
+We'll add `iAmHost` to our `computed` property in `index.js`.
+
+```js
+computed: {
+  state: function() { ... },
+  transmittedServerState: function() { ... },
+  joinedOrHosting: function () { ... },
+  iAmHost: function() { return this.p2pServer != null; },
+}
+```
+
+So now, if you start a hosting a session, and click `Stream words to client` you'll see a stream of words appear one by one in your UI.
+
+If your internet connection is disrupted, the Ably client, used by `P2PServer`, will buffer it's outbound messages until a connection can be re-established. Ably handles buffered connnections in a few different ways (documented here https://www.ably.io/documentation/realtime/connection)
+
+    The disconnected state is entered if an established connection is dropped, or if a connection attempt was unsuccessful. In the disconnected state the library will periodically attempt to open a new connection (approximately every 15 seconds), anticipating that the connection will be re-established soon and thus connection and channel continuity will be possible.
+    
+    In this state, developers can continue to publish messages as they are automatically placed in a local queue, to be sent as soon as a connection is reestablished. Messages published by other clients whilst this client is disconnected will be delivered to it upon reconnection, so long as the connection was resumed within 2 minutes.
+
+    After 2 minutes have elapsed, recovery is no longer possible and the connection will move to the suspended state.
+
+    The suspended state is entered after a failed connection attempt if there has then been no connection for a period of two minutes. In the suspended state, the library will periodically attempt to open a new connection every 30 seconds. Developers are unable to publish messages in this state. A new connection attempt can also be triggered by an explicit call to connect on the Connection object.
+
+    Once the connection has been re-established, channels will be automatically re-attached. The client has been disconnected for too long for them to resume from where they left off, so if it wants to catch up on messages published by other clients while it was disconnected, it needs to use the history API.
+
+So much like our `P2PServer` will buffer outbound messages, any disconnected clients will receive all the messages sent in a window of up to **two minutes of disconnection**
+
+### Using the History API to catch up
+
+Ably offers a `History API` and a `Rewind` setting. The History API allows you to query the history of a channel for by default, the last *two minutes* of data. If you enable `persisted history` on your channel, that window is extended for 24-72 hours. This has a cost - it counts against message quotas (see docs for more: https://support.ably.com/support/solutions/articles/3000030059), but we can use this extended window to allow clients to join "mid-stream" and catch up when they connect.
+
+The `Rewind` setting can be enabled when you subscribe to a channel, which will immediate then receive up to the last 100 messages in the time window you specify.
+
+The caveat is, the client will be processing historical messages - so be sure you understand what that means for your specific application. In some scenarios, it may be more effective for another `peer` or the `server` to just send new clients whatever state they need rather than the client reconstructing it.
+
+If you use the History API you probably don't want your clients re-processing thousands and thousands of messages.
+
+We need to add an additional parameter to our `channels.get` call, to add the parameter ` { params: { rewind: '1m' } }`. This tells our client to return up to the last 100 messages, from the minute. You can provide different time periods in here in either minutes ('2m') or seconds ('15s').
+
+```js
+async connect(identity, uniqueId) {
+  ...
+  const ably = new Ably.Realtime.Promise({ authUrl: '/api/createTokenRequest' });
+  this.channel = await ably.channels.get(`p2p-sample-${uniqueId}`, { params: { rewind: '1m' } });  
+  ...
+}
+```
+
+Some notes on the limits of the history API from the `Ably docs`
+
+    By default, persisted history on channels is disabled and messages are only stored by the Ably service for two minutes in memory. If persisted history is enabled for the channel, then messages will typically be stored for 24 – 72 hours on disk.
+
+    Every message that is persisted to or retrieved from disk counts as an extra message towards your monthly quote. For example, for a channel that has persistence enabled, if a message is published, two messages will be deducted from your monthly quota. If the message is later retrieved from history, another message will be deducted from your monthly quota.
+
+If you use the History API to collect history, there's a chance that while you're processing historical messages, new messages could be handled by the SDK - you'd have to write code to buffer and make sure you process these messages in order.
+
+## Yay, the end, but there's more
+
+This is a self contained demo of building peer to peer apps, hosting in browser tabs, using `Ably Channels` as their communication medium.
+
+We'd love to see what exciting apps or games you could build on top of this sort of pattern - and to that end, we made our ourselves!
 
 We made a distributed bingo game called `Ablingo` on top of this code sample - by adding additional messages, logic, and state to our server. You can read a detailed readme of how we extended this sample at the [repository here](https://github.com/thisisjofrank/Ablingo/blob/master/readme.md).
 

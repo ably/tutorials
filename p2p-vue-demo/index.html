@@ -34,12 +34,18 @@
 
       <section v-else class="game-info">
         <h2>UniqueId: {{ uniqueId }}</h2>    
+        <button v-if="iAmHost" v-on:click="sendWordsAsHost" class="form-button">Stream words to client</button>     
+
         <h3>Active players: {{ transmittedServerState?.players?.length }}</h3>
         <ul class="players">
           <li class="player" v-for="user in transmittedServerState?.players">                
             <span>{{ user.friendlyName }}</span>
           </li>
-        </ul>        
+        </ul>   
+        
+        <div>
+          {{ this.p2pClient.state.receivedWords }}
+        </div>
       </section>
     </div>
   </body>
