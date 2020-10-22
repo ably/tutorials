@@ -2,7 +2,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Ably reactjs-realtime-commenting tutorial
 
-- -> Step 5 – Remove References To Unused Files
+- -> Step 6 – Add Bulma CSS Framework
+- [Step 5 – Remove References To Unused Files](https://github.com/marsielko/tutorials/tree/dcb1a3a77126f2ab84611a1b883f1113c0d5e02f)
 - [Step 4 – Create Component Folder](https://github.com/marsielko/tutorials/tree/315e379ea668e44aa7348a6efea76d979a2eab7c)
 - [Step 3 – Delete Unused Files](https://github.com/marsielko/tutorials/tree/9db6c81a6dc24d4d8ee7008ce895e67e4eed3ef5)
 - [Step 2 – Create a React App](https://github.com/marsielko/tutorials/tree/c4815ffbb58a97be4d5848c37ab4acd11b63b21d)
