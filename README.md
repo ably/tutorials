@@ -2,7 +2,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Ably reactjs-realtime-commenting tutorial
 
-- -> Step 3 – Delete Unused Files
+- -> Step 4 – Create Component Folder
+- [Step 3 – Delete Unused Files](https://github.com/marsielko/tutorials/tree/9db6c81a6dc24d4d8ee7008ce895e67e4eed3ef5)
 - [Step 2 – Create a React App](https://github.com/marsielko/tutorials/tree/c4815ffbb58a97be4d5848c37ab4acd11b63b21d)
 
 ## Available Scripts
