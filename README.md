@@ -2,7 +2,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Ably reactjs-realtime-commenting tutorial
 
-- -> Step 7 – Install Ably
+- -> Step 8 – Create CommentBox Component
+- [Step 7 – Install Ably](https://github.com/marsielko/tutorials/tree/c2bcbbea6407e5ff9d18f8d65b9a112c6dbef574)
 - [Step 6 – Add Bulma CSS Framework](https://github.com/marsielko/tutorials/tree/603f0ee7f1035db89b025d5a61d543d2838e0a0f)
 - [Step 5 – Remove References To Unused Files](https://github.com/marsielko/tutorials/tree/dcb1a3a77126f2ab84611a1b883f1113c0d5e02f)
 - [Step 4 – Create Component Folder](https://github.com/marsielko/tutorials/tree/315e379ea668e44aa7348a6efea76d979a2eab7c)
