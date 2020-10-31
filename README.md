@@ -2,7 +2,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Ably reactjs-realtime-commenting tutorial
 
-- -> Step 10 – Create Comment Component
+- -> Step 11 – Create Comments Component
+- [Step 10 – Create Comment Component](https://github.com/marsielko/tutorials/tree/88e902a9c16665efb0a3a7eee7a1c6c69935e3c3)
 - [Step 9 – Adding and Publishing Comment](https://github.com/marsielko/tutorials/tree/4689eef90b22bdfafedc1b60d18dbdeae128e7d7)
 - [Step 8 – Create CommentBox Component](https://github.com/marsielko/tutorials/tree/d85123d92cf55afd4debe3a6a7df0850e4d3fe53)
 - [Step 7 – Install Ably](https://github.com/marsielko/tutorials/tree/c2bcbbea6407e5ff9d18f8d65b9a112c6dbef574)
