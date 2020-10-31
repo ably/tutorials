@@ -2,7 +2,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Ably reactjs-realtime-commenting tutorial
 
-- -> Step 11 – Create Comments Component
+- -> Step 12 – Create App Component
+- [Step 11 – Create Comments Component](https://github.com/ably/tutorials/tree/b6d3df4cd66565742c134e209497953a643c3f30)
 - [Step 10 – Create Comment Component](https://github.com/marsielko/tutorials/tree/88e902a9c16665efb0a3a7eee7a1c6c69935e3c3)
 - [Step 9 – Adding and Publishing Comment](https://github.com/marsielko/tutorials/tree/4689eef90b22bdfafedc1b60d18dbdeae128e7d7)
 - [Step 8 – Create CommentBox Component](https://github.com/marsielko/tutorials/tree/d85123d92cf55afd4debe3a6a7df0850e4d3fe53)
@@ -19,23 +20,23 @@ In the project directory, you can run:
 
 ### `npm start`
 
-Runs the app in the development mode.<br />
+Runs the app in the development mode.  
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br />
+The page will reload if you make edits.  
 You will also see any lint errors in the console.
 
 ### `npm test`
 
-Launches the test runner in the interactive watch mode.<br />
+Launches the test runner in the interactive watch mode.  
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.<br />
+Builds the app for production to the `build` folder.  
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.<br />
+The build is minified and the filenames include the hashes.  
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
