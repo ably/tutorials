@@ -2,7 +2,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Ably reactjs-realtime-commenting tutorial
 
-- -> Step 15 – Displaying Comments
+- -> Step 16 (optional) – Add a profanity filter
+- [Step 15 – Displaying Comments](https://github.com/ably/tutorials/tree/e17959a0094ca273be128f6baf0c87160da35b00)
 - [Step 13 – Updating State With Newly Added Comment](https://github.com/ably/tutorials/tree/f4d0b5122376f79cf7c988d61b3320ceee8c8e64)
 - [Step 12 – Create App Component](https://github.com/ably/tutorials/tree/65bf3e7a7c7c0ecc2b491a7afdacdff818766bd2)
 - [Step 11 – Create Comments Component](https://github.com/ably/tutorials/tree/b6d3df4cd66565742c134e209497953a643c3f30)
