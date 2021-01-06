@@ -18,4 +18,10 @@ func main() {
 		err := fmt.Errorf("subscribing to channel: %w", err)
 		fmt.Println(err)
 	}
+
+	res, err := channel.Publish("team", "Man United")
+	// await confirmation of publish
+	if err = res.Wait(); err != nil {
+		panic(err)
+	}
 }
