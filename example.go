@@ -8,4 +8,14 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	channel := client.Channels.Get("sport")
+
+	_, err := channel.SubscribeAll(context.Background(), func(msg *ably.Message) {
+		fmt.Printf("Received message with data '%v'\n", msg.Data)
+	})
+	if err != nil {
+		err := fmt.Errorf("subscribing to channel: %w", err)
+		fmt.Println(err)
+	}
 }
