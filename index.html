@@ -1,0 +1,41 @@
+
+<html>
+    <head>
+        <!-- scripts for the app -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <!-- Ably script -->
+        <script src="https://cdn.ably.io/lib/ably.min-1.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="index.css" > 
+    </head>
+    <body>
+        <!--The chat app container-->
+        <div class="chat-container">
+            <div class="chat">
+                <div class="language-select-container">
+
+                    <!--Dropdown menu for the language selector-->
+                    <div class="form-group">
+                        <label for="languageSelector">Please select a language</label>
+                        <select class="form-control" id="languageSelector">
+                        </select>
+                    </div>
+                </div>
+
+                <!--Message container - the chat messages will appear here-->
+                <ul class="row message-container" id="channel-status" ></ul>
+
+                <!--Input container for the input field ans send button-->
+                <div class="input-container">
+                    <div class="row text-input-container">
+                        <input type="text" class="text-input" id="input-field"/>
+                        <input id="publish" class="input-button" type="submit" value="Send">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script src="bundle.js"></script>
+</html>
