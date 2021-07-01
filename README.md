@@ -1,3 +1,3 @@
 # Build a Realtime Commenting App
 
-## Step 2 - Create a React App
+## Step 3 - Delete Unused Files
