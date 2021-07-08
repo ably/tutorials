@@ -1,5 +1,5 @@
 # Building a Realtime Commenting App
 
-## Step 7 - Install and configure the Ably realtime client library
+## Step 8 - Build the comment form
 
 The full instructions for this tutorial can be found [here](https://ably.com/tutorials/reactjs-realtime-commenting).
