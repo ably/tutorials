@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import CommentBox from "./CommentBox"
 import Comments from "./Comments"
+import Ably from "./Ably"
 class App extends Component {
   constructor(props) {
     super(props)
@@ -8,6 +9,20 @@ class App extends Component {
     this.state = {
       comments: [],
     }
+  }
+  componentDidMount() {
+    const channel = Ably.channels.get("comments")
+    channel.attach()
+    channel.once("attached", () => {
+      channel.history((err, page) => {
+        // create a new array with comments in reverse order (old to new)
+        const comments = Array.from(page.items, (item) => item.data)
+        this.setState({ comments })
+        channel.subscribe((msg) => {
+          this.handleAddComment(msg.data)
+        })
+      })
+    })
   }
   handleAddComment(comment) {
     this.setState((prevState) => {
