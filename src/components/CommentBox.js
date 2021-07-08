@@ -6,7 +6,7 @@ class CommentBox extends Component {
     super(props)
     this.addComment = this.addComment.bind(this)
   }
-  addComment(e) {
+  async addComment(e) {
     // Prevent the default behaviour of form submit
     e.preventDefault()
     // Get the value of the comment box
@@ -15,9 +15,13 @@ class CommentBox extends Component {
     const name = e.target.elements.name.value.trim()
     // Get the current time.
     const timestamp = Date.now()
+    // Retrieve a random image from the Dog API
+    const avatar = await (
+      await axios.get("https://dog.ceo/api/breeds/image/random")
+    ).data.message
     // Make sure name and comment boxes are filled
     if (name && comment) {
-      const commentObject = { name, comment, timestamp }
+      const commentObject = { name, comment, timestamp, avatar }
       // Publish comment
       const channel = Ably.channels.get("comments")
       channel.publish("add_comment", commentObject, (err) => {
