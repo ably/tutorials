@@ -1,7 +1,11 @@
 import React, { Component } from "react"
+import filterBadWords from "./ProfanityFilter"
+
 class Comment extends Component {
   constructor(params) {
     super(params)
+    this.userName = filterBadWords(this.props.comment.name)
+    this.commentText = filterBadWords(this.props.comment.comment)
     this.messageDate = this.messageDateGet()
   }
   messageDateGet() {
@@ -26,9 +30,9 @@ class Comment extends Component {
         </figure>
         <div className="media-content">
           <div className="content">
-            <span className="user-name">{this.props.comment.name} </span>
+            <span className="user-name">{this.userName} </span>
             <span className="message-date">{this.messageDate}</span>
-            <p>{this.props.comment.comment}</p>
+            <p>{this.commentText}</p>
           </div>
         </div>
       </article>
