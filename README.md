@@ -1,5 +1,5 @@
 # Building a Realtime Commenting App
 
-## Step 11 - Add an avatar image
+## Step 12 - List all comments
 
 The full instructions for this tutorial can be found [here](https://ably.com/tutorials/reactjs-realtime-commenting).
