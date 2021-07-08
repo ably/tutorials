@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import Ably from "./Ably"
+import axios from "axios"
 
 class CommentBox extends Component {
   constructor(props) {
