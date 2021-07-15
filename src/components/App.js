@@ -1,60 +1,49 @@
-import React, { Component } from 'react';
-import CommentBox from './CommentBox';
-import Comments from './Comments';
-
+import React, { Component } from "react"
+import CommentBox from "./CommentBox"
+import Comments from "./Comments"
+import Ably from "./Ably"
 class App extends Component {
   constructor(props) {
-    super(props);
-
-    this.handleAddComment = this.handleAddComment.bind(this);
+    super(props)
+    this.handleAddComment = this.handleAddComment.bind(this)
     this.state = {
-      comments: []
+      comments: [],
     }
   }
-
   componentDidMount() {
-    /* global Ably */
-    const channel = Ably.channels.get('comments');
-   
-    channel.attach();
-      channel.once('attached', () => {
-        channel.history((err, page) => {
-          /* create a new array with comments */
-          const comments = Array.from(page.items, item => item.data);
-
-          this.setState({ comments });
-
-          /* subscribe to new comments */
-          channel.subscribe((msg, err) => {
-            const commentObject = msg['data'];
-            this.handleAddComment(commentObject);
-          });
-        });
-      });
+    const channel = Ably.channels.get("comments")
+    channel.attach()
+    channel.once("attached", () => {
+      channel.history((err, page) => {
+        // create a new array with comments in reverse order (old to new)
+        const comments = Array.from(page.items, (item) => item.data)
+        this.setState({ comments })
+        channel.subscribe((msg) => {
+          this.handleAddComment(msg.data)
+        })
+      })
+    })
   }
-
   handleAddComment(comment) {
-    this.setState(prevState => {
+    this.setState((prevState) => {
       return {
-        comments: [comment].concat(prevState.comments)
-      };
-    });
+        comments: [comment].concat(prevState.comments),
+      }
+    })
   }
-
   render() {
     return (
       <section className="section">
         <div className="container">
           <div className="columns">
             <div className="column is-half is-offset-one-quarter">
-              <CommentBox handleAddComment={this.handleAddComment} />
+              <CommentBox />
               <Comments comments={this.state.comments} />
             </div>
           </div>
         </div>
       </section>
-    );
+    )
   }
 }
-
-export default App;
+export default App

@@ -1,0 +1,11 @@
+.user-name {
+  font-weight: bold;
+  font-size: 16px;
+}
+.message-date {
+  font-size: 13px;
+  color: #afacac;
+}
+.user-name + .message-date {
+  margin-left: 10px;
+}
