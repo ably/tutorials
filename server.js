@@ -4,7 +4,7 @@ var jwt = require("jsonwebtoken")
 var appId = 'I2E_JQ'
 var keyId = '79AfrA'
 var keySecret = 'sw2y9zarxwl0Lw5a'
-var ttlSeconds = 60
+var ttlSeconds = 3600
 
 var jwtPayload =
     {
