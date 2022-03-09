@@ -43,7 +43,7 @@
 <script type="text/javascript">
     window.addEventListener("load", function () {
         var ably = new Ably.Realtime("<YOUR-API-KEY>"),
-            $resultWeather = $('#result-open-weather')
+            $resultWeather = $('#result-open-weather'),
             channelWeather;
         subscribeOpenWeather($('select#city-id').val());
         $('select#city-id').on('change', function () {
