@@ -31,7 +31,8 @@ const pusher = new Pusher({
   key       : KEY_NAME,
   secret    : KEY_SECRET,
   host      : 'rest-pusher.ably.io',
-  encrypted : true
+  encrypted : true,
+  uuid: '1234'
 });
 
 
