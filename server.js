@@ -29,13 +29,13 @@ app.post("/pusher/auth", (req, res) => {
   const channel = req.body.channel_name;
   let authResponse = null;
   if (channel.startsWith("private-")) {
-    authReponse = pusher.authorizeChannel(socketId, channel); //  returns signed token containing socketId and channelName using config. secret
+    authReponse = pusher.authenticate(socketId, channel); //  returns signed token containing socketId and channelName using config. secret
   } else {
     const presenceData = {
         user_id: "unique_user_id",
         user_info: { name: "Mr sac", twitter_id: "@pusher" },
     };
-    authResponse = pusher.authorizeChannel(socketId, channel, presenceData); // returns signed token containing socketId, channelName and userData using config. secret
+    authResponse = pusher.authenticate(socketId, channel, presenceData); // returns signed token containing socketId, channelName and userData using config. secret
   }
   res.send(authResponse);
 });
