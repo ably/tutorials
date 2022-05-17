@@ -11,7 +11,8 @@
     "start": "node ./example.js"
   },
   "dependencies": {
-    "pusher": "~> 1.5.0",
-    "ably": ">=0.8"
+    "ably": "1.2.21",
+    "pusher": "~5.0.1",
+    "pusher-js": "~7.0.6"
   }
 }
