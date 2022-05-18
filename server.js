@@ -30,6 +30,24 @@ app.get("/ping", (_req, res) => {
   res.send("pong");
 });
 
+// broadcast message to public channel
+app.get("/public", (_req, res) => {
+  pusher.trigger('public-channel', 'chat', { 'bot': 'Hi everyone' });
+  res.sendStatus(200);
+});
+
+// broadcast message to private channel
+app.get("/private", (_req, res) => {
+  pusher.trigger('private-channel', 'chat', { 'sac': 'Hi there' });
+  res.sendStatus(200);
+});
+
+// broadcast message to presence channel
+app.get("/presence", (_req, res) => {
+  pusher.trigger('presence-channel', 'chat', { 'jonny': 'I joined as a temporary person' });
+  res.sendStatus(200);
+});
+
 app.post("/ably/auth", (req, res) => {
   const socketId = req.body.socket_id;
   const channel = req.body.channel_name;

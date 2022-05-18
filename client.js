@@ -21,7 +21,7 @@ pusher.connection.bind("error",  (error) => {
 });
 
 pusher.bind_global((eventName, data)=> {
-    console.log("eventName-" + eventName + " data-" + JSON.stringify(data));
+    console.log("Global eventName-" + eventName + " data-" + JSON.stringify(data));
 });
 
 // Public channel -> Doesn't make any explicit request for authorization
@@ -33,7 +33,7 @@ public_channel.bind("pusher:subscription_error", (err) => {
     console.error('public channel subscription error', err)
 });
 public_channel.bind_global((eventName, data)=> {
-    console.log("private channel :: eventName-" + eventName + " data-" + JSON.stringify(data));
+    console.log("public channel :: eventName-" + eventName + " data-" + JSON.stringify(data));
 });
 
 // Private channel -> requests { 'auth' : 'token'} from /ably/auth
@@ -70,5 +70,5 @@ presence_channel.bind("pusher:subscription_error", (err) => {
     console.error('presence channel subscription error', err)
 });
 presence_channel.bind_global((eventName, data)=> {
-    console.log("private channel :: eventName-" + eventName + " data-" + JSON.stringify(data));
+    console.log("presence channel :: eventName-" + eventName + " data-" + JSON.stringify(data));
 });
