@@ -24,6 +24,7 @@ pusher.bind_global((eventName, data)=> {
     console.log("eventName-" + eventName + " data-" + JSON.stringify(data));
 });
 
+// Public channel -> Doesn't make any explicit request for authorization
 const public_channel = pusher.subscribe('public-channel');
 public_channel.bind("pusher:subscription_succeeded", () => {
     console.log('subscribed to public-channel')
@@ -35,7 +36,7 @@ public_channel.bind_global((eventName, data)=> {
     console.log("private channel :: eventName-" + eventName + " data-" + JSON.stringify(data));
 });
 
-
+// Private channel -> requests { 'auth' : 'token'} from /ably/auth
 const private_channel = pusher.subscribe('private-channel');
 private_channel.bind("pusher:subscription_succeeded", () => {
     console.log('subscribed to private-channel')
@@ -47,6 +48,7 @@ private_channel.bind_global((eventName, data)=> {
     console.log("private channel :: eventName-" + eventName + " data-" + JSON.stringify(data));
 });
 
+// Presence channel -> requests { 'auth' : 'token', 'channelData' : {'userId': '', userInfo: ''}} from /ably/auth
 const presence_channel = pusher.subscribe('presence-channel');
 presence_channel.bind("pusher:subscription_succeeded", (members) => {
     console.log('\n###subscribed to presence-channel###')
