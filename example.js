@@ -1,3 +1,4 @@
+console.warn("Only compatible with unix/bash shell, git bash can be used in windows")
 const Ably = require("ably");
 const Pusher = require("pusher");
 
@@ -24,9 +25,9 @@ ablyChannel.subscribe(function(message) {
   console.log('Ably client received a message: ' + message.name + ', data: ' + JSON.stringify(message.data));
 });
 
-/* PUSHER CLIENT LIB */
-/* Instance the Pusher node library */
-const pusher = new Pusher({
+/* PUSHER SERVER LIB */
+/* Initiate the Pusher node library */
+const pusherRest = new Pusher({
   appId     : APP_ID,
   key       : KEY_NAME,
   secret    : KEY_SECRET,
@@ -35,14 +36,16 @@ const pusher = new Pusher({
 });
 
 
-console.log("Press p<enter> to publish a message with the Pusher nodejs client library, and see it be received by the Ably client library. Press q<enter> to quit.");
+console.log("Press p<enter> to publish a message with the Pusher nodejs library, and see it be received by the Ably client library. Press q<enter> to quit.");
 process.stdin.resume();
 process.stdin.on('data', function (chunk) {
   switch(chunk.toString()) {
     case "p\n":
-      pusher.trigger(pusherChannelName, 'eventName', { 'Some': 'JSON data' });
+    case "P\n":
+      pusherRest.trigger(pusherChannelName, 'eventName', { 'Some': 'JSON data' });
       break;
     case "q\n":
+    case "Q\n":
       ably.close();
       process.exit();
   }
