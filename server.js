@@ -16,7 +16,7 @@ const pusher = new Pusher({
     key       : KEY_NAME,
     secret    : KEY_SECRET,
     host      : 'rest-pusher.ably.io',
-    encrypted : true
+    useTLS : true
 });
 
 const app = express();
@@ -24,21 +24,31 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
-app.post("/pusher/auth", (req, res) => {
+
+// test ping-pong message
+app.get("/ping", (_req, res) => {
+  res.send("pong");
+});
+
+app.post("/ably/auth", (req, res) => {
   const socketId = req.body.socket_id;
   const channel = req.body.channel_name;
-  let authResponse = null;
   if (channel.startsWith("private-")) {
-    authReponse = pusher.authenticate(socketId, channel); //  returns signed token containing socketId and channelName using config. secret
-  } else {
+     res.send(pusher.authenticate(socketId, channel)); //  returns signed token containing socketId and channelName using config. secret
+  } else { 
     const presenceData = {
         user_id: "unique_user_id",
         user_info: { name: "Mr sac", twitter_id: "@pusher" },
     };
-    authResponse = pusher.authenticate(socketId, channel, presenceData); // returns signed token containing socketId, channelName and userData using config. secret
+    res.send(pusher.authenticate(socketId, channel, presenceData)); // returns signed token containing socketId, channelName and userData using config. secret
   }
-  res.send(authResponse);
 });
 
 const port = process.env.PORT || 5000;
-app.listen(port);
+app.listen(port, (error) => {       // Listen
+  if(!error)
+      console.log(`Server is Successfully Running, and App is listening on port ${port}`);
+  else
+      console.log("Error occured, server can't start", error);
+  }
+);

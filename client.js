@@ -4,7 +4,8 @@ const pusher = new Pusher('', {
     wsHost: 'realtime-pusher.ably.io',
     wsPort: 443,
     disableStats: false,
-    encrypted: true,
+    useTLS: true,
+    authEndpoint: 'http://localhost:5000/ably/auth', // deprecated
 });
 
 pusher.connection.bind('connected', () => {

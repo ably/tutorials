@@ -8,10 +8,13 @@
     "node": ">=0.10"
   },
   "scripts": {
-    "start": "node ./example.js"
+    "console": "node ./example.js",
+    "server": "node ./server.js",
+    "client": "node ./client.js"
   },
   "dependencies": {
     "ably": "1.2.21",
+    "cors": "^2.8.5",
     "express": "^4.18.1",
     "pusher": "~5.0.1",
     "pusher-js": "~7.0.6"
