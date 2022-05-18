@@ -10,7 +10,8 @@
   "scripts": {
     "console": "node ./example.js",
     "server": "node ./server.js",
-    "client": "node ./client.js"
+    "client": "node ./client.js",
+    "client-event": "node ./client-events.js"
   },
   "dependencies": {
     "ably": "1.2.21",
