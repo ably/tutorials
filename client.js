@@ -1,6 +1,7 @@
+console.warn("\n1. Make sure server is running i.e. `npm run server`")
 const Pusher = require('pusher-js');
 
-const pusher = new Pusher('', {  // replace with first part of API key before :
+const pusherRealtime = new Pusher('appid.keyid', {  // replace with first part of API key before :
     wsHost: 'realtime-pusher.ably.io',
     wsPort: 443,
     disableStats: false,
@@ -8,24 +9,24 @@ const pusher = new Pusher('', {  // replace with first part of API key before :
     authEndpoint: 'http://localhost:5000/ably/auth', // deprecated
 });
 
-pusher.connection.bind('connected', () => {
+pusherRealtime.connection.bind('connected', () => {
     console.log('connected');
 });
 
-pusher.connection.bind('disconnected', () => {
+pusherRealtime.connection.bind('disconnected', () => {
     console.log('disconnected');
 });
 
-pusher.connection.bind("error",  (error) => {
+pusherRealtime.connection.bind("error",  (error) => {
     console.error(error);
 });
 
-pusher.bind_global((eventName, data)=> {
+pusherRealtime.bind_global((eventName, data)=> {
     console.log("Global eventName-" + eventName + " data-" + JSON.stringify(data));
 });
 
 // Public channel -> Doesn't make any explicit request for authorization
-const public_channel = pusher.subscribe('public-channel');
+const public_channel = pusherRealtime.subscribe('public-channel');
 public_channel.bind("pusher:subscription_succeeded", () => {
     console.log('subscribed to public-channel')
 });
@@ -37,7 +38,7 @@ public_channel.bind_global((eventName, data)=> {
 });
 
 // Private channel -> requests { 'auth' : 'token'} from /ably/auth
-const private_channel = pusher.subscribe('private-channel');
+const private_channel = pusherRealtime.subscribe('private-channel');
 private_channel.bind("pusher:subscription_succeeded", () => {
     console.log('subscribed to private-channel')
 });
@@ -49,7 +50,7 @@ private_channel.bind_global((eventName, data)=> {
 });
 
 // Presence channel -> requests { 'auth' : 'token', 'channelData' : {'userId': '', userInfo: ''}} from /ably/auth
-const presence_channel = pusher.subscribe('presence-channel');
+const presence_channel = pusherRealtime.subscribe('presence-channel');
 presence_channel.bind("pusher:subscription_succeeded", (members) => {
     console.log('\n###subscribed to presence-channel###')
     console.log(`members count :: ${members.count}`)
