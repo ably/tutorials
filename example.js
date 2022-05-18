@@ -25,8 +25,8 @@ ablyChannel.subscribe(function(message) {
   console.log('Ably client received a message: ' + message.name + ', data: ' + JSON.stringify(message.data));
 });
 
-/* PUSHER CLIENT LIB */
-/* Instance the Pusher node library */
+/* PUSHER SERVER LIB */
+/* Initiate the Pusher node library */
 const pusherRest = new Pusher({
   appId     : APP_ID,
   key       : KEY_NAME,
