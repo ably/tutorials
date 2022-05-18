@@ -1,6 +1,6 @@
 const Pusher = require('pusher-js');
 
-const pusher = new Pusher('', {
+const pusher = new Pusher('', {  // replace with first part of API key before :
     wsHost: 'realtime-pusher.ably.io',
     wsPort: 443,
     disableStats: false,
@@ -47,13 +47,26 @@ private_channel.bind_global((eventName, data)=> {
     console.log("private channel :: eventName-" + eventName + " data-" + JSON.stringify(data));
 });
 
-// const presence_channel = pusher.subscribe('presence-channel');
-// presence_channel.bind("pusher:subscription_succeeded", () => {
-//     console.log('subscribed to presence-channel')
-// });
-// presence_channel.bind("pusher:subscription_error", (err) => {
-//     console.error('presence channel subscription error', err)
-// });
-// presence_channel.bind_global((eventName, data)=> {
-//     console.log("private channel :: eventName-" + eventName + " data-" + JSON.stringify(data));
-// });
+const presence_channel = pusher.subscribe('presence-channel');
+presence_channel.bind("pusher:subscription_succeeded", (members) => {
+    console.log('\n###subscribed to presence-channel###')
+    console.log(`members count :: ${members.count}`)
+    members.each((member) => {
+        console.log(member.id, member.info)
+    });
+    console.log('#########\n')
+});
+presence_channel.bind("pusher:member_added", (member) => {
+    console.log('\nmember added', member);
+    console.log('updated members', presence_channel.members.count)
+});
+presence_channel.bind("pusher:member_removed", (member) => {
+    console.log('\nmember removed', member)
+    console.log('updated members', presence_channel.members.count)
+});
+presence_channel.bind("pusher:subscription_error", (err) => {
+    console.error('presence channel subscription error', err)
+});
+presence_channel.bind_global((eventName, data)=> {
+    console.log("private channel :: eventName-" + eventName + " data-" + JSON.stringify(data));
+});
