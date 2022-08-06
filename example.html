@@ -1,43 +1,70 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ably Presence</title>
+  </head>
   <body>
     <h1>Presence example</h1>
 
-    <h2>Live-updated presence set:</h2>
+    <h2>Present in the "chatroom" channel:</h2>
     <ul id="presence-set"></ul>
   </body>
+  <!-- Import the Ably client library-->
+  <script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
 
-  <!-- Include the latest Ably Library  -->
-  <script src="https://cdn.ably.io/lib/ably.min-1.js"></script>
-
-  <!-- Instance the Ably library  -->
-  <script type="text/javascript">
-    alert("You need to add your API key"); /* REMOVE THIS */
-    var realtime = new Ably.Realtime({
-      key: "INSERT-YOUR-API-KEY-HERE", /* ADD YOUR API KEY HERE */
-      clientId: "my-client-id", /* This is who you will appear as in the presence set */
-      closeOnUnload: true // See https://support.ably.io/solution/articles/3000059875-why-don-t-presence-members-leave-as-soon-as-i-close-a-tab-
+  <script>
+    const apiKey = "YOUR_ABLY_API_KEY"; // Replace with your API key
+    const realtime = new Ably.Realtime.Promise({
+      key: apiKey,
+      clientId: "my-client", // Your ID in the presence set
     });
 
-    /* Enter the presence set of the 'chatroom' channel */
-    var channel = realtime.channels.get('chatroom');
-    channel.attach(function(err) {
-      if(err) { return console.error("Error attaching to the channel"); }
-      console.log('We are now attached to the channel');
-      channel.presence.enter('hello', function(err) {
-        if(err) { return console.error("Error entering presence"); }
-        console.log('We are now successfully present');
+    async function doPresence() {
+      // Connect to Ably
+      await realtime.connection.once("connected");
+      console.log("Connected to Ably!");
+
+      // Attach to the "chatroom" channel
+      const channel = realtime.channels.get("chatroom");
+      await channel.attach((err) => {
+        if (err) {
+          return console.error("Error attaching to the channel.");
+        }
       });
 
-      /* Every time the presence set changes, show the new set */
-      channel.presence.subscribe(function(presenceMsg) {
-        console.log('Received a ' + presenceMsg.action + ' from ' + presenceMsg.clientId);
-        channel.presence.get(function(err, members) {
-          if(err) { return console.log("Error fetching presence data: " + err); }
-          document.getElementById('presence-set').innerHTML = members.map(function(member) {
-            return '<li>' + member.clientId + '</li>';
-          }).join();
+      // Enter the presence set of the "chatroom" channel
+      await channel.presence.enter("hello", (err) => {
+        if (err) {
+          return console.error("Error entering presence set.");
+        }
+        console.log("This client has entered the presence set.");
+      });
+
+      // Subscribe to the presence set to receive updates
+      await channel.presence.subscribe((presenceMessage) => {
+        console.log(
+          "Presence update: " +
+            presenceMessage.action +
+            " from " +
+            presenceMessage.clientId
+        );
+        // Update the list of channel members when the presence set changes
+        channel.presence.get((err, members) => {
+          if (err) {
+            return console.error(`Error retrieving presence data: ${err}`);
+          }
+          document.getElementById("presence-set").innerHTML = members
+            .map((member) => {
+              return "<li>" + member.clientId + "</li>";
+            })
+            .join("");
         });
       });
-    });
+    }
+
+    doPresence();
   </script>
 </html>
