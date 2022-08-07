@@ -17,9 +17,12 @@
 
   <script>
     const apiKey = "YOUR_ABLY_API_KEY"; // Replace with your API key
+    const randomId =
+      Math.random().toString(36).substring(2, 10) +
+      Math.random().toString(36).substring(2, 10);
     const realtime = new Ably.Realtime.Promise({
       key: apiKey,
-      clientId: "my-client", // Your ID in the presence set
+      clientId: randomId, // Your ID in the presence set
     });
 
     async function doPresence() {
