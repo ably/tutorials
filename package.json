@@ -11,6 +11,6 @@
         "start": "node ./example.js"
     },
     "dependencies": {
-        "ably": ">=0.8"
+        "ably": "^1.2.28"
     }
 }
