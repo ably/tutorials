@@ -1,12 +1,10 @@
-[![Ably](https://s3.amazonaws.com/files.ably.io/logo-with-type.png)](https://www.ably.io)
+[![Ably](https://static.ably.dev/logo-h-black.svg?jwt-authentication-nodejs)](https://www.ably.com)
 
 ---
 
-# Tutorials repository
+# JWT auth tutorial
 
-_[Ably](https://ably.com) is the platform that powers synchronized digital experiences in realtime. Whether attending an event in a virtual venue, receiving realtime financial information, or monitoring live car performance data – consumers simply expect realtime digital experiences as standard. Ably provides a suite of APIs to build, extend, and deliver powerful digital experiences in realtime for more than 250 million devices across 80 countries each month. Organizations like Bloomberg, HubSpot, Verizon, and Hopin depend on Ably’s platform to offload the growing complexity of business-critical realtime data synchronization at global scale. For more information, see the [Ably documentation](https://ably.com/documentation)._
-
-This repository contains the working code for many of the [Ably tutorials](https://www.ably.io/tutorials).
+This repository contains the working code for [Ably JWT auth tutorial](https://www.ably.io/tutorials/jwt-authentication). See [JWT documentation](https://www.ably.io/documentation/general/authentication#token-authentication) to understand more about it.
 
 See [https://www.ably.io/tutorials](https://www.ably.io/tutorials) for a complete list of Ably tutorials. The source code for each tutorial exists as a branch in this repo, see [the complete list of tutorial branches in this repository](https://github.com/ably/tutorials/branches/all).
 
