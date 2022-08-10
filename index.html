@@ -1,0 +1,29 @@
+<html>
+
+<head>
+    <title>** Inband Channel Occupancy Events **</title>
+    <script src="https://cdn.ably.io/lib/ably.min-1.js" crossorigin="anonymous"></script>
+</head>
+
+<body style="padding: 60px; font-family:Arial, Helvetica, sans-serif; text-align: center;">
+    Ably Inband Channel Occupancy Events - Demo
+    <br/>
+    <br/>
+    <div style="text-align: center; padding: 10px;">
+        <button style="padding: 5px; width: 150px" id="add-publisher-instance" onclick="addPublisherInstance()">Add publisher instance</button>
+        <button style="padding: 5px; width: 150px" id="add-subscriber-instance" onclick="addSubscriberInstance()">Add subscriber instance</button>
+    </div>
+    <div style="text-align: center; padding: 10px;">
+        <button style="padding: 5px; width: 150px" id="add-publisher-instance-presence" onclick="addPublisherInstanceWithPresence()">Add publisher instance and enter presence</button>
+        <button style="padding: 5px; width: 150px" id="add-subscriber-instance-presence" onclick="addSubscriberInstanceWithPresence()">Add subscriber instance and enter presence</button>
+    </div>
+    <div>
+        <br>
+        <textarea id="result" rows="30" style="width: 100%; margin-top: 10px; font-family: courier, courier new; background-color: #333; color: orange;  overflow-y: scroll;"
+            disabled>
+        </textarea>
+    </div>
+    <script src="main.js"></script>
+</body>
+
+</html>
