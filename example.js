@@ -1,9 +1,7 @@
 const Ably = require("ably");
 
 const apiKey = "YOUR_ABLY_API_KEY"; // Replace with your API key
-const randomId =
-  Math.random().toString(36).substring(2, 10) +
-  Math.random().toString(36).substring(2, 10);
+const randomId = Math.random().toString(36).slice(-10);
 const realtime = new Ably.Realtime.Promise({
   key: apiKey,
   clientId: randomId, // Your ID in the presence set
@@ -32,25 +30,15 @@ async function doPresence() {
 
   // Subscribe to the presence set to receive updates
   await channel.presence.subscribe((presenceMessage) => {
-    console.log(
-      "Presence update: " +
-        presenceMessage.action +
-        " from " +
-        presenceMessage.clientId
-    );
+    const { action, clientId } = presenceMessage;
+    console.log("Presence update:", action, "from:", clientId);
     // Update the list of channel members when the presence set changes
     channel.presence.get((err, members) => {
       if (err) {
         return console.error(`Error retrieving presence data: ${err}`);
       }
-      console.log(
-        "The presence set now consists of: " +
-          members
-            .map((member) => {
-              return member.clientId;
-            })
-            .join(", ")
-      );
+      const clientIDs = members.map(({ clientId }) => clientId);
+      console.log("The presence set now consists of: ", clientIDs);
     });
   });
 }
