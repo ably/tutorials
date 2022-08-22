@@ -31,16 +31,12 @@
       // Attach to the "chatroom" channel
       const channel = realtime.channels.get("chatroom");
       await channel.attach((err) => {
-        if (err) {
-          return console.error("Error attaching to the channel.");
-        }
+        if (err) return console.error("Error attaching to the channel.");
       });
 
       // Enter the presence set of the "chatroom" channel
       await channel.presence.enter("hello", (err) => {
-        if (err) {
-          return console.error("Error entering presence set.");
-        }
+        if (err) return console.error("Error entering presence set.");
         console.log("This client has entered the presence set.");
       });
 
@@ -51,9 +47,8 @@
 
         // Update the list of channel members when the presence set changes
         channel.presence.get((err, members) => {
-          if (err) {
+          if (err)
             return console.error(`Error retrieving presence data: ${err}`);
-          }
           document.getElementById("presence-set").innerHTML = members
             .map((member) => {
               return `<li>${member.clientId}</li>`;
