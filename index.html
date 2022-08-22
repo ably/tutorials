@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    <h1>Ably Webhook Lambda Test</h1>
+    <button id="publish" type="button" value="Connecting...">Click to Publish</button>
+    <div id="result" style="padding: 10px"></div>
+  </body>
+
+  <script
+    type="text/javascript"
+    src="https://cdn.ably.io/lib/ably.min-1.js"
+  ></script>
+  <!-- Include the latest Ably Library  -->
+
+  <!-- Instance the Ably library  -->
+  <script>
+    const ably = new Ably.Realtime("ABLY_API_KEY"); /* ADD YOUR API KEY HERE */
+    channel =
+      ably.channels.get(
+        "persistencetest"
+      ); /* Channel name to pubish and subscribe to */
+
+    const generateRandomString = (length = 8) =>
+      Math.random().toString(20).substr(2, length);
+
+    const btn = document.getElementById("publish");
+    const results = document.getElementById("result");
+
+    btn.addEventListener("click", () => {
+      channel.publish("message", `${generateRandomString()}`);
+    });
+
+    ably.connection.on("connected", () => {
+      btn.innerText = "Connected to Ably, click to publish a message";
+    });
+
+    channel.subscribe((message) => {
+      results.innerHTML += `Message from Ably: ${message.data}<br/>`;
+    });
+  </script>
+</html>
