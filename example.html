@@ -1,41 +1,38 @@
-<html>
-  <body>
-    <h1>Publish Subscribe example</h1>
-    <button id="publish">Publish sound messages</button>
-    <br><br>
-    <button id="history">Retrieve message history</button><br>
-    <textarea id="history-display" style="width: 100%" rows="15" placeholder="History display..."></textarea>
-  </body>
-
-  <!-- Include the latest Ably Library  -->
-  <script src="https://cdn.ably.io/lib/ably.min.js"></script>
-
-  <!-- Instance the Ably library  -->
-  <script type="text/javascript">
-    alert("You need to add your API key"); /* REMOVE THIS */
-    var realtime = new Ably.Realtime("INSERT-YOUR-API-KEY-HERE"); /* ADD YOUR API KEY HERE */
-
-    /* Get a channel in the "persisted" namespace */
-    var channel = realtime.channels.get("persisted:sounds");
-
-    /* Publish three messages when the publish button is clicked */
-    document.getElementById("publish").addEventListener("click", function() {
-      channel.publish("play", "bark");
-      channel.publish("play", "meow");
-      channel.publish("play", "cluck");
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ably History</title>
+  </head>
+  <body></body>
+  <script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
+  <script>
+    const apiKey = "YOUR_ABLY_API_KEY"; // Replace with your API key
+    const realtime = new Ably.Realtime.Promise({
+      key: apiKey,
     });
 
-    /* Retrieve messages from history */
-    document.getElementById("history").addEventListener("click", function() {
-      var display = document.getElementById("history-display");
-      display.value = "Retrieving history...";
-      channel.history(function(err, resultPage) {
-        display.value = "Messages:\n";
-        resultPage.items.forEach(function(msg) {
-          console.log(msg);
-          display.value += msg.data + " @ " + new Date(msg.timestamp) + "\n";
-        });
+    async function doHistory() {
+      // Connect to Ably
+      await realtime.connection.once("connected");
+      console.log("Connected to Ably!");
+      // Your code goes here
+      const channel = realtime.channels.get("persisted:sounds");
+      await channel.publish("play", "bark");
+      await channel.publish("play", "meow");
+      await channel.publish("play", "cluck");
+
+      channel.history((err, resultPage) => {
+        // display last message published
+        console.log(
+          "Last message published: " + JSON.stringify(resultPage.items[0].data)
+        );
+        // list all history items
+        console.table(resultPage.items);
       });
-    });
+    }
+    doHistory();
   </script>
 </html>
