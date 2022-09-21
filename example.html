@@ -21,16 +21,15 @@
         console.log("Connected to Ably!");
         // Your code goes here
         const channel = realtime.channels.get("persisted:sounds");
-        await channel.publish("play", "bark");
-        await channel.publish("play", "meow");
-        await channel.publish("play", "cluck");
+        channel.publish("play", "bark");
+        channel.publish("play", "meow");
+        channel.publish("play", "cluck");
 
         channel.history((err, resultPage) => {
           // display last message published
-          console.log(
-            "Last message published: " +
-              JSON.stringify(resultPage.items[0].data)
-          );
+          const [lastMessage] = resultPage.items;
+          console.log("Last message published:", lastMessage.data);
+
           // list all history items
           console.table(resultPage.items);
         });
