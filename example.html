@@ -6,33 +6,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ably History</title>
   </head>
-  <body></body>
-  <script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
-  <script>
-    const apiKey = "YOUR_ABLY_API_KEY"; // Replace with your API key
-    const realtime = new Ably.Realtime.Promise({
-      key: apiKey,
-    });
-
-    async function doHistory() {
-      // Connect to Ably
-      await realtime.connection.once("connected");
-      console.log("Connected to Ably!");
-      // Your code goes here
-      const channel = realtime.channels.get("persisted:sounds");
-      await channel.publish("play", "bark");
-      await channel.publish("play", "meow");
-      await channel.publish("play", "cluck");
-
-      channel.history((err, resultPage) => {
-        // display last message published
-        console.log(
-          "Last message published: " + JSON.stringify(resultPage.items[0].data)
-        );
-        // list all history items
-        console.table(resultPage.items);
+  <body>
+    <script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
+    <script>
+      const apiKey =
+        "3HiHNg.WRNCdQ:XL7G5jGarwYU3l_Zege-cVx3985Lv_FaW_VJI0-PYXc"; // Replace with your API key
+      const realtime = new Ably.Realtime.Promise({
+        key: apiKey,
       });
-    }
-    doHistory();
-  </script>
+
+      async function doHistory() {
+        // Connect to Ably
+        await realtime.connection.once("connected");
+        console.log("Connected to Ably!");
+        // Your code goes here
+        const channel = realtime.channels.get("persisted:sounds");
+        await channel.publish("play", "bark");
+        await channel.publish("play", "meow");
+        await channel.publish("play", "cluck");
+
+        channel.history((err, resultPage) => {
+          // display last message published
+          console.log(
+            "Last message published: " +
+              JSON.stringify(resultPage.items[0].data)
+          );
+          // list all history items
+          console.table(resultPage.items);
+        });
+      }
+      doHistory();
+    </script>
+  </body>
 </html>
