@@ -1,15 +1,41 @@
 <html>
   <head>
-    <script src="https://cdn.ably.io/lib/ably.min-1.js" type="text/javascript"></script>
+    <script
+      src="https://cdn.ably.io/lib/ably.min-1.js"
+      type="text/javascript"
+    ></script>
   </head>
   <body>
     <h1>Token auth example</h1>
+    <div id="panel-anonymous">
+      <h3>Login</h3>
+      <form action="/login">
+        <input type="text" name="username" placeholder="Enter your username" />
+        <input type="submit" value="Login" />
+      </form>
+    </div>
+    <div id="panel-logged-in">
+      Your are logged in. <a href="/logout">Log out</a>
+    </div>
   </body>
   <script type="text/javascript">
-    /* Set up a realtime client that authenticates with the local server auth endpoint */
-    var realtime = new Ably.Realtime({ authUrl: '/auth' });
-    realtime.connection.once('connected', function() {
-      alert("We're connected using the token request from the server /auth endpoint!");
+    // Set up a realtime client that authenticates with the local server auth endpoint
+    const realtime = new Ably.Realtime({ authUrl: "/auth" });
+    realtime.connection.once("connected", () => {
+      const user = realtime.auth.tokenDetails.clientId || "anonymous";
+      const capability = realtime.auth.tokenDetails.capability;
+      alert(
+        `You are now connected to Ably \nUser: ${user}\nCapabilities: ${capability}`
+      );
     });
+
+    // Hide or show the logged in/anonymous panels based on the session cookie */
+    const loggedIn = document.cookie.indexOf("username") >= 0;
+    document
+      .getElementById("panel-anonymous")
+      .setAttribute("style", "display: " + (loggedIn ? "none" : "block"));
+    document
+      .getElementById("panel-logged-in")
+      .setAttribute("style", "display: " + (loggedIn ? "block" : "none"));
   </script>
 </html>
