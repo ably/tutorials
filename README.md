@@ -2,7 +2,7 @@
 
 ---
 
-# JWT auth tutorial
+# Token Authentication Tutorial
 
 This repository contains the working code for [Ably Token auth tutorial](https://ably.com/tutorials/token-authentication). See [Token Authentication documentation](https://www.ably.com/docs/general/authentication#token-authentication) to understand more about it.
 
