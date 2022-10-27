@@ -1,1 +1,1 @@
-This repository is owned by the Ably Devrel team.
+This repository is owned by the Ably DevEd team.
