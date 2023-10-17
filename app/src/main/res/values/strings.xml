@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">application</string>
+    <string name="button_publish">Publish</string>
+    <string name="button_fetch_history">Fetch history</string>
+</resources>
