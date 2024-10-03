@@ -38,10 +38,10 @@ app.get("/auth", (req, res) => {
     if (err) return console.trace();
 
     res.header("Cache-Control", "private, no-cache, no-store, must-revalidate");
-    res.setHeader("Content-Type", "application/json");
+    res.setHeader("Content-Type", "application/jwt"); // text/plain is also supported
 
     console.log(": Sending signed JWT token back to client:\n%s", tokenId);
-    res.send(JSON.stringify(tokenId));
+    res.send(tokenId);
   });
 });
 
